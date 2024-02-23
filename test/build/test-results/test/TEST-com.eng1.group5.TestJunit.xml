@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.eng1.group5.TestJunit" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-02-19T14:22:24" hostname="9305xps" time="0.002">
-  <properties/>
-  <testcase name="falseTest" classname="com.eng1.group5.TestJunit" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

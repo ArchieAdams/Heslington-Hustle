@@ -94,7 +94,8 @@ gradle-app.setting
 /desktop/build/
 /html/build/
 /ios/build/
-
+/test/build/
+/main/build/
 ## OS Specific
 .DS_Store
 Thumbs.db
