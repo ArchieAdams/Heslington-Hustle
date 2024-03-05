@@ -5,16 +5,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class PlayerMovement {
+    public static final float DIAGONAL_MODIFIER = (float) (Math.sqrt(2) / 2);
     private final Vector2 position;
     private final float speed;
     private final State state;
-
-    private float stateTime;
-
+    private final Animation<TextureRegion> downWalkAnimation = SpriteSheet.getDownWalk();
+    private final Animation<TextureRegion> upWalkAnimation = SpriteSheet.getUpWalk();
     private final Animation<TextureRegion> leftWalkAnimation = SpriteSheet.getLeftWalk();
     private final Animation<TextureRegion> rightWalkAnimation = SpriteSheet.getRightWalk();
+    private float stateTime;
     private Animation<TextureRegion> currentAnimation;
-
     private TextureRegion currentFrame;
 
 
@@ -22,14 +22,21 @@ public class PlayerMovement {
         this.position = position;
         this.speed = speed;
         this.state = new State();
-        currentAnimation = rightWalkAnimation;
+        currentAnimation = downWalkAnimation;
     }
 
     public void update(float deltaTime) {
         int moveDirectionY = state.getMoveDirectionY();
         int moveDirectionX = state.getMoveDirectionX();
-        position.y += moveDirectionY * speed * deltaTime;
-        position.x += moveDirectionX * speed * deltaTime;
+
+        float speedModifier = 1f;
+        if (moveDirectionX != 0 && moveDirectionY != 0) {
+            speedModifier = DIAGONAL_MODIFIER;
+        }
+
+        float velocity = speedModifier * speed * deltaTime;
+        position.y += moveDirectionY * velocity;
+        position.x += moveDirectionX * velocity;
 
         stateTime += deltaTime;
         updateAnimation();
@@ -40,14 +47,17 @@ public class PlayerMovement {
         int moveDirectionY = state.getMoveDirectionY();
         int moveDirectionX = state.getMoveDirectionX();
 
+
         if (moveDirectionX == 0 && moveDirectionY == 0) {
             stateTime = 0f;
         } else if (moveDirectionX == 1 && !currentAnimation.equals(rightWalkAnimation)) {
-            stateTime = 0f;
             currentAnimation = rightWalkAnimation;
         } else if (moveDirectionX == -1 && !currentAnimation.equals(leftWalkAnimation)) {
-            stateTime = 0f;
             currentAnimation = leftWalkAnimation;
+        } else if (moveDirectionY == 1 && !currentAnimation.equals(upWalkAnimation) && moveDirectionX == 0) {
+            currentAnimation = upWalkAnimation;
+        } else if (moveDirectionY == -1 && !currentAnimation.equals(downWalkAnimation) && moveDirectionX == 0) {
+            currentAnimation = downWalkAnimation;
         }
     }
 
