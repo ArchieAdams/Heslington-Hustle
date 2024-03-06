@@ -9,6 +9,8 @@ public class SpriteSheet {
 
     public static final Texture walkSheet = new Texture(Gdx.files.internal("character2.png"));
     public static final Texture map = new Texture(Gdx.files.internal("map.png"));
+    public static final Texture school = new Texture(Gdx.files.internal("school.png"));
+
 
     public static Animation<TextureRegion> getDownWalk() {
         return getTextureRegionByRow(0);
@@ -34,5 +36,9 @@ public class SpriteSheet {
 
     public static Texture getMap() {
         return map;
+    }
+
+    public static Texture getSchool(){
+        return school;
     }
 }

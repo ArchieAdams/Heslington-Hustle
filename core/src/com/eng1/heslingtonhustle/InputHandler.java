@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 public class InputHandler extends InputAdapter {
     private final State playerState;
 
+
     public InputHandler(State state) {
         this.playerState = state;
     }
@@ -13,6 +14,9 @@ public class InputHandler extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         handleInput(keycode);
+        if (keycode == Input.Keys.E) {
+            playerState.interacting();
+        }
         return true;
     }
 

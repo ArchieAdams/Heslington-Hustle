@@ -6,11 +6,14 @@ public class State {
     private boolean LEFT;
     private boolean RIGHT;
 
+    private boolean INTERACTING;
+
     public State() {
         UP = false;
         DOWN = false;
         LEFT = false;
         RIGHT = false;
+        INTERACTING = false;
     }
 
     public void moveUp() {
@@ -27,6 +30,18 @@ public class State {
 
     public void moveRight() {
         RIGHT = !RIGHT;
+    }
+
+    public void interacting() {
+        INTERACTING = true;
+    }
+
+    public void stopInteracting(){
+        INTERACTING = false;
+    }
+
+    public boolean isINTERACTING() {
+        return INTERACTING;
     }
 
     public int getMoveDirectionY() {
