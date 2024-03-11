@@ -42,4 +42,5 @@ public class InputHandler extends InputAdapter {
                 break;
         }
     }
+
 }
