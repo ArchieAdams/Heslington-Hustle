@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="11">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="12">
  <tileset firstgid="1" source="../tilesets/town.tsx"/>
  <layer id="1" name="floor" width="16" height="10">
   <data encoding="csv">
@@ -222,6 +222,7 @@
   <object id="8" x="5.25" y="115.75" width="55" height="44.25"/>
   <object id="9" x="59.75" y="158" width="175.25" height="1.5"/>
   <object id="10" x="5.5" y="31.75" width="18.5" height="33.5"/>
+  <object id="11" x="125.75" y="-10.25"/>
  </objectgroup>
  <layer id="4" name="borders" width="16" height="10">
   <data encoding="csv">
