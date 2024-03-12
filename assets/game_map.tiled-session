@@ -37,15 +37,33 @@
             "scaleInDock": 1
         },
         "maps/campus_east.tmx": {
-            "scale": 0.5,
-            "selectedLayer": 1,
+            "scale": 1,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 808,
-                "y": 734
+                "x": 212,
+                "y": 268.5
             }
         },
+        "tilesets/comp_sci_sign.tsx": {
+            "scaleInDock": 1
+        },
+        "tilesets/longboi.tsx": {
+            "scaleInDock": 1
+        },
+        "tilesets/nature.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
         "tilesets/town.tsx": {
-            "dynamicWrapping": false
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "tilesets/uni_library_sign.tsx": {
+            "scaleInDock": 1
+        },
+        "tilesets/uni_of_york_sign.tsx": {
+            "scaleInDock": 1
         }
     },
     "last.externalTilesetPath": "C:/Users/mitch/IdeaProjects/Heslington-Hustle/assets/tilesets",
@@ -61,6 +79,9 @@
     "project": "game_map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "maps/campus_east.tmx",
+        "tilesets/town.tsx",
+        "tilesets/nature.tsx",
         "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
