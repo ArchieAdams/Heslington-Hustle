@@ -1,0 +1,71 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "C:/Users/mitch/CSSprite3.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/mitch/HeslingtonHustleMapOutside.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 16,
+            "viewCenter": {
+                "x": 548.4848484848485,
+                "y": 484.848484848485
+            }
+        },
+        "C:/Users/mitch/Longboi.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/mitch/Nature.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/mitch/UniLibraryTitle.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/mitch/UniOfYorkSign.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "C:/Users/mitch/global.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "maps/campus_east.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 808,
+                "y": 734
+            }
+        },
+        "tilesets/town.tsx": {
+            "dynamicWrapping": false
+        }
+    },
+    "last.externalTilesetPath": "C:/Users/mitch/IdeaProjects/Heslington-Hustle/assets/tilesets",
+    "last.imagePath": "C:/Users/mitch/IdeaProjects/Heslington-Hustle/assets/images",
+    "map.height": 50,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 50,
+    "mapScene.enableWorlds": false,
+    "openFiles": [
+    ],
+    "project": "game_map.tiled-project",
+    "property.type": "bool",
+    "recentFiles": [
+        "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
