@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -53,7 +56,7 @@ public class Game extends ApplicationAdapter {
     public void create() {
         cameraSetup();
         shaderSetup();
-        playerMovement = new PlayerMovement(new Vector2(0, 0), 320);
+        playerMovement = new PlayerMovement(new Vector2(40, 100), 320);
         playerMovement.setCollidableTiles(collidableTiles);
         stage = new Stage(viewport);
 
@@ -70,34 +73,44 @@ public class Game extends ApplicationAdapter {
     }
 
     private void parseCollidableTiles() {
-        collidableTiles.clear(); // Clear previous data if any
-        // Identify all collidable tiles and handle bridges
-        for (TiledMapTileLayer layer : tiledMap.getLayers().getByType(TiledMapTileLayer.class)) {
-            for (int y = 0; y < layer.getHeight(); y++) {
-                for (int x = 0; x < layer.getWidth(); x++) {
-                    TiledMapTileLayer.Cell cell = layer.getCell(x, y);
-                    // Add tiles with collisions to array
-                    if (cell != null && cell.getTile() != null) {
-                        if (cell.getTile().getProperties().containsKey("collidable") && cell.getTile().getProperties().get("collidable", Boolean.class)) {
-                            collidableTiles.add(new Rectangle(x * layer.getTileWidth() * SCALE, y * layer.getTileHeight() * SCALE, layer.getTileWidth() * SCALE, layer.getTileHeight() * SCALE));
-                        }
-                        // Remove tiles from collision array, where a bridge goes over a collidable tile
-                        else if (cell.getTile().getProperties().containsKey("bridge")) {
-                            final float posX = x * layer.getTileWidth() * SCALE;
-                            final float posY = y * layer.getTileHeight() * SCALE;
-                            for (int i = collidableTiles.size - 1; i >= 0; i--) {
-                                Rectangle rect = collidableTiles.get(i);
-                                if (Math.abs(rect.x - posX) < 0.0001 && Math.abs(rect.y - posY) < 0.0001) {
-                                    collidableTiles.removeIndex(i);
-                                    break; // Assuming only one collidable tile can exist at any position
-                                }
-                            }
-                        }
-                    }
-                }
+        MapObjects objects = tiledMap.getLayers().get("collisions").getObjects();
+        for (MapObject object : objects) {
+            if (object instanceof RectangleMapObject) {
+                RectangleMapObject rectObject = (RectangleMapObject) object;
+                Rectangle rect = rectObject.getRectangle();
+                collidableTiles.add(new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE));
             }
         }
     }
+
+//        collidableTiles.clear(); // Clear previous data if any
+//        // Identify all collidable tiles and handle bridges
+//        for (TiledMapTileLayer layer : tiledMap.getLayers().getByType(TiledMapTileLayer.class)) {
+//            for (int y = 0; y < layer.getHeight(); y++) {
+//                for (int x = 0; x < layer.getWidth(); x++) {
+//                    TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+//                    // Add tiles with collisions to array
+//                    if (cell != null && cell.getTile() != null) {
+//                        if (cell.getTile().getProperties().containsKey("collidable") && cell.getTile().getProperties().get("collidable", Boolean.class)) {
+//                            collidableTiles.add(new Rectangle(x * layer.getTileWidth() * SCALE, y * layer.getTileHeight() * SCALE, layer.getTileWidth() * SCALE, layer.getTileHeight() * SCALE));
+//                        }
+//                        // Remove tiles from collision array, where a bridge goes over a collidable tile
+//                        else if (cell.getTile().getProperties().containsKey("bridge")) {
+//                            final float posX = x * layer.getTileWidth() * SCALE;
+//                            final float posY = y * layer.getTileHeight() * SCALE;
+//                            for (int i = collidableTiles.size - 1; i >= 0; i--) {
+//                                Rectangle rect = collidableTiles.get(i);
+//                                if (Math.abs(rect.x - posX) < 0.0001 && Math.abs(rect.y - posY) < 0.0001) {
+//                                    collidableTiles.removeIndex(i);
+//                                    break; // Assuming only one collidable tile can exist at any position
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 
     private void creatDialog(Building building) {
