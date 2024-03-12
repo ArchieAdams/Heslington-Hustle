@@ -18,6 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +44,9 @@ public class Game extends ApplicationAdapter {
     private PlayerMovement playerMovement;
     private Dialog dialog;
     private Stage stage;
+    private TiledMap tiledMap;
+    private OrthogonalTiledMapRenderer mapRenderer;
+    private Array<Rectangle> collidableTiles = new Array<>();
 
 
     @Override
@@ -45,14 +54,51 @@ public class Game extends ApplicationAdapter {
         cameraSetup();
         shaderSetup();
         playerMovement = new PlayerMovement(new Vector2(0, 0), 320);
+        playerMovement.setCollidableTiles(collidableTiles);
         stage = new Stage(viewport);
 
         inputSetup();
+
+        tiledMap = new TmxMapLoader().load("assets/maps/campus_east.tmx");
+        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
+
+        parseCollidableTiles();
 
 
         buildings.add(new Building("School", new Vector2(0, 0), SpriteSheet.getSchool()));
         buildings.add(new Building("Hotel", new Vector2(-500, -500), SpriteSheet.getSchool()));
     }
+
+    private void parseCollidableTiles() {
+        collidableTiles.clear(); // Clear previous data if any
+        // Identify all collidable tiles and handle bridges
+        for (TiledMapTileLayer layer : tiledMap.getLayers().getByType(TiledMapTileLayer.class)) {
+            for (int y = 0; y < layer.getHeight(); y++) {
+                for (int x = 0; x < layer.getWidth(); x++) {
+                    TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+                    // Add tiles with collisions to array
+                    if (cell != null && cell.getTile() != null) {
+                        if (cell.getTile().getProperties().containsKey("collidable") && cell.getTile().getProperties().get("collidable", Boolean.class)) {
+                            collidableTiles.add(new Rectangle(x * layer.getTileWidth() * SCALE, y * layer.getTileHeight() * SCALE, layer.getTileWidth() * SCALE, layer.getTileHeight() * SCALE));
+                        }
+                        // Remove tiles from collision array, where a bridge goes over a collidable tile
+                        else if (cell.getTile().getProperties().containsKey("bridge")) {
+                            final float posX = x * layer.getTileWidth() * SCALE;
+                            final float posY = y * layer.getTileHeight() * SCALE;
+                            for (int i = collidableTiles.size - 1; i >= 0; i--) {
+                                Rectangle rect = collidableTiles.get(i);
+                                if (Math.abs(rect.x - posX) < 0.0001 && Math.abs(rect.y - posY) < 0.0001) {
+                                    collidableTiles.removeIndex(i);
+                                    break; // Assuming only one collidable tile can exist at any position
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     private void creatDialog(Building building) {
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -108,11 +154,15 @@ public class Game extends ApplicationAdapter {
         playerPosition = playerMovement.getPosition();
         TextureRegion currentFrame = playerMovement.getCurrentFrame();
 
+        camera.update();
+        mapRenderer.setView(camera);
+        mapRenderer.render();
+
         updateCameraPosition();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
-        renderGameWorld();
+        //renderGameWorld();
 
         boolean pressedE = (playerMovement.getPlayerState().isINTERACTING());
 
@@ -144,7 +194,7 @@ public class Game extends ApplicationAdapter {
         }
 
 
-        batch.draw(currentFrame, playerPosition.x - PLAYER_SIZE / 2f, playerPosition.y - PLAYER_SIZE / 2f, PLAYER_SIZE, PLAYER_SIZE);
+        batch.draw(currentFrame, (playerPosition.x - PLAYER_SIZE / 2f), (playerPosition.y - PLAYER_SIZE / 2f) + 60, PLAYER_SIZE, PLAYER_SIZE);
         batch.end();
 
         stage.act();
@@ -158,10 +208,11 @@ public class Game extends ApplicationAdapter {
         camera.update();
     }
 
-    private void renderGameWorld() {
-        Texture map = SpriteSheet.getMap();
-        batch.draw(map, (float) (-map.getWidth() * SCALE) / 2, (float) (-map.getHeight() * SCALE) / 2, map.getWidth() * SCALE, map.getHeight() * SCALE);
-    }
+    // Method no longer used, as tmx file is used instead of texture
+    //private void renderGameWorld() {
+    //    Texture map = SpriteSheet.getMap();
+    //    batch.draw(map, (float) (-map.getWidth() * SCALE) / 2, (float) (-map.getHeight() * SCALE) / 2, map.getWidth() * SCALE, map.getHeight() * SCALE);
+    //}
 
     private void outlineBuilding(Building building) {
         Texture texture = building.getTexture();
@@ -206,5 +257,7 @@ public class Game extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
         shader.dispose();
+        tiledMap.dispose();
+        mapRenderer.dispose();
     }
 }

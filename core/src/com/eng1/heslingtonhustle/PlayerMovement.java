@@ -2,7 +2,9 @@ package com.eng1.heslingtonhustle;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 public class PlayerMovement {
     public static final float DIAGONAL_MODIFIER = (float) (Math.sqrt(2) / 2);
@@ -16,6 +18,14 @@ public class PlayerMovement {
     private float stateTime;
     private Animation<TextureRegion> currentAnimation;
     private TextureRegion currentFrame;
+    private Array<Rectangle> collidableTiles;
+    private static final float PLAYER_WIDTH = 16;
+    private static final float PLAYER_HEIGHT = 40;
+
+
+    public void setCollidableTiles(Array<Rectangle> collidableTiles) {
+        this.collidableTiles = collidableTiles;
+    }
 
 
     public PlayerMovement(Vector2 position, float speed) {
@@ -23,6 +33,7 @@ public class PlayerMovement {
         this.speed = speed;
         this.state = new State();
         currentAnimation = downWalkAnimation;
+
     }
 
     public void update(float deltaTime) {
@@ -35,12 +46,31 @@ public class PlayerMovement {
         }
 
         float velocity = speedModifier * speed * deltaTime;
-        position.y += moveDirectionY * velocity;
-        position.x += moveDirectionX * velocity;
+
+        float potentialNewX = position.x + moveDirectionX * velocity;
+        float potentialNewY = position.y + moveDirectionY * velocity;
+
+        if (!collidesWithCollidableTiles(potentialNewX, potentialNewY)) {
+            position.x = potentialNewX;
+        }
+        if (!collidesWithCollidableTiles(potentialNewX, potentialNewY)) {
+            position.y = potentialNewY;
+        }
+
 
         stateTime += deltaTime;
         updateAnimation();
         currentFrame = currentAnimation.getKeyFrame(stateTime, true);
+    }
+
+    private boolean collidesWithCollidableTiles(float x, float y) {
+        Rectangle playerRect = new Rectangle(x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
+        for (Rectangle rect : collidableTiles) {
+            if (rect.overlaps(playerRect)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void updateAnimation() {
