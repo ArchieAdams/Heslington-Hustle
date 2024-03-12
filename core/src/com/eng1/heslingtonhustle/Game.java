@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.MapObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,7 @@ public class Game extends ApplicationAdapter {
     private Array<Rectangle> collidableTiles = new Array<>();
 
 
+
     @Override
     public void create() {
         cameraSetup();
@@ -63,7 +66,6 @@ public class Game extends ApplicationAdapter {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
 
         parseCollidableTiles();
-
 
         buildings.add(new Building("School", new Vector2(0, 0), SpriteSheet.getSchool()));
         buildings.add(new Building("Hotel", new Vector2(-500, -500), SpriteSheet.getSchool()));
