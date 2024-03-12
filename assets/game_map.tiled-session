@@ -37,11 +37,11 @@
             "scaleInDock": 1
         },
         "maps/campus_east.tmx": {
-            "scale": 0.5,
-            "selectedLayer": 9,
+            "scale": 2,
+            "selectedLayer": 10,
             "viewCenter": {
-                "x": 894,
-                "y": 1227
+                "x": 777,
+                "y": 1115.5
             }
         },
         "tilesets/comp_sci_sign.tsx": {
@@ -57,7 +57,7 @@
         "tilesets/town.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 0.75,
-            "scaleInEditor": 1.5
+            "scaleInEditor": 1
         },
         "tilesets/uni_library_sign.tsx": {
             "scaleInDock": 1
@@ -79,9 +79,9 @@
     "project": "game_map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "tilesets/nature.tsx",
-        "tilesets/town.tsx",
         "maps/campus_east.tmx",
+        "tilesets/town.tsx",
+        "tilesets/nature.tsx",
         "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",

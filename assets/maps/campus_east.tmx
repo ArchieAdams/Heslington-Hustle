@@ -853,31 +853,31 @@
 </data>
  </layer>
  <objectgroup id="22" name="buildingCorners" visible="0">
-  <object id="5" name="buildingCorner" x="185.75" y="335.5">
+  <object id="5" name="buildingCorner" x="151.75" y="333.5">
    <properties>
     <property name="name" value="library"/>
    </properties>
    <point/>
   </object>
-  <object id="6" name="buildingCorner" x="177.5" y="1205.25">
+  <object id="6" name="buildingCorner" x="177.5" y="1214.25">
    <properties>
     <property name="name" value="cinema"/>
    </properties>
    <point/>
   </object>
-  <object id="7" name="buildingCorner" x="886.667" y="860">
+  <object id="7" name="buildingCorner" x="834.67" y="862">
    <properties>
     <property name="name" value="compSci"/>
    </properties>
    <point/>
   </object>
-  <object id="8" name="buildingCorner" x="895.333" y="1230">
+  <object id="8" name="buildingCorner" x="866.33" y="1230">
    <properties>
     <property name="name" value="home"/>
    </properties>
    <point/>
   </object>
-  <object id="9" name="buildingCorner" x="1051.33" y="296">
+  <object id="9" name="buildingCorner" x="1046.33" y="296">
    <properties>
     <property name="name" value="cafe"/>
    </properties>
