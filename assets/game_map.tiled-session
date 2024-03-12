@@ -66,6 +66,14 @@
                 "y": 78.375
             }
         },
+        "tilesets/cafe.tmx": {
+            "scale": 4,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 111,
+                "y": 92.375
+            }
+        },
         "tilesets/comp_sci_sign.tsx": {
             "scaleInDock": 1
         },
