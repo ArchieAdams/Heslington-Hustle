@@ -56,13 +56,13 @@ public class Game extends ApplicationAdapter {
     public void create() {
         cameraSetup();
         shaderSetup();
-        playerMovement = new PlayerMovement(new Vector2(40, 100), 320);
+        playerMovement = new PlayerMovement(new Vector2(400, 100), 320);
         playerMovement.setCollidableTiles(collidableTiles);
         stage = new Stage(viewport);
 
         inputSetup();
 
-        tiledMap = new TmxMapLoader().load("assets/maps/campus_east.tmx");
+        tiledMap = new TmxMapLoader().load("assets/maps/library.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
 
         parseCollidableTiles();

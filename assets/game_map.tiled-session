@@ -36,12 +36,31 @@
             "dynamicWrapping": true,
             "scaleInDock": 1
         },
+        "maps/cafe.tmx": {
+            "expandedObjectLayers": [
+                14
+            ],
+            "scale": 4,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 110.5,
+                "y": 121.625
+            }
+        },
         "maps/campus_east.tmx": {
             "scale": 1,
             "selectedLayer": 10,
             "viewCenter": {
                 "x": 523,
                 "y": 70.5
+            }
+        },
+        "maps/cinema.tmx": {
+            "scale": 3,
+            "selectedLayer": 8,
+            "viewCenter": {
+                "x": 101,
+                "y": 103.83333333333331
             }
         },
         "maps/compSci.tmx": {
