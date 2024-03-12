@@ -83,35 +83,6 @@ public class Game extends ApplicationAdapter {
         }
     }
 
-//        collidableTiles.clear(); // Clear previous data if any
-//        // Identify all collidable tiles and handle bridges
-//        for (TiledMapTileLayer layer : tiledMap.getLayers().getByType(TiledMapTileLayer.class)) {
-//            for (int y = 0; y < layer.getHeight(); y++) {
-//                for (int x = 0; x < layer.getWidth(); x++) {
-//                    TiledMapTileLayer.Cell cell = layer.getCell(x, y);
-//                    // Add tiles with collisions to array
-//                    if (cell != null && cell.getTile() != null) {
-//                        if (cell.getTile().getProperties().containsKey("collidable") && cell.getTile().getProperties().get("collidable", Boolean.class)) {
-//                            collidableTiles.add(new Rectangle(x * layer.getTileWidth() * SCALE, y * layer.getTileHeight() * SCALE, layer.getTileWidth() * SCALE, layer.getTileHeight() * SCALE));
-//                        }
-//                        // Remove tiles from collision array, where a bridge goes over a collidable tile
-//                        else if (cell.getTile().getProperties().containsKey("bridge")) {
-//                            final float posX = x * layer.getTileWidth() * SCALE;
-//                            final float posY = y * layer.getTileHeight() * SCALE;
-//                            for (int i = collidableTiles.size - 1; i >= 0; i--) {
-//                                Rectangle rect = collidableTiles.get(i);
-//                                if (Math.abs(rect.x - posX) < 0.0001 && Math.abs(rect.y - posY) < 0.0001) {
-//                                    collidableTiles.removeIndex(i);
-//                                    break; // Assuming only one collidable tile can exist at any position
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
 
     private void creatDialog(Building building) {
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
