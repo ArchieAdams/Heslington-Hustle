@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,7 +27,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.MapObject;
+import com.eng1.heslingtonhustle.activities.Studying;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,78 +40,104 @@ public class Game extends ApplicationAdapter {
     private static final int SCALE = 5;
     private static final int PLAYER_SIZE = 32 * SCALE;
     private final List<Building> buildings = new ArrayList<>();
+    private final Array<Rectangle> collidableTiles = new Array<>();
+    private final Day day = new Day();
     private ShaderProgram shader;
     private SpriteBatch batch;
     private Vector2 playerPosition;
     private OrthographicCamera camera;
     private Viewport viewport;
-    private PlayerMovement playerMovement;
+    private Movement playerMovement;
     private Dialog dialog;
     private Stage stage;
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
-    private Array<Rectangle> collidableTiles = new Array<>();
-
 
 
     @Override
     public void create() {
         cameraSetup();
         shaderSetup();
-        playerMovement = new PlayerMovement(new Vector2(0, 0), 320);
+        playerMovement = new Movement(new Vector2(0, 0), 320);
         playerMovement.setCollidableTiles(collidableTiles);
         stage = new Stage(viewport);
 
         inputSetup();
 
-        tiledMap = new TmxMapLoader().load("assets/maps/campus_east.tmx");
+        tiledMap = new TmxMapLoader().load("maps/campus_east.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
 
         parseCollidableTiles();
 
-        buildings.add(new Building("School", new Vector2(0, 0), SpriteSheet.getSchool()));
-        buildings.add(new Building("Hotel", new Vector2(-500, -500), SpriteSheet.getSchool()));
+        System.out.println(tiledMap.getLayers().get("buildingCorners").getObjects().get(1).getProperties().get("name"));
+
+        for (MapObject buildingCorner : (tiledMap.getLayers().get("buildingCorners").getObjects())){
+            if (buildingCorner.getProperties().get("name").equals("library")){
+                float buildingX = Float.parseFloat(buildingCorner.getProperties().get("x").toString()) * SCALE;
+                float buildingY =  Float.parseFloat(buildingCorner.getProperties().get("y").toString()) * SCALE;
+                buildings.add(new Building("Library", new Vector2(buildingX,buildingY), SpriteSheet.getSchool()));
+                System.out.println(buildings.get(0).getPosition());
+            }
+        }
+
+        //buildings.add(new Building("Hotel", new Vector2(-500, -500), SpriteSheet.getSchool()));
+    }
+
+    private void removeCollidableTile(float x, float y) {
+        for (int i = collidableTiles.size - 1; i >= 0; i--) {
+            Rectangle rect = collidableTiles.get(i);
+
+            if (Float.compare(rect.x ,x) == 0 && Float.compare(rect.y ,y) == 0) {
+                collidableTiles.removeIndex(i);
+                break;
+            }
+        }
+    }
+
+    private void processTile(TiledMapTileLayer.Cell cell, int x, int y, int layerTileWidth, int layerTileHeight) {
+        TiledMapTile tile = cell.getTile();
+        MapProperties properties = tile.getProperties();
+        if (properties.containsKey("collidable") && properties.get("collidable", Boolean.class)) {
+            collidableTiles.add(new Rectangle(x * layerTileWidth, y * layerTileHeight, layerTileWidth, layerTileHeight));
+        } else if (properties.containsKey("bridge")) {
+            float posX = x * layerTileWidth;
+            float posY = y * layerTileHeight;
+
+            removeCollidableTile(posX, posY);
+        }
     }
 
     private void parseCollidableTiles() {
         collidableTiles.clear(); // Clear previous data if any
-        // Identify all collidable tiles and handle bridges
+
         for (TiledMapTileLayer layer : tiledMap.getLayers().getByType(TiledMapTileLayer.class)) {
+            int layerTileWidth = layer.getTileWidth() * SCALE;
+            int layerTileHeight = layer.getTileHeight() * SCALE;
+
             for (int y = 0; y < layer.getHeight(); y++) {
                 for (int x = 0; x < layer.getWidth(); x++) {
                     TiledMapTileLayer.Cell cell = layer.getCell(x, y);
-                    // Add tiles with collisions to array
-                    if (cell != null && cell.getTile() != null) {
-                        if (cell.getTile().getProperties().containsKey("collidable") && cell.getTile().getProperties().get("collidable", Boolean.class)) {
-                            collidableTiles.add(new Rectangle(x * layer.getTileWidth() * SCALE, y * layer.getTileHeight() * SCALE, layer.getTileWidth() * SCALE, layer.getTileHeight() * SCALE));
-                        }
-                        // Remove tiles from collision array, where a bridge goes over a collidable tile
-                        else if (cell.getTile().getProperties().containsKey("bridge")) {
-                            final float posX = x * layer.getTileWidth() * SCALE;
-                            final float posY = y * layer.getTileHeight() * SCALE;
-                            for (int i = collidableTiles.size - 1; i >= 0; i--) {
-                                Rectangle rect = collidableTiles.get(i);
-                                if (Math.abs(rect.x - posX) < 0.0001 && Math.abs(rect.y - posY) < 0.0001) {
-                                    collidableTiles.removeIndex(i);
-                                    break; // Assuming only one collidable tile can exist at any position
-                                }
-                            }
-                        }
+                    if (cell == null || cell.getTile() == null) {
+                        continue;
                     }
+                    processTile(cell, x, y, layerTileWidth, layerTileHeight);
                 }
             }
         }
     }
 
 
+
+
     private void creatDialog(Building building) {
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         dialog = new Dialog("Are you sure you want to go to " + building.getName() + "?", skin) {
             public void result(Object obj) {
                 System.out.println("result " + obj);
                 if ((boolean) obj) {
-                    Gdx.app.exit();
-                    System.exit(-1);
+                    day.addActivity(new Studying());
+                    System.out.println(day.getTotalDuration());
+                    System.out.println(day.getTotalEnergyUsage());
                 }
             }
         };
@@ -133,8 +161,8 @@ public class Game extends ApplicationAdapter {
     }
 
     private void shaderSetup() {
-        String vertexShader = Gdx.files.internal("vertexShader.glsl").readString();
-        String fragmentShader = Gdx.files.internal("fragmentShader.glsl").readString();
+        String vertexShader = Gdx.files.internal("shader/vertexShader.glsl").readString();
+        String fragmentShader = Gdx.files.internal("shader/fragmentShader.glsl").readString();
         shader = new ShaderProgram(vertexShader, fragmentShader);
         shader.bind();
         shader.setUniformi("u_texture", 0);
@@ -185,7 +213,7 @@ public class Game extends ApplicationAdapter {
                         @Override
                         public void run() {
                             dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
-                            dialog.setPosition(playerPosition.x-175, playerPosition.y+50);
+                            dialog.setPosition(playerPosition.x - 175, playerPosition.y + 50);
                             dialog.setSize(350, 100);
                         }
                     }, 0);
@@ -196,7 +224,7 @@ public class Game extends ApplicationAdapter {
         }
 
 
-        batch.draw(currentFrame, (playerPosition.x - PLAYER_SIZE / 2f), (playerPosition.y - PLAYER_SIZE / 2f) + 60, PLAYER_SIZE, PLAYER_SIZE);
+        batch.draw(currentFrame, (playerPosition.x - PLAYER_SIZE / 2f), (playerPosition.y - PLAYER_SIZE / 2f)+60, PLAYER_SIZE, PLAYER_SIZE);
         batch.end();
 
         stage.act();
