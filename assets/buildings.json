@@ -1,0 +1,42 @@
+[
+  {
+    "id": "library",
+    "name": "Library",
+    "textureStartX": 720,
+    "textureStartY": 704,
+    "textureWidth": 10,
+    "textureHeight": 7
+  },
+  {
+    "id": "cinema",
+    "name": "Cinema",
+    "textureStartX": 720,
+    "textureStartY": 912,
+    "textureWidth": 6,
+    "textureHeight": 6
+  },
+  {
+    "id": "home",
+    "name": "Home",
+    "textureStartX": 720,
+    "textureStartY": 512,
+    "textureWidth": 10,
+    "textureHeight": 8
+  },
+  {
+    "id": "compSci",
+    "name": "Computer Science Building",
+    "textureStartX": 720,
+    "textureStartY": 176,
+    "textureWidth": 12,
+    "textureHeight": 7
+  },
+  {
+    "id": "cafe",
+    "name": "Cafe",
+    "textureStartX": 720,
+    "textureStartY": 416,
+    "textureWidth": 6,
+    "textureHeight": 6
+  }
+]

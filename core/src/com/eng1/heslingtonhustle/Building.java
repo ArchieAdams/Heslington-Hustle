@@ -1,24 +1,32 @@
 package com.eng1.heslingtonhustle;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Building {
 
-    private final String name;
-    private final Vector2 position;
-    private final Texture texture;
+    private String name;
+
+    private Vector2 position;
+    private final TextureRegion textureRegion;
 
     private final int width;
     private final int height;
 
-    public Building(String name, Vector2 position, Texture texture) {
-        this.name = name;
-        this.position = position;
-        this.texture = texture;
+    public Building(BuildingInfo buildingInfo) {
+        this.name = buildingInfo.name;
+        this.textureRegion = SpriteSheet.getBuildingTextureRegion(
+                buildingInfo.textureStartX, buildingInfo.textureStartY,
+                buildingInfo.textureWidth, buildingInfo.textureHeight);
+
         // TODO make it get the Scale from GAME or move Scale
-        width = texture.getWidth() * 5;
-        height = texture.getHeight() * 5;
+        width = textureRegion.getRegionWidth() * 5;
+        height = textureRegion.getRegionHeight() * 5;
+        //this.textureRegion = SpriteSheet.getBuildingTextureRegion(textureStartX,textureStartY,textureWidth,textureHeight);
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
     }
 
     //TODO Move to Position object
@@ -27,12 +35,13 @@ public class Building {
     }
 
     public boolean inRange(Vector2 playerPosition) {
-        return between(playerPosition.x, position.x, position.x + width) &&
-                between(playerPosition.y, position.y, position.y + height);
+
+        return between(playerPosition.x, getInteractSpot().x, getInteractSpot().x+32*5) &&
+                between(playerPosition.y, getInteractSpot().y, getInteractSpot().y+32*5);
     }
 
-    public Texture getTexture() {
-        return texture;
+    public TextureRegion getTextureRegion() {
+        return textureRegion;
     }
 
     public Vector2 getPosition() {
@@ -41,5 +50,14 @@ public class Building {
 
     public String getName() {
         return name;
+    }
+
+    public Vector2 getInteractSpot() {
+        float X  = position.x + ((float) (textureRegion.getRegionWidth() - 32) / 2) * 5;
+        float Y = position.y - 32*5;
+        if (name.equals("Home")){
+            X = position.x + ((float) (textureRegion.getRegionWidth() - 80) / 2) * 5;
+        }
+        return new Vector2(X,Y);
     }
 }

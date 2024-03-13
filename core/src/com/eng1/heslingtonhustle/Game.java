@@ -3,12 +3,14 @@ package com.eng1.heslingtonhustle;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,11 +25,17 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.eng1.heslingtonhustle.activities.Studying;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
@@ -55,7 +63,8 @@ public class Game extends ApplicationAdapter {
     public void create() {
         cameraSetup();
         shaderSetup();
-        playerMovement = new Movement(new Vector2(0, 0), 320);
+        Vector2 spawn = new Vector2(4608,960);
+        playerMovement = new Movement(spawn, 3200);
         playerMovement.setCollidableTiles(collidableTiles);
         stage = new Stage(viewport);
 
@@ -65,20 +74,31 @@ public class Game extends ApplicationAdapter {
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
 
         parseCollidableTiles();
-
         System.out.println(tiledMap.getLayers().get("buildingCorners").getObjects().get(1).getProperties().get("name"));
 
-        for (MapObject buildingCorner : (tiledMap.getLayers().get("buildingCorners").getObjects())){
-            if (buildingCorner.getProperties().get("name").equals("library")){
-                float buildingX = Float.parseFloat(buildingCorner.getProperties().get("x").toString()) * SCALE;
-                float buildingY =  Float.parseFloat(buildingCorner.getProperties().get("y").toString()) * SCALE;
-                buildings.add(new Building("Library", new Vector2(buildingX,buildingY), SpriteSheet.getSchool()));
-                System.out.println(buildings.get(0).getPosition());
+
+        Gson gson = new Gson();
+        Map<String, Building> buildingMap = new HashMap<>();
+        try (FileReader reader = new FileReader("buildings.json")) {
+            BuildingInfo[] buildingInfos = gson.fromJson(reader, BuildingInfo[].class);
+            for(BuildingInfo buildingInfo: buildingInfos){
+                buildingMap.put(buildingInfo.id,new Building(buildingInfo));
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        buildings.add(new Building("School", new Vector2(0, 0), SpriteSheet.getSchool()));
-        buildings.add(new Building("Hotel", new Vector2(-500, -500), SpriteSheet.getSchool()));
+
+        for (MapObject buildingCorner : (tiledMap.getLayers().get("buildingCorners").getObjects())){
+            String id = (String) buildingCorner.getProperties().get("name");
+            if (buildingMap.containsKey(id)){
+                float buildingX = Float.parseFloat(buildingCorner.getProperties().get("x").toString()) * SCALE;
+                float buildingY =  Float.parseFloat(buildingCorner.getProperties().get("y").toString()) * SCALE;
+                Building building = buildingMap.get(id);
+                building.setPosition(new Vector2(buildingX,buildingY));
+                buildings.add(building);
+            }
+        }
     }
 
     private void parseCollidableTiles() {
@@ -102,6 +122,7 @@ public class Game extends ApplicationAdapter {
                     day.addActivity(new Studying());
                     System.out.println(day.getTotalDuration());
                     System.out.println(day.getTotalEnergyUsage());
+                    System.out.println(playerPosition);
                 }
             }
         };
@@ -128,10 +149,17 @@ public class Game extends ApplicationAdapter {
         String vertexShader = Gdx.files.internal("shader/vertexShader.glsl").readString();
         String fragmentShader = Gdx.files.internal("shader/fragmentShader.glsl").readString();
         shader = new ShaderProgram(vertexShader, fragmentShader);
-        shader.bind();
-        shader.setUniformi("u_texture", 0);
-        shader.setUniformi("u_mask", 1);
+
+        if (!shader.isCompiled()) {
+            Gdx.app.error("Shader", "Error compiling shader: " + shader.getLog());
+            return;
+        }
+
+        // Set the texture uniform
+        shader.setUniformi("u_texture", 1); // Assuming texture unit 0
+        shader.setUniformi("u_mask",1);
     }
+
 
     @Override
     public void resize(int width, int height) {
@@ -147,12 +175,14 @@ public class Game extends ApplicationAdapter {
         playerMovement.update(Gdx.graphics.getDeltaTime());
         playerPosition = playerMovement.getPosition();
         TextureRegion currentFrame = playerMovement.getCurrentFrame();
-
+        updateCameraPosition();
         camera.update();
         mapRenderer.setView(camera);
         mapRenderer.render();
 
-        updateCameraPosition();
+
+
+
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
@@ -183,17 +213,20 @@ public class Game extends ApplicationAdapter {
                     }, 0);
                 }
             } else {
-                renderTexture(building.getTexture(), building.getPosition());
+                renderTexture(building.getTextureRegion(), building.getPosition());
             }
         }
+        for(Building building:buildings){
+            Vector2 interactSpot =  building.getInteractSpot();
 
+            batch.draw(SpriteSheet.getDebug(),interactSpot.x,interactSpot.y,32*SCALE,32*SCALE);
+        }
 
         batch.draw(currentFrame, (playerPosition.x - PLAYER_SIZE / 2f), (playerPosition.y - PLAYER_SIZE / 2f) + 60, PLAYER_SIZE, PLAYER_SIZE);
         batch.end();
 
         stage.act();
         stage.draw();
-
     }
 
 
@@ -208,39 +241,43 @@ public class Game extends ApplicationAdapter {
     //    batch.draw(map, (float) (-map.getWidth() * SCALE) / 2, (float) (-map.getHeight() * SCALE) / 2, map.getWidth() * SCALE, map.getHeight() * SCALE);
     //}
 
-    private void outlineBuilding(Building building) {
-        Texture texture = building.getTexture();
-        Vector2 position = building.getPosition();
-        batch.setShader(shader);
-        texture.bind(1);
-        renderTexture(texture, position, SCALE + (SCALE / 40f), SCALE + (SCALE / 20f), true);
-        texture.bind(0);
-        batch.setShader(null);
-        renderTexture(texture, position);
 
+
+    private void outlineBuilding(Building building) {
+        TextureRegion textureRegion = building.getTextureRegion();
+        Vector2 position = building.getPosition();
+        float scaleX = SCALE + (SCALE / 40f);
+        float scaleY = SCALE + (SCALE / 20f);
+
+        batch.setShader(shader);
+        textureRegion.getTexture().bind(1);
+        renderTexture(textureRegion, position, scaleX, scaleY, true);
+        textureRegion.getTexture().bind(0);
+        batch.setShader(null);
+        renderTexture(textureRegion, position, SCALE, SCALE, false);
+    }
+
+
+
+    private void renderTexture(TextureRegion textureRegion, Vector2 position, float scaleX, float scaleY, boolean outline) {
+        float x = position.x;
+        float y = position.y;
+        float width = textureRegion.getRegionWidth() * scaleX;
+        float height = textureRegion.getRegionHeight() * scaleY;
+
+        if (outline) {
+            x -= calculateOffset(textureRegion.getRegionWidth(), scaleX);
+            y -= calculateOffset(textureRegion.getRegionHeight(), scaleY);
+        }
+
+        batch.draw(textureRegion, x, y, width, height);
     }
 
     //TODO created Render Class
-    private void renderTexture(Texture texture, Vector2 position) {
-        renderTexture(texture, position, SCALE, SCALE, false);
+    private void renderTexture(TextureRegion textureRegion, Vector2 position) {
+        renderTexture(textureRegion, position, SCALE, SCALE, false);
     }
 
-    private void renderTexture(Texture texture, Vector2 position, float scaleX, float scaleY, boolean alignCenter) {
-        // Calculate the scaled width and height of the texture
-        float width = texture.getWidth() * scaleX;
-        float height = texture.getHeight() * scaleY;
-
-        // Calculate the position based on alignment
-        float x = position.x;
-        float y = position.y;
-        if (alignCenter) {
-            x -= calculateOffset(texture.getWidth(), scaleX);
-            y -= calculateOffset(texture.getHeight(), scaleY);
-        }
-
-        // Draw the texture
-        batch.draw(texture, x, y, width, height);
-    }
 
     private float calculateOffset(float length, float scale) {
         return length * (scale - SCALE) / 2f;
