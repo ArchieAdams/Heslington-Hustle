@@ -9,9 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -27,6 +24,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.eng1.heslingtonhustle.activities.Studying;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,34 +37,45 @@ public class Game extends ApplicationAdapter {
     private static final int SCALE = 5;
     private static final int PLAYER_SIZE = 32 * SCALE;
     private final List<Building> buildings = new ArrayList<>();
+    private final Array<Rectangle> collidableTiles = new Array<>();
+    private final Day day = new Day();
     private ShaderProgram shader;
     private SpriteBatch batch;
     private Vector2 playerPosition;
     private OrthographicCamera camera;
     private Viewport viewport;
-    private PlayerMovement playerMovement;
+    private Movement playerMovement;
     private Dialog dialog;
     private Stage stage;
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
-    private Array<Rectangle> collidableTiles = new Array<>();
 
 
     @Override
     public void create() {
         cameraSetup();
         shaderSetup();
-        playerMovement = new PlayerMovement(new Vector2(40, 100), 320);
+        playerMovement = new Movement(new Vector2(0, 0), 320);
         playerMovement.setCollidableTiles(collidableTiles);
         stage = new Stage(viewport);
 
         inputSetup();
 
-        tiledMap = new TmxMapLoader().load("assets/maps/campus_east.tmx");
+        tiledMap = new TmxMapLoader().load("maps/campus_east.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
 
         parseCollidableTiles();
 
+        System.out.println(tiledMap.getLayers().get("buildingCorners").getObjects().get(1).getProperties().get("name"));
+
+        for (MapObject buildingCorner : (tiledMap.getLayers().get("buildingCorners").getObjects())){
+            if (buildingCorner.getProperties().get("name").equals("library")){
+                float buildingX = Float.parseFloat(buildingCorner.getProperties().get("x").toString()) * SCALE;
+                float buildingY =  Float.parseFloat(buildingCorner.getProperties().get("y").toString()) * SCALE;
+                buildings.add(new Building("Library", new Vector2(buildingX,buildingY), SpriteSheet.getSchool()));
+                System.out.println(buildings.get(0).getPosition());
+            }
+        }
 
         buildings.add(new Building("School", new Vector2(0, 0), SpriteSheet.getSchool()));
         buildings.add(new Building("Hotel", new Vector2(-500, -500), SpriteSheet.getSchool()));
@@ -85,13 +94,14 @@ public class Game extends ApplicationAdapter {
 
 
     private void creatDialog(Building building) {
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         dialog = new Dialog("Are you sure you want to go to " + building.getName() + "?", skin) {
             public void result(Object obj) {
                 System.out.println("result " + obj);
                 if ((boolean) obj) {
-                    Gdx.app.exit();
-                    System.exit(-1);
+                    day.addActivity(new Studying());
+                    System.out.println(day.getTotalDuration());
+                    System.out.println(day.getTotalEnergyUsage());
                 }
             }
         };
@@ -115,8 +125,8 @@ public class Game extends ApplicationAdapter {
     }
 
     private void shaderSetup() {
-        String vertexShader = Gdx.files.internal("vertexShader.glsl").readString();
-        String fragmentShader = Gdx.files.internal("fragmentShader.glsl").readString();
+        String vertexShader = Gdx.files.internal("shader/vertexShader.glsl").readString();
+        String fragmentShader = Gdx.files.internal("shader/fragmentShader.glsl").readString();
         shader = new ShaderProgram(vertexShader, fragmentShader);
         shader.bind();
         shader.setUniformi("u_texture", 0);
@@ -167,7 +177,7 @@ public class Game extends ApplicationAdapter {
                         @Override
                         public void run() {
                             dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
-                            dialog.setPosition(playerPosition.x-175, playerPosition.y+50);
+                            dialog.setPosition(playerPosition.x - 175, playerPosition.y + 50);
                             dialog.setSize(350, 100);
                         }
                     }, 0);

@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-public class PlayerMovement {
+public class Movement {
     public static final float DIAGONAL_MODIFIER = (float) (Math.sqrt(2) / 2);
     private final Vector2 position;
     private final float speed;
@@ -20,7 +20,7 @@ public class PlayerMovement {
     private TextureRegion currentFrame;
     private Array<Rectangle> collidableTiles;
     private static final float PLAYER_WIDTH = 16;
-    private static final float PLAYER_HEIGHT = 40;
+    private static final float PLAYER_HEIGHT = 20;
 
 
     public void setCollidableTiles(Array<Rectangle> collidableTiles) {
@@ -28,7 +28,7 @@ public class PlayerMovement {
     }
 
 
-    public PlayerMovement(Vector2 position, float speed) {
+    public Movement(Vector2 position, float speed) {
         this.position = position;
         this.speed = speed;
         this.state = new State();
@@ -50,10 +50,10 @@ public class PlayerMovement {
         float potentialNewX = position.x + moveDirectionX * velocity;
         float potentialNewY = position.y + moveDirectionY * velocity;
 
-        if (!collidesWithCollidableTiles(potentialNewX, potentialNewY)) {
+        if (!collidesX(potentialNewX, potentialNewY)) {
             position.x = potentialNewX;
         }
-        if (!collidesWithCollidableTiles(potentialNewX, potentialNewY)) {
+        if (!collidesY(potentialNewX, potentialNewY)) {
             position.y = potentialNewY;
         }
 
@@ -63,8 +63,17 @@ public class PlayerMovement {
         currentFrame = currentAnimation.getKeyFrame(stateTime, true);
     }
 
-    private boolean collidesWithCollidableTiles(float x, float y) {
-        Rectangle playerRect = new Rectangle(x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
+    private boolean collidesX(float x, float y) {
+        Rectangle playerRect = new Rectangle(x, y, PLAYER_WIDTH, 0);
+        return collides(playerRect);
+    }
+
+    private boolean collidesY(float x, float y) {
+        Rectangle playerRect = new Rectangle(x, y, 0, PLAYER_HEIGHT);
+        return collides(playerRect);
+    }
+
+    private boolean collides(Rectangle playerRect) {
         for (Rectangle rect : collidableTiles) {
             if (rect.overlaps(playerRect)) {
                 return true;
@@ -72,6 +81,8 @@ public class PlayerMovement {
         }
         return false;
     }
+
+
 
     private void updateAnimation() {
         int moveDirectionY = state.getMoveDirectionY();
