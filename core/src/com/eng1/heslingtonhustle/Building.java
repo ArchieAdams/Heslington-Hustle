@@ -5,25 +5,17 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Building {
 
-    private String name;
+    private final String name;
 
     private Vector2 position;
     private final TextureRegion textureRegion;
-
-    private final int width;
-    private final int height;
 
     public Building(BuildingInfo buildingInfo) {
         this.name = buildingInfo.name;
         this.textureRegion = SpriteSheet.getBuildingTextureRegion(
                 buildingInfo.textureStartX, buildingInfo.textureStartY,
                 buildingInfo.textureWidth, buildingInfo.textureHeight);
-
-        // TODO make it get the Scale from GAME or move Scale
-        width = textureRegion.getRegionWidth() * 5;
-        height = textureRegion.getRegionHeight() * 5;
-        //this.textureRegion = SpriteSheet.getBuildingTextureRegion(textureStartX,textureStartY,textureWidth,textureHeight);
-    }
+   }
 
     public void setPosition(Vector2 position) {
         this.position = position;
