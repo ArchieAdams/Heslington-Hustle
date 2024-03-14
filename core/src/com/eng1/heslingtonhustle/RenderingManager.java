@@ -20,14 +20,13 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 public class RenderingManager {
 
     private static final float SCALE = 5f;
-    private static int PLAYER_SIZE;
     private final SpriteBatch batch;
     private final Stage stage;
     private ShaderProgram shader;
     private final Day day = new Day();
     private Dialog dialog;
-    private CameraManager cameraManager;
-    private MapManger mapManger;
+    private final CameraManager cameraManager;
+    private final MapManger mapManger;
 
 
     public RenderingManager( Stage stage, CameraManager cameraManager, MapManger mapManger) {

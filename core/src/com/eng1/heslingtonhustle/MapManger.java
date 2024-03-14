@@ -19,7 +19,7 @@ import static com.eng1.heslingtonhustle.Game.SCALE;
 
 public class MapManger {
     private final TiledMap tiledMap;
-    private OrthogonalTiledMapRenderer mapRenderer;
+    private final OrthogonalTiledMapRenderer mapRenderer;
     private final Array<Rectangle> collidableTiles = new Array<>();
 
     public MapManger() {

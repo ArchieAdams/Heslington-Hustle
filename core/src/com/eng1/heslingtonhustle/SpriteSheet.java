@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class SpriteSheet {
 
     public static final Texture walkSheet = new Texture(Gdx.files.internal("character2.png"));
-    public static final Texture map = new Texture(Gdx.files.internal("map.png"));
     public static final Texture buildings = new Texture(Gdx.files.internal("images/town.png"));
     public static final Texture debug = new Texture(Gdx.files.internal("images/debug.png"));
 
@@ -36,18 +35,6 @@ public class SpriteSheet {
         return new Animation<>(0.1f, out);
     }
 
-    public static Texture getMap() {
-        return map;
-    }
-
-    public static TextureRegion getCiemaTextureRegion(){
-        //Cinema x = 720 y = 912 , width = 6 height = 6
-        return getBuildingTextureRegion(720,912,6,6);
-    }
-    public static TextureRegion getTest(){
-        //Cinema x = 720 y = 912 , width = 6 height = 6
-        return getBuildingTextureRegion(16,16,2,2);
-    }
 
     public static TextureRegion getBuildingTextureRegion(int startX, int startY, int width, int height){
         return new TextureRegion(buildings,startX,startY,16*width,16*height);
