@@ -30,10 +30,10 @@ public class CameraManager {
         return viewport;
     }
 
-    public void render(SpriteBatch batch, MapManger mapManger, Vector2 playerPosition) {
+    public void render(SpriteBatch batch, MapManager mapManager, Vector2 playerPosition) {
         updateCameraPosition(playerPosition);
         camera.update();
-        mapManger.render(camera);
+        mapManager.render(camera);
 
         batch.setProjectionMatrix(camera.combined);
     }

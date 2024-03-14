@@ -26,15 +26,15 @@ public class RenderingManager {
     private final Day day = new Day();
     private Dialog dialog;
     private final CameraManager cameraManager;
-    private final MapManger mapManger;
+    private final MapManager mapManager;
 
 
-    public RenderingManager( Stage stage, CameraManager cameraManager, MapManger mapManger) {
+    public RenderingManager( Stage stage, CameraManager cameraManager, MapManager mapManager) {
         this.batch = new SpriteBatch();
         this.stage = stage;
         shaderSetup();
         this.cameraManager = cameraManager;
-        this.mapManger = mapManger;
+        this.mapManager = mapManager;
     }
 
     private void shaderSetup() {
@@ -53,7 +53,7 @@ public class RenderingManager {
     }
 
     public void render(List<Building> buildings, Movement playerMovement) {
-        cameraManager.render(batch,mapManger,playerMovement.getPosition());
+        cameraManager.render(batch, mapManager,playerMovement.getPosition());
         batch.begin();
         renderBuildings(buildings,playerMovement);
         renderPlayer(playerMovement);

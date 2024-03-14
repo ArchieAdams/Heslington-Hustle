@@ -28,7 +28,7 @@ public class Game extends ApplicationAdapter {
     private static Map<String, Building> loadBuildingInfo() {
         Gson gson = new Gson();
         Map<String, Building> buildingMap = new HashMap<>();
-        try (FileReader reader = new FileReader("buildings.json")) {
+        try (FileReader reader = new FileReader("assets/buildings.json")) {
             BuildingInfo[] buildingInfos = gson.fromJson(reader, BuildingInfo[].class);
             for (BuildingInfo buildingInfo : buildingInfos) {
                 buildingMap.put(buildingInfo.id, new Building(buildingInfo));
@@ -42,18 +42,18 @@ public class Game extends ApplicationAdapter {
     @Override
     public void create() {
         cameraManager = new CameraManager();
-        MapManger mapManger = new MapManger();
+        MapManager mapManager = new MapManager();
         stage = new Stage(cameraManager.getViewport());
-        renderingManager = new RenderingManager(stage, cameraManager, mapManger);
+        renderingManager = new RenderingManager(stage, cameraManager, mapManager);
 
         Vector2 spawn = new Vector2(4608, 960);
         playerManager = new PlayerManager(spawn, 320);
-        playerManager.getMovement().setCollidableTiles(mapManger.getCollidableTiles());
+        playerManager.getMovement().setCollidableTiles(mapManager.getCollidableTiles());
 
         inputSetup();
 
         Map<String, Building> buildingMap = loadBuildingInfo();
-        buildings = mapManger.createBuildings(buildingMap);
+        buildings = mapManager.createBuildings(buildingMap);
     }
 
 

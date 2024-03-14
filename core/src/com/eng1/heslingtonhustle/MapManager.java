@@ -17,12 +17,12 @@ import java.util.Map;
 
 import static com.eng1.heslingtonhustle.Game.SCALE;
 
-public class MapManger {
+public class MapManager {
     private final TiledMap tiledMap;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Array<Rectangle> collidableTiles = new Array<>();
 
-    public MapManger() {
+    public MapManager() {
         tiledMap = new TmxMapLoader().load("maps/campus_east.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
         parseCollidableTiles();
