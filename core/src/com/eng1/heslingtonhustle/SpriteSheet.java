@@ -8,8 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class SpriteSheet {
 
     public static final Texture walkSheet = new Texture(Gdx.files.internal("character2.png"));
-    public static final Texture map = new Texture(Gdx.files.internal("map.png"));
-    public static final Texture school = new Texture(Gdx.files.internal("school.png"));
+    public static final Texture buildings = new Texture(Gdx.files.internal("images/town.png"));
+    public static final Texture debug = new Texture(Gdx.files.internal("images/debug.png"));
+
 
 
     public static Animation<TextureRegion> getDownWalk() {
@@ -34,11 +35,12 @@ public class SpriteSheet {
         return new Animation<>(0.1f, out);
     }
 
-    public static Texture getMap() {
-        return map;
+
+    public static TextureRegion getBuildingTextureRegion(int startX, int startY, int width, int height){
+        return new TextureRegion(buildings,startX,startY,16*width,16*height);
     }
 
-    public static Texture getSchool(){
-        return school;
+    public static Texture getDebug() {
+        return debug;
     }
 }
