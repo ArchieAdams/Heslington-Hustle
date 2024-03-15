@@ -30,8 +30,12 @@ public class RenderingManager {
     private final MapManager mapManager;
     private final Stage uiStage;
 
+    private final PlayerManager playerManager;
 
-    public RenderingManager( Stage stage, CameraManager cameraManager, MapManager mapManager) {
+    private Vector2 respawnLocation;
+
+
+    public RenderingManager( Stage stage, CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager ) {
         this.batch = new SpriteBatch();
         this.stage = stage;
         shaderSetup();
@@ -39,6 +43,7 @@ public class RenderingManager {
         this.mapManager = mapManager;
         this.uiStage = new Stage(new ScreenViewport(), batch);
         GameUI gameUI = new GameUI(uiStage);
+        this.playerManager = playerManager;
     }
 
     private void shaderSetup() {
@@ -89,14 +94,16 @@ public class RenderingManager {
     }
 
     private void createDialog(Building building) {
-        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        dialog = new Dialog("Are you sure you want to go to " + building.getName() + "?", skin) {
+        Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
+        String buildingToEnter = building.getName();
+        dialog = new Dialog("Are you sure you want to go to " + buildingToEnter + "?", skin) {
             public void result(Object obj) {
                 System.out.println("result " + obj);
                 if ((boolean) obj) {
                     day.addActivity(new Studying());
                     System.out.println(day.getTotalDuration());
                     System.out.println(day.getTotalEnergyUsage());
+                    enterBuilding(buildingToEnter);
                 }
             }
         };
@@ -170,5 +177,12 @@ public class RenderingManager {
         Vector2 playerPosition = playerMovement.getPosition();
         float PLAYER_SIZE = 32*SCALE;
         batch.draw(currentFrame, (playerPosition.x - PLAYER_SIZE / 2f), (playerPosition.y - PLAYER_SIZE / 2f) + 60, PLAYER_SIZE, PLAYER_SIZE);
+    }
+
+    private void enterBuilding(String buildingName) {
+        String newMapPath = mapManager.getMapPath(buildingName);
+        mapManager.changeMap(newMapPath);
+        respawnLocation = playerManager.getPosition();
+        playerManager.movement.setPosition(new Vector2(400, 100));
     }
 }

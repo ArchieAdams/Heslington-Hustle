@@ -65,8 +65,6 @@ public class GameUI {
         progressBar.setValue(energy.getLevel());
     }
 
-
-
     public void dispose() {
         uiStage.dispose();
         xpBackground.dispose();

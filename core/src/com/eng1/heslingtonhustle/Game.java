@@ -44,11 +44,14 @@ public class Game extends ApplicationAdapter {
         cameraManager = new CameraManager();
         MapManager mapManager = new MapManager();
         stage = new Stage(cameraManager.getViewport());
-        renderingManager = new RenderingManager(stage, cameraManager, mapManager);
 
         Vector2 spawn = new Vector2(4608, 960);
         playerManager = new PlayerManager(spawn, 320);
         playerManager.getMovement().setCollidableTiles(mapManager.getCollidableTiles());
+
+        renderingManager = new RenderingManager(stage, cameraManager, mapManager, playerManager);
+
+
 
         inputSetup();
 

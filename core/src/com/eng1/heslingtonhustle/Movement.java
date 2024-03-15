@@ -113,4 +113,9 @@ public class Movement {
     public State getPlayerState() {
         return state;
     }
+
+    public void setPosition(Vector2 newPosition) {
+        this.position.x = newPosition.x;
+        this.position.y = newPosition.y;
+    }
 }

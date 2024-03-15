@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class PlayerManager {
     private int energy;
-    private final Movement movement;
+    public final Movement movement;
     private Set<Building> buildingsInRange;
 
     private final List<Day> week = new ArrayList<>();

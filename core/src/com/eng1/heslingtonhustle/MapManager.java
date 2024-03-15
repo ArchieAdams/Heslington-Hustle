@@ -14,18 +14,28 @@ import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import static com.eng1.heslingtonhustle.Game.SCALE;
 
 public class MapManager {
-    private final TiledMap tiledMap;
+    private TiledMap tiledMap;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Array<Rectangle> collidableTiles = new Array<>();
+    private final Map<String, String> mapPaths;
 
     public MapManager() {
         tiledMap = new TmxMapLoader().load("maps/campus_east.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
         parseCollidableTiles();
+
+        mapPaths = new HashMap<>();
+        mapPaths.put("Library", "assets/maps/library.tmx");
+        mapPaths.put("Cafe", "assets/maps/cafe.tmx");
+        mapPaths.put("Cinema", "assets/maps/cinema.tmx");
+        mapPaths.put("Home", "assets/maps/home.tmx");
+        mapPaths.put("Computer Science Building", "assets/maps/compSci.tmx");
+        mapPaths.put("Campus", "assets/maps/campus_east.tmx");
     }
 
     public List<Building> createBuildings(Map<String, Building> buildingMap) {
@@ -60,5 +70,19 @@ public class MapManager {
     public void render(OrthographicCamera camera) {
         mapRenderer.setView(camera);
         mapRenderer.render();
+    }
+
+    public void changeMap(String newMapPath) {
+        if (tiledMap != null) {
+            tiledMap.dispose();
+        }
+        tiledMap = new TmxMapLoader().load(newMapPath);
+        mapRenderer.setMap(tiledMap);
+        collidableTiles.clear();
+        parseCollidableTiles();
+    }
+
+    public String getMapPath(String mapName) {
+        return mapPaths.get(mapName);
     }
 }
