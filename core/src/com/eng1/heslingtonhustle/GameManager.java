@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
 import com.eng1.heslingtonhustle.activities.Studying;
 
+import java.util.List;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class GameManager {
@@ -31,9 +33,19 @@ public class GameManager {
         this.buildingManager = buildingManager;
     }
 
+    public Building checkForBuildingInRange() {
+        List<Building> buildings = buildingManager.getCampusBuildings();
+        Vector2 position = playerManager.getPosition();
+        for (Building building : buildings) {
+            if (building.inRange(position)) {
+                return building;
+            }
+        } return null;
+    }
+
     public void interactWithBuilding(Building building,Movement player) {
         Vector2 playerPosition = player.getPosition();
-        if (player.getPlayerState().isINTERACTING() && building.isOutlined()) {
+        if (player.getPlayerState().isINTERACTING()) {
             player.getPlayerState().stopInteracting();
             createDialog(building);
             Timer.schedule(new Timer.Task() {
@@ -69,8 +81,10 @@ public class GameManager {
 
     private void enterBuilding(String buildingName) {
         String newMapPath = mapManager.getMapPath(buildingName);
+        respawnLocation = new Vector2(playerManager.getPosition());
+        System.out.println("current location" + playerManager.getPosition().toString());
         mapManager.changeMap(newMapPath);
-        respawnLocation = playerManager.getPosition();
+        System.out.println("Respawn location: " + respawnLocation);
         buildingManager.makeBuildingsDisappear();
         playerManager.movement.setPosition(new Vector2(400, 100));
     }
@@ -84,18 +98,26 @@ public class GameManager {
         return false;
     }
 
-    private void exitBuilding(PlayerManager player) {
-        if (player.getPlayerState().isINTERACTING() && playerInExitZone(player.getPosition())) {
-            player.getPlayerState().stopInteracting();
-            player.setPosition(respawnLocation);
+    private void exitBuilding() {
+        if (playerManager.getState().isINTERACTING() && playerInExitZone(playerManager.getPosition())) {
+            playerManager.getState().stopInteracting();
             mapManager.changeMap();
+            playerManager.movement.setPosition(respawnLocation);
             buildingManager.makeBuildingsAppear();
+            System.out.println("Respawn location: %s%n" + respawnLocation);
+            System.out.println("Current location given" + playerManager.getPosition());
         }
     }
 
-    public void update(float deltaTime) {
-        //interactWithBuilding();
-        exitBuilding(Movement pla);
 
+    public void update(float deltaTime) {
+        Building building = checkForBuildingInRange();
+        if (checkForBuildingInRange() != null) {
+            interactWithBuilding(building, playerManager.getMovement());
+        }
+
+        if (playerInExitZone(playerManager.getPosition())) {
+            exitBuilding();
+        }
     }
 }

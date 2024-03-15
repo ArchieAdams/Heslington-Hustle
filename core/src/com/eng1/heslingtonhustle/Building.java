@@ -35,6 +35,7 @@ public class Building {
                 between(playerPosition.y, getInteractSpot().y, getInteractSpot().y+32*5);
     }
 
+
     public TextureRegion getTextureRegion() {
         return textureRegion;
     }

@@ -35,7 +35,6 @@ public class RenderingManager {
 
     private final BuildingManager buildingManager;
 
-    private Vector2 respawnLocation;
 
 
     public RenderingManager( Stage stage, CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager) {
@@ -61,7 +60,7 @@ public class RenderingManager {
         }
 
         // Set the texture uniform
-        shader.setUniformi("u_texture", 1); // Assuming texture unit 0
+        shader.setUniformi("u_texture", 1);
         shader.setUniformi("u_mask",1);
     }
 
@@ -74,7 +73,6 @@ public class RenderingManager {
 
         uiStage.act(Gdx.graphics.getDeltaTime());
         uiStage.draw();
-        //uiStage.dispose();
     }
 
 
@@ -87,7 +85,6 @@ public class RenderingManager {
             if (building.inRange(player.getPosition())) {
                 outlineBuilding(building);
                 building.setOutlined(true);
-                interactWithBuilding(building,player);
             } else {
                 renderBuilding(building);
                 building.setOutlined(false);
@@ -117,7 +114,6 @@ public class RenderingManager {
                     day.addActivity(new Studying());
                     System.out.println(day.getTotalDuration());
                     System.out.println(day.getTotalEnergyUsage());
-                    enterBuilding(buildingToEnter);
                 }
             }
         };
@@ -125,22 +121,6 @@ public class RenderingManager {
         dialog.text("It will take X time and use X% of your energy");
         dialog.button("Yes", true);
         dialog.button("No", false);
-    }
-
-    private void interactWithBuilding(Building building,Movement player) {
-        Vector2 playerPosition = player.getPosition();
-        if (player.getPlayerState().isINTERACTING()) {
-            player.getPlayerState().stopInteracting();
-            createDialog(building);
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
-                    dialog.setPosition(playerPosition.x - 175, playerPosition.y + 50);
-                    dialog.setSize(350, 100);
-                }
-            }, 0);
-        }
     }
 
     private void renderBuilding(Building building) {
@@ -192,20 +172,4 @@ public class RenderingManager {
         batch.draw(currentFrame, (playerPosition.x - PLAYER_SIZE / 2f), (playerPosition.y - PLAYER_SIZE / 2f) + 60, PLAYER_SIZE, PLAYER_SIZE);
     }
 
-    private void enterBuilding(String buildingName) {
-        String newMapPath = mapManager.getMapPath(buildingName);
-        mapManager.changeMap(newMapPath);
-        respawnLocation = playerManager.getPosition();
-        buildingManager.makeBuildingsDisappear();
-        playerManager.movement.setPosition(new Vector2(400, 100));
-    }
-
-    private boolean isPlayerInExitZone(Vector2 position) {
-        for (Rectangle exitZone : mapManager.getExitTiles()) {
-            if (exitZone.contains(position.x, position.y)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

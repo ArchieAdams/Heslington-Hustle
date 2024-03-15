@@ -89,7 +89,7 @@ public class MapManager {
         if (tiledMap!= null) {
             tiledMap.dispose();
         }
-        tiledMap = new TmxMapLoader().load("assets/maps/campus_east.tmx");
+        tiledMap = new TmxMapLoader().load("maps/campus_east.tmx");
         mapRenderer.setMap(tiledMap);
         collidableTiles.clear();
         parseCollidableTiles();
