@@ -4,49 +4,34 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.eng1.heslingtonhustle.activities.Studying;
 
 import java.util.List;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class RenderingManager {
 
     private static final float SCALE = 5f;
     private final SpriteBatch batch;
-    private final Stage stage;
+
     private ShaderProgram shader;
     private final Day day = new Day();
-    private Dialog dialog;
     private final CameraManager cameraManager;
     private final MapManager mapManager;
     private final Stage uiStage;
 
-    private final PlayerManager playerManager;
-
-    private final BuildingManager buildingManager;
 
 
 
-    public RenderingManager( Stage stage, CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager) {
+    public RenderingManager(CameraManager cameraManager, MapManager mapManager) {
         this.batch = new SpriteBatch();
-        this.stage = stage;
         shaderSetup();
         this.cameraManager = cameraManager;
         this.mapManager = mapManager;
         this.uiStage = new Stage(new ScreenViewport(), batch);
         GameUI gameUI = new GameUI(uiStage);
-        this.playerManager = playerManager;
-        this.buildingManager = buildingManager;
     }
 
     private void shaderSetup() {
@@ -90,8 +75,6 @@ public class RenderingManager {
                 building.setOutlined(false);
             }
         }
-
-
         for(Building building:buildings){
             if(!building.isVisible()){
                 continue;
@@ -102,26 +85,6 @@ public class RenderingManager {
         }
     }
 
-
-
-    private void createDialog(Building building) {
-        Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
-        String buildingToEnter = building.getName();
-        dialog = new Dialog("Are you sure you want to go to " + buildingToEnter + "?", skin) {
-            public void result(Object obj) {
-                System.out.println("result " + obj);
-                if ((boolean) obj) {
-                    day.addActivity(new Studying());
-                    System.out.println(day.getTotalDuration());
-                    System.out.println(day.getTotalEnergyUsage());
-                }
-            }
-        };
-
-        dialog.text("It will take X time and use X% of your energy");
-        dialog.button("Yes", true);
-        dialog.button("No", false);
-    }
 
     private void renderBuilding(Building building) {
         renderTexture(building.getTextureRegion(), building.getPosition());

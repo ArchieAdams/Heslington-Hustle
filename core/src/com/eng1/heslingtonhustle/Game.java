@@ -36,8 +36,8 @@ public class Game extends ApplicationAdapter {
         inputSetup();
 
         buildings = buildingManager.getCampusBuildings();
-        gameManager = new GameManager(stage, cameraManager, mapManager, playerManager, buildingManager);
-        renderingManager = new RenderingManager(stage, cameraManager, mapManager, playerManager, buildingManager);
+        gameManager = new GameManager(stage, mapManager, playerManager, buildingManager);
+        renderingManager = new RenderingManager(cameraManager, mapManager);
     }
 
 
@@ -62,7 +62,7 @@ public class Game extends ApplicationAdapter {
         float deltaTime = Gdx.graphics.getDeltaTime();
 
         playerManager.getMovement().update(deltaTime);
-        gameManager.update(deltaTime);
+        gameManager.update();
         renderingManager.render(buildings, playerManager.getMovement());
         stage.act();
         stage.draw();

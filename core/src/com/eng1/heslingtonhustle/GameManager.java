@@ -17,17 +17,14 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class GameManager {
     private final Stage stage;
-    private final CameraManager cameraManager;
     private final MapManager mapManager;
     private final PlayerManager playerManager;
     private final BuildingManager buildingManager;
-    private Dialog dialog;
     private final Day day = new Day();
     private Vector2 respawnLocation;
 
-    public GameManager(Stage stage, CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager) {
+    public GameManager(Stage stage, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager) {
         this.stage = stage;
-        this.cameraManager = cameraManager;
         this.mapManager = mapManager;
         this.playerManager = playerManager;
         this.buildingManager = buildingManager;
@@ -47,7 +44,7 @@ public class GameManager {
         Vector2 playerPosition = player.getPosition();
         if (player.getPlayerState().isINTERACTING()) {
             player.getPlayerState().stopInteracting();
-            createDialog(building);
+            Dialog dialog = createDialog(building);
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -59,10 +56,10 @@ public class GameManager {
         }
     }
 
-    private void createDialog(Building building) {
+    private Dialog createDialog(Building building) {
         Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
         String buildingToEnter = building.getName();
-        dialog = new Dialog("Are you sure you want to go to " + buildingToEnter + "?", skin) {
+        Dialog dialog = new Dialog("Are you sure you want to go to " + buildingToEnter + "?", skin) {
             public void result(Object obj) {
                 System.out.println("result " + obj);
                 if ((boolean) obj) {
@@ -77,6 +74,7 @@ public class GameManager {
         dialog.text("It will take X time and use X% of your energy");
         dialog.button("Yes", true);
         dialog.button("No", false);
+        return dialog;
     }
 
     private void enterBuilding(String buildingName) {
@@ -110,7 +108,7 @@ public class GameManager {
     }
 
 
-    public void update(float deltaTime) {
+    public void update() {
         Building building = checkForBuildingInRange();
         if (checkForBuildingInRange() != null) {
             interactWithBuilding(building, playerManager.getMovement());

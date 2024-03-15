@@ -38,13 +38,14 @@
         },
         "maps/cafe.tmx": {
             "expandedObjectLayers": [
-                14
+                14,
+                16
             ],
             "scale": 4,
-            "selectedLayer": 5,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 110.5,
-                "y": 121.625
+                "x": 110,
+                "y": 121.125
             }
         },
         "maps/campus_east.tmx": {
@@ -57,43 +58,46 @@
         },
         "maps/cinema.tmx": {
             "scale": 3,
-            "selectedLayer": 8,
+            "selectedLayer": 13,
             "viewCenter": {
-                "x": 101,
-                "y": 103.83333333333331
+                "x": 100.66666666666664,
+                "y": 103.49999999999999
             }
         },
         "maps/compSci.tmx": {
             "expandedObjectLayers": [
-                12
+                12,
+                14
             ],
             "scale": 3.9979166666666663,
-            "selectedLayer": 8,
+            "selectedLayer": 10,
             "viewCenter": {
-                "x": 119.56227201667537,
-                "y": 37.64460656591975
+                "x": 119.06201146430433,
+                "y": 154.20531526836896
             }
         },
         "maps/home.tmx": {
             "expandedObjectLayers": [
+                17,
                 15
             ],
-            "scale": 2,
+            "scale": 5.5,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 212,
-                "y": 142.25
+                "x": 215.8181818181818,
+                "y": 145.1818181818182
             }
         },
         "maps/library.tmx": {
             "expandedObjectLayers": [
+                20,
                 17
             ],
             "scale": 4,
-            "selectedLayer": 15,
+            "selectedLayer": 18,
             "viewCenter": {
-                "x": 132.5,
-                "y": 78.375
+                "x": 132,
+                "y": 78.125
             }
         },
         "tilesets/cafe.tmx": {
