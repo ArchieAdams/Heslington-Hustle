@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eng1.heslingtonhustle.activities.Studying;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class RenderingManager {
     private Dialog dialog;
     private final CameraManager cameraManager;
     private final MapManager mapManager;
+    private final Stage uiStage;
 
 
     public RenderingManager( Stage stage, CameraManager cameraManager, MapManager mapManager) {
@@ -35,6 +37,8 @@ public class RenderingManager {
         shaderSetup();
         this.cameraManager = cameraManager;
         this.mapManager = mapManager;
+        this.uiStage = new Stage(new ScreenViewport(), batch);
+        GameUI gameUI = new GameUI(uiStage);
     }
 
     private void shaderSetup() {
@@ -58,6 +62,10 @@ public class RenderingManager {
         renderBuildings(buildings,playerMovement);
         renderPlayer(playerMovement);
         batch.end();
+
+        uiStage.act(Gdx.graphics.getDeltaTime());
+        uiStage.draw();
+        //uiStage.dispose();
     }
 
 
