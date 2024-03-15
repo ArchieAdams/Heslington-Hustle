@@ -26,7 +26,7 @@ public class Game extends ApplicationAdapter {
     public void create() {
         cameraManager = new CameraManager();
         MapManager mapManager = new MapManager();
-        BuildingManager buildingManager = new BuildingManager(mapManager);
+        BuildingManager buildingManager = new BuildingManager();
         stage = new Stage(cameraManager.getViewport());
 
         Vector2 spawn = new Vector2(4608, 960);

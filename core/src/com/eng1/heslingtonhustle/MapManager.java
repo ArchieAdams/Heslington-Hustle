@@ -99,7 +99,10 @@ public class MapManager {
         return mapPaths.get(mapName);
     }
 
-    public TiledMap getTiledMap() {
-        return tiledMap;
+
+    public void renderOverlay(OrthographicCamera camera, String layerName) {
+        int layerIndex = tiledMap.getLayers().getIndex(layerName);
+        mapRenderer.setView(camera);
+        mapRenderer.render(new int[] {layerIndex});
     }
 }

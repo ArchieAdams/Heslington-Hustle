@@ -1,6 +1,8 @@
 package com.eng1.heslingtonhustle;
 
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 
@@ -16,10 +18,8 @@ import static com.eng1.heslingtonhustle.Game.SCALE;
 public class BuildingManager {
 
     private final List<Building> campusBuildings;
-    private final MapManager mapManager;
 
-    public BuildingManager(MapManager mapManager) {
-        this.mapManager = mapManager;
+    public BuildingManager() {
         Map<String, Building> buildingMap = loadBuildingInfo();
         campusBuildings = createBuildings(buildingMap);
     }
@@ -40,7 +40,8 @@ public class BuildingManager {
 
     private List<Building> createBuildings(Map<String, Building> buildingMap) {
         List<Building> buildings = new ArrayList<>();
-        for (MapObject buildingCorner : (mapManager.getTiledMap().getLayers().get("buildingCorners").getObjects())){
+        TiledMap map = new TmxMapLoader().load("assets/maps/campus_east.tmx");
+        for (MapObject buildingCorner : (map.getLayers().get("buildingCorners").getObjects())){
             String id = (String) buildingCorner.getProperties().get("name");
             if (buildingMap.containsKey(id)){
                 float buildingX = Float.parseFloat(buildingCorner.getProperties().get("x").toString()) * SCALE;

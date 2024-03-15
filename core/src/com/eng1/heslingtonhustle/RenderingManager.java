@@ -53,8 +53,11 @@ public class RenderingManager {
         cameraManager.render(batch, mapManager,playerMovement.getPosition());
         batch.begin();
         renderBuildings(buildings,playerMovement);
+
         renderPlayer(playerMovement);
         batch.end();
+
+        mapManager.renderOverlay(cameraManager.getCamera(), "overlay");
 
         uiStage.act(Gdx.graphics.getDeltaTime());
         uiStage.draw();
@@ -69,10 +72,8 @@ public class RenderingManager {
             }
             if (building.inRange(player.getPosition())) {
                 outlineBuilding(building);
-                building.setOutlined(true);
             } else {
                 renderBuilding(building);
-                building.setOutlined(false);
             }
         }
         for(Building building:buildings){

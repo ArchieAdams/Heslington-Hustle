@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "maps/cinema.tmx",
+    "activeFile": "maps/campus_east.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -50,13 +50,14 @@
         },
         "maps/campus_east.tmx": {
             "expandedObjectLayers": [
+                23,
                 22
             ],
-            "scale": 0.75,
+            "scale": 5.5,
             "selectedLayer": 8,
             "viewCenter": {
                 "x": 800,
-                "y": 719.3333333333333
+                "y": 719.909090909091
             }
         },
         "maps/cinema.tmx": {
@@ -66,14 +67,14 @@
             "scale": 3,
             "selectedLayer": 13,
             "viewCenter": {
-                "x": 124.66666666666664,
-                "y": 21.833333333333314
+                "x": 120,
+                "y": 94.5
             }
         },
         "maps/compSci.tmx": {
             "expandedObjectLayers": [
-                14,
-                12
+                12,
+                14
             ],
             "scale": 3.9979166666666663,
             "selectedLayer": 10,
@@ -130,7 +131,7 @@
         },
         "tilesets/town.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1.5,
+            "scaleInDock": 4,
             "scaleInEditor": 3
         },
         "tilesets/uni_library_sign.tsx": {
@@ -162,14 +163,14 @@
     "project": "game_map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "maps/campus_east.tmx",
-        "maps/home.tmx",
-        "tilesets/interior.tsx",
-        "maps/cafe.tmx",
-        "maps/compSci.tmx",
-        "maps/library.tmx",
         "tilesets/town.tsx",
         "maps/cinema.tmx",
+        "maps/library.tmx",
+        "maps/compSci.tmx",
+        "maps/cafe.tmx",
+        "tilesets/interior.tsx",
+        "maps/home.tmx",
+        "maps/campus_east.tmx",
         "tilesets/nature.tsx",
         "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"
     ],

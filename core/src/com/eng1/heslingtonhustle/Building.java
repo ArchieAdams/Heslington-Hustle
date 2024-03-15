@@ -11,7 +11,7 @@ public class Building {
     private final TextureRegion textureRegion;
 
     private boolean isVisible = true;
-    private boolean isOutlined = false;
+
 
     public Building(BuildingInfo buildingInfo) {
         this.name = buildingInfo.name;
@@ -64,11 +64,4 @@ public class Building {
         this.isVisible = visible;
     }
 
-    public boolean isOutlined() {
-        return isOutlined;
-    }
-
-    public void setOutlined(boolean outlined) {
-        this.isOutlined = outlined;
-    }
 }
