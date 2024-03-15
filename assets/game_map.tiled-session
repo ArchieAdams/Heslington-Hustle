@@ -51,8 +51,8 @@
             "scale": 1,
             "selectedLayer": 10,
             "viewCenter": {
-                "x": 523,
-                "y": 70.5
+                "x": 800,
+                "y": 719.5
             }
         },
         "maps/cinema.tmx": {
@@ -78,11 +78,11 @@
             "expandedObjectLayers": [
                 15
             ],
-            "scale": 3,
-            "selectedLayer": 3,
+            "scale": 2,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 175.33333333333334,
-                "y": 102.49999999999999
+                "x": 214,
+                "y": 144.25
             }
         },
         "maps/library.tmx": {
@@ -146,9 +146,9 @@
     "project": "game_map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "maps/home.tmx",
         "tilesets/interior.tsx",
         "maps/campus_east.tmx",
-        "maps/home.tmx",
         "tilesets/town.tsx",
         "tilesets/nature.tsx",
         "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"

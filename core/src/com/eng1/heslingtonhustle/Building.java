@@ -10,6 +10,9 @@ public class Building {
     private Vector2 position;
     private final TextureRegion textureRegion;
 
+    private boolean isVisible = true;
+    private boolean isOutlined = false;
+
     public Building(BuildingInfo buildingInfo) {
         this.name = buildingInfo.name;
         this.textureRegion = SpriteSheet.getBuildingTextureRegion(
@@ -51,5 +54,20 @@ public class Building {
             X = position.x + ((float) (textureRegion.getRegionWidth() - 80) / 2) * 5;
         }
         return new Vector2(X,Y);
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+    public void setVisible(boolean visible) {
+        this.isVisible = visible;
+    }
+
+    public boolean isOutlined() {
+        return isOutlined;
+    }
+
+    public void setOutlined(boolean outlined) {
+        this.isOutlined = outlined;
     }
 }

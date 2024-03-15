@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="16" nextobjectid="16">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="22">
  <tileset firstgid="1" source="../tilesets/interior.tsx"/>
  <layer id="1" name="floor" width="20" height="10">
   <data encoding="csv">
@@ -113,9 +113,27 @@
   <object id="11" x="-0.333333" y="13.3333" width="4.33333" height="147.333"/>
   <object id="12" x="314" y="10.3333" width="5.33333" height="149"/>
   <object id="13" x="63.6667" y="33.3333" width="58" height="30.3333"/>
-  <object id="14" x="88" y="63.6667" width="33" height="32"/>
+  <object id="14" x="88" y="79.6667" width="33" height="16"/>
   <object id="15" x="1.66667" y="160.333" width="318.333" height="7.66667"/>
+  <object id="17" x="305" y="49" width="12" height="14.5"/>
  </objectgroup>
+ <objectgroup id="17" name="exit">
+  <object id="21" x="195" y="131" width="42" height="29"/>
+ </objectgroup>
+ <layer id="16" name="door" width="20" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,25924,25925,25926,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,26194,26195,26196,0,0,0,0,0
+</data>
+ </layer>
  <layer id="4" name="curtains" width="20" height="10">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

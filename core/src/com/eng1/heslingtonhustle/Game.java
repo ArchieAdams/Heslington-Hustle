@@ -6,14 +6,9 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.google.gson.Gson;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Game extends ApplicationAdapter {
 
@@ -24,39 +19,25 @@ public class Game extends ApplicationAdapter {
     private Stage stage;
     private RenderingManager renderingManager;
     private CameraManager cameraManager;
+    private GameManager gameManager;
 
-    private static Map<String, Building> loadBuildingInfo() {
-        Gson gson = new Gson();
-        Map<String, Building> buildingMap = new HashMap<>();
-        try (FileReader reader = new FileReader("assets/buildings.json")) {
-            BuildingInfo[] buildingInfos = gson.fromJson(reader, BuildingInfo[].class);
-            for (BuildingInfo buildingInfo : buildingInfos) {
-                buildingMap.put(buildingInfo.id, new Building(buildingInfo));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return buildingMap;
-    }
 
     @Override
     public void create() {
         cameraManager = new CameraManager();
         MapManager mapManager = new MapManager();
+        BuildingManager buildingManager = new BuildingManager(mapManager);
         stage = new Stage(cameraManager.getViewport());
 
         Vector2 spawn = new Vector2(4608, 960);
         playerManager = new PlayerManager(spawn, 320);
         playerManager.getMovement().setCollidableTiles(mapManager.getCollidableTiles());
 
-        renderingManager = new RenderingManager(stage, cameraManager, mapManager, playerManager);
-
-
-
         inputSetup();
 
-        Map<String, Building> buildingMap = loadBuildingInfo();
-        buildings = mapManager.createBuildings(buildingMap);
+        buildings = buildingManager.getCampusBuildings();
+        gameManager = new GameManager(stage, cameraManager, mapManager, playerManager, buildingManager);
+        renderingManager = new RenderingManager(stage, cameraManager, mapManager, playerManager, buildingManager);
     }
 
 
@@ -78,8 +59,10 @@ public class Game extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        playerManager.getMovement().update(Gdx.graphics.getDeltaTime());
+        float deltaTime = Gdx.graphics.getDeltaTime();
 
+        playerManager.getMovement().update(deltaTime);
+        gameManager.update(deltaTime);
         renderingManager.render(buildings, playerManager.getMovement());
         stage.act();
         stage.draw();

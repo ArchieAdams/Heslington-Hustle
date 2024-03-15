@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -32,10 +33,12 @@ public class RenderingManager {
 
     private final PlayerManager playerManager;
 
+    private final BuildingManager buildingManager;
+
     private Vector2 respawnLocation;
 
 
-    public RenderingManager( Stage stage, CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager ) {
+    public RenderingManager( Stage stage, CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager) {
         this.batch = new SpriteBatch();
         this.stage = stage;
         shaderSetup();
@@ -44,6 +47,7 @@ public class RenderingManager {
         this.uiStage = new Stage(new ScreenViewport(), batch);
         GameUI gameUI = new GameUI(uiStage);
         this.playerManager = playerManager;
+        this.buildingManager = buildingManager;
     }
 
     private void shaderSetup() {
@@ -77,21 +81,31 @@ public class RenderingManager {
     private void renderBuildings(List<Building> buildings,Movement player) {
 
         for (Building building : buildings) {
+            if (!building.isVisible()) {
+                continue;
+            }
             if (building.inRange(player.getPosition())) {
                 outlineBuilding(building);
+                building.setOutlined(true);
                 interactWithBuilding(building,player);
             } else {
                 renderBuilding(building);
+                building.setOutlined(false);
             }
         }
 
 
         for(Building building:buildings){
+            if(!building.isVisible()){
+                continue;
+            }
             Vector2 interactSpot =  building.getInteractSpot();
 
             batch.draw(SpriteSheet.getDebug(),interactSpot.x,interactSpot.y,32*SCALE,32*SCALE);
         }
     }
+
+
 
     private void createDialog(Building building) {
         Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
@@ -118,7 +132,6 @@ public class RenderingManager {
         if (player.getPlayerState().isINTERACTING()) {
             player.getPlayerState().stopInteracting();
             createDialog(building);
-            System.out.println(building.getName());
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
@@ -134,7 +147,7 @@ public class RenderingManager {
         renderTexture(building.getTextureRegion(), building.getPosition());
     }
 
-    private void outlineBuilding(Building building) {
+    public void outlineBuilding(Building building) {
         TextureRegion textureRegion = building.getTextureRegion();
         Vector2 position = building.getPosition();
         float scaleX = SCALE + (SCALE / 40f);
@@ -183,6 +196,16 @@ public class RenderingManager {
         String newMapPath = mapManager.getMapPath(buildingName);
         mapManager.changeMap(newMapPath);
         respawnLocation = playerManager.getPosition();
+        buildingManager.makeBuildingsDisappear();
         playerManager.movement.setPosition(new Vector2(400, 100));
+    }
+
+    private boolean isPlayerInExitZone(Vector2 position) {
+        for (Rectangle exitZone : mapManager.getExitTiles()) {
+            if (exitZone.contains(position.x, position.y)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
