@@ -51,8 +51,8 @@
             "scale": 1,
             "selectedLayer": 10,
             "viewCenter": {
-                "x": 523,
-                "y": 70.5
+                "x": 800,
+                "y": 719.5
             }
         },
         "maps/cinema.tmx": {
@@ -78,11 +78,11 @@
             "expandedObjectLayers": [
                 15
             ],
-            "scale": 3,
-            "selectedLayer": 3,
+            "scale": 2,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 175.33333333333334,
-                "y": 102.49999999999999
+                "x": 212.5,
+                "y": 142.75
             }
         },
         "maps/library.tmx": {
