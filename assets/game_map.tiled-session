@@ -53,11 +53,11 @@
                 23,
                 22
             ],
-            "scale": 5.5,
-            "selectedLayer": 8,
+            "scale": 0.75,
+            "selectedLayer": 19,
             "viewCenter": {
-                "x": 800,
-                "y": 719.909090909091
+                "x": 700,
+                "y": 1008.6666666666667
             }
         },
         "maps/cinema.tmx": {
@@ -89,10 +89,10 @@
                 17
             ],
             "scale": 5.5,
-            "selectedLayer": 8,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 162.90909090909093,
-                "y": 81.9090909090909
+                "x": 100.18181818181817,
+                "y": 10.818181818181827
             }
         },
         "maps/library.tmx": {
