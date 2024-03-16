@@ -53,11 +53,11 @@
                 23,
                 22
             ],
-            "scale": 5.5,
-            "selectedLayer": 8,
+            "scale": 0.75,
+            "selectedLayer": 19,
             "viewCenter": {
-                "x": 800,
-                "y": 719.909090909091
+                "x": 700,
+                "y": 1008.6666666666667
             }
         },
         "maps/cinema.tmx": {
@@ -86,13 +86,14 @@
         "maps/home.tmx": {
             "expandedObjectLayers": [
                 15,
-                17
+                17,
+                18
             ],
             "scale": 5.5,
-            "selectedLayer": 8,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 162.90909090909093,
-                "y": 81.9090909090909
+                "x": 99.99999999999999,
+                "y": 117.18181818181819
             }
         },
         "maps/library.tmx": {
@@ -163,14 +164,14 @@
     "project": "game_map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "maps/campus_east.tmx",
+        "maps/home.tmx",
         "tilesets/town.tsx",
         "maps/cinema.tmx",
         "maps/library.tmx",
         "maps/compSci.tmx",
         "maps/cafe.tmx",
         "tilesets/interior.tsx",
-        "maps/home.tmx",
-        "maps/campus_east.tmx",
         "tilesets/nature.tsx",
         "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"
     ],
