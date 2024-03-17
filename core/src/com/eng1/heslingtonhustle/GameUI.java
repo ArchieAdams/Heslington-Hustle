@@ -22,15 +22,15 @@ public class GameUI {
     public GameUI(Stage uiStage) {
         this.uiStage = uiStage;
         this.energy = new Energy();
-        xpBackground = new Texture(Gdx.files.internal("assets/skin/craftacular/raw/xp-bg.png"));
-        xpFill = new Texture(Gdx.files.internal("assets/skin/craftacular/raw/xp.png"));
+        xpBackground = new Texture(Gdx.files.internal("skin/craftacular/raw/xp-bg.png"));
+        xpFill = new Texture(Gdx.files.internal("skin/craftacular/raw/xp.png"));
         progressBar = new ProgressBar(0, 100, 0.01f, false, new ProgressBar.ProgressBarStyle());
 
         initUI();
     }
 
     private void initUI() {
-        Skin skin = new Skin(Gdx.files.internal("assets/skin/craftacular/skin/craftacular-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/craftacular/skin/craftacular-ui.json"));
 
         Label energyLabel = new Label("Energy: ", skin);
 

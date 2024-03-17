@@ -94,7 +94,7 @@ public class RenderingManager {
     }
 
     private void createDialog(Building building) {
-        Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
         String buildingToEnter = building.getName();
         dialog = new Dialog("Are you sure you want to go to " + buildingToEnter + "?", skin) {
             public void result(Object obj) {
