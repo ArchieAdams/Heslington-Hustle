@@ -33,6 +33,8 @@ public class GameUI {
         Skin skin = new Skin(Gdx.files.internal("assets/skin/craftacular/skin/craftacular-ui.json"));
 
         Label energyLabel = new Label("Energy: ", skin);
+        Label dayLabel = new Label("Day: ", skin);
+        Label timeLabel = new Label("Time: ", skin);
 
         TextureRegionDrawable backgroundDrawable = new TextureRegionDrawable(xpBackground);
         backgroundDrawable.setMinWidth(400);
@@ -57,6 +59,10 @@ public class GameUI {
 
         table.add(energyLabel).padTop(padTop).padRight(5);
         table.add(progressBar).width(400).height(50).padTop(padTop).padRight(padRight);
+        table.row();
+        table.add(dayLabel).padTop(padTop).padRight(5);
+        table.row();
+        table.add(timeLabel).padTop(padTop).padRight(5);
 
         uiStage.addActor(table);
     }
