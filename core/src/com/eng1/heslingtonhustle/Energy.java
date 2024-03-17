@@ -10,11 +10,14 @@ public class Energy {
         return level;
     }
 
-    public void setLevel(int energyUsed) {
+
+    public boolean useEnergy(int energyUsed) {
         int min = 0;
-        if (level - energyUsed >= min) {
+        boolean canBeDone = level - energyUsed >= min;
+        if (canBeDone) {
             this.level = level - energyUsed;
         }
+        return canBeDone;
     }
 
     public void reset() {

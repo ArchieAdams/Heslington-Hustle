@@ -42,7 +42,7 @@ public class Game extends ApplicationAdapter {
 
         buildings = buildingManager.getCampusBuildings();
         gameManager = new GameManager(stage, mapManager, playerManager, buildingManager);
-        renderingManager = new RenderingManager(cameraManager, mapManager);
+        renderingManager = new RenderingManager(cameraManager, mapManager, playerManager);
     }
 
 

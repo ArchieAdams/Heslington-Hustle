@@ -1,5 +1,7 @@
 package com.eng1.heslingtonhustle.activities;
 
+import com.eng1.heslingtonhustle.PlayerManager;
+
 public abstract class Activity {
     protected int durationHours;
     protected int energyUsagePercent;
@@ -18,6 +20,15 @@ public abstract class Activity {
         return energyUsagePercent;
     }
 
-    public abstract void perform();
+    public boolean perform(PlayerManager playerManager) {
+        if (!playerManager.performActivity(energyUsagePercent)) {
+            return false;
+        }
+        onPerform(playerManager);
+        return true;
+    }
+
+
+    public abstract void onPerform(PlayerManager playerManager);
 }
 

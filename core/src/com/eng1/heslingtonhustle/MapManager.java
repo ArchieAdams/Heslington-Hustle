@@ -38,7 +38,7 @@ public class MapManager {
         mapPaths.put("Campus", "maps/campus_east.tmx");
     }
 
-    }
+
 
     private void parseCollidableTiles() {
         MapObjects objects = tiledMap.getLayers().get("collisions").getObjects();
@@ -113,3 +113,4 @@ public class MapManager {
         }
     }
 }
+

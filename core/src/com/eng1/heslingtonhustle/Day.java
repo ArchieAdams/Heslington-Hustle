@@ -7,6 +7,10 @@ import java.util.List;
 
 public class Day {
     private final List<Activity> activities;
+    private int studySessions;
+    private int eaten;
+    private int relaxed;
+
 
     public Day() {
         activities = new ArrayList<>();
@@ -30,6 +34,30 @@ public class Day {
             totalEnergyUsage += activity.getEnergyUsagePercent();
         }
         return totalEnergyUsage;
+    }
+
+    public void studied() {
+        studySessions++;
+    }
+
+    public void eaten() {
+        eaten++;
+    }
+
+    public void relaxed() {
+        relaxed++;
+    }
+
+    public int getStudySessions() {
+        return studySessions;
+    }
+
+    public int getEaten() {
+        return eaten;
+    }
+
+    public int getRelaxed() {
+        return relaxed;
     }
 }
 

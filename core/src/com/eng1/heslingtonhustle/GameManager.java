@@ -9,7 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
-import com.eng1.heslingtonhustle.activities.Studying;
+import com.eng1.heslingtonhustle.activities.Activity;
+import com.eng1.heslingtonhustle.activities.Study;
 
 import java.util.List;
 
@@ -20,14 +21,16 @@ public class GameManager {
     private final MapManager mapManager;
     private final PlayerManager playerManager;
     private final BuildingManager buildingManager;
-    private final Day day = new Day();
+    private Day day = new Day();
     private Vector2 respawnLocation;
+    private GameUI gameUI;
 
     public GameManager(Stage stage, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager) {
         this.stage = stage;
         this.mapManager = mapManager;
         this.playerManager = playerManager;
         this.buildingManager = buildingManager;
+        playerManager.setCurrentDay(day);
     }
 
     public Building checkForBuildingInRange() {
@@ -57,21 +60,27 @@ public class GameManager {
     }
 
     private Dialog createDialog(Building building) {
-        Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
         String buildingToEnter = building.getName();
         Dialog dialog = new Dialog("Are you sure you want to go to " + buildingToEnter + "?", skin) {
             public void result(Object obj) {
                 System.out.println("result " + obj);
                 if ((boolean) obj) {
-                    day.addActivity(new Studying());
+                    Activity buildingActivity = building.getActivity();
+                    boolean perform = buildingActivity.perform(playerManager);
+                    if(perform){
+                        day = playerManager.getDay();
+                        day.addActivity(buildingActivity);
+                    }
                     System.out.println(day.getTotalDuration());
                     System.out.println(day.getTotalEnergyUsage());
-                    enterBuilding(buildingToEnter);
+                    System.out.println(day.getStudySessions());
+                    //enterBuilding(buildingToEnter);
                 }
             }
         };
 
-        dialog.text("It will take X time and use X% of your energy");
+        dialog.text("It will take "+building.getActivity().getDurationHours()+" hours and use "+building.getActivity().getEnergyUsagePercent()+"% of your energy");
         dialog.button("Yes", true);
         dialog.button("No", false);
         return dialog;

@@ -19,9 +19,9 @@ public class GameUI {
     private final Energy energy;
 
 
-    public GameUI(Stage uiStage) {
+    public GameUI(Stage uiStage,Energy energy) {
         this.uiStage = uiStage;
-        this.energy = new Energy();
+        this.energy = energy;
         xpBackground = new Texture(Gdx.files.internal("skin/craftacular/raw/xp-bg.png"));
         xpFill = new Texture(Gdx.files.internal("skin/craftacular/raw/xp.png"));
         progressBar = new ProgressBar(0, 100, 0.01f, false, new ProgressBar.ProgressBarStyle());
@@ -33,6 +33,9 @@ public class GameUI {
         Skin skin = new Skin(Gdx.files.internal("skin/craftacular/skin/craftacular-ui.json"));
 
         Label energyLabel = new Label("Energy: ", skin);
+        Label dayLabel = new Label("Day: ", skin);
+        Label timeLabel = new Label("Time: ", skin);
+
 
         TextureRegionDrawable backgroundDrawable = new TextureRegionDrawable(xpBackground);
         backgroundDrawable.setMinWidth(400);
@@ -55,10 +58,22 @@ public class GameUI {
         float padTop = 40f;
         float padRight = 30f;
 
+
         table.add(energyLabel).padTop(padTop).padRight(5);
+
         table.add(progressBar).width(400).height(50).padTop(padTop).padRight(padRight);
 
+
         uiStage.addActor(table);
+
+        Table table2 = new Table();
+        table2.setFillParent(true);
+        table2.top().left();
+
+
+        table2.top().left().add(dayLabel).padTop(40).padLeft(30);
+        table2.top().left().add(timeLabel).padTop(40).padLeft(50);
+        uiStage.addActor(table2);
     }
 
     public void updateProgressBar() {

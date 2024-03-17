@@ -8,14 +8,20 @@ import java.util.List;
 import java.util.Set;
 
 public class PlayerManager {
-    private int energy;
+    private Energy energy;
     public final Movement movement;
-    private Set<Building> buildingsInRange;
 
     private final List<Day> week = new ArrayList<>();
 
+    private Day currentDay;
+
     public PlayerManager(Vector2 position, float speed) {
         movement = new Movement(position, speed);
+        energy = new Energy();
+    }
+
+    public void setCurrentDay(Day currentDay) {
+        this.currentDay = currentDay;
     }
 
     public State getState(){
@@ -36,5 +42,35 @@ public class PlayerManager {
 
     public void respawn(Vector2 position) {
 
+    }
+
+    public void increaseStudyScore() {
+        currentDay.studied();
+    }
+
+    public void eat(){
+        currentDay.eaten();
+    }
+
+    public void relaxed(){
+        currentDay.relaxed();
+    }
+
+    public void sleep(){
+        week.add(currentDay);
+        currentDay = new Day();
+        energy.reset();
+    }
+
+    public boolean performActivity(int energyCost) {
+        return energy.useEnergy(energyCost);
+    }
+
+    public Energy getEnergy() {
+        return energy;
+    }
+
+    public Day getDay() {
+        return currentDay;
     }
 }
