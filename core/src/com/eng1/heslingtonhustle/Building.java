@@ -24,7 +24,6 @@ public class Building {
         this.position = position;
     }
 
-    //TODO Move to Position object
     private static boolean between(float variable, float minValueInclusive, float maxValueInclusive) {
         return variable >= minValueInclusive && variable <= maxValueInclusive;
     }
