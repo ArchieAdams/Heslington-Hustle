@@ -10,6 +10,9 @@ public class Building {
     private Vector2 position;
     private final TextureRegion textureRegion;
 
+    private boolean isVisible = true;
+
+
     public Building(BuildingInfo buildingInfo) {
         this.name = buildingInfo.name;
         this.textureRegion = SpriteSheet.getBuildingTextureRegion(
@@ -31,6 +34,7 @@ public class Building {
                 between(playerPosition.y, getInteractSpot().y, getInteractSpot().y+32*5);
     }
 
+
     public TextureRegion getTextureRegion() {
         return textureRegion;
     }
@@ -51,4 +55,12 @@ public class Building {
         }
         return new Vector2(X,Y);
     }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+    public void setVisible(boolean visible) {
+        this.isVisible = visible;
+    }
+
 }

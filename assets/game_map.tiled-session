@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "maps/home.tmx",
+    "activeFile": "maps/campus_east.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -38,62 +38,73 @@
         },
         "maps/cafe.tmx": {
             "expandedObjectLayers": [
-                14
+                14,
+                16
             ],
             "scale": 4,
-            "selectedLayer": 5,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 110.5,
-                "y": 121.625
+                "x": 118.5,
+                "y": 93.375
             }
         },
         "maps/campus_east.tmx": {
-            "scale": 1,
-            "selectedLayer": 10,
+            "expandedObjectLayers": [
+                23,
+                22
+            ],
+            "scale": 0.75,
+            "selectedLayer": 19,
             "viewCenter": {
-                "x": 800,
-                "y": 719.5
+                "x": 700,
+                "y": 1008.6666666666667
             }
         },
         "maps/cinema.tmx": {
+            "expandedObjectLayers": [
+                15
+            ],
             "scale": 3,
-            "selectedLayer": 8,
+            "selectedLayer": 13,
             "viewCenter": {
-                "x": 101,
-                "y": 103.83333333333331
+                "x": 120,
+                "y": 94.5
             }
         },
         "maps/compSci.tmx": {
             "expandedObjectLayers": [
-                12
+                12,
+                14
             ],
             "scale": 3.9979166666666663,
-            "selectedLayer": 8,
+            "selectedLayer": 10,
             "viewCenter": {
-                "x": 119.56227201667537,
-                "y": 37.64460656591975
+                "x": 123.31422615945806,
+                "y": 98.42626367899948
             }
         },
         "maps/home.tmx": {
             "expandedObjectLayers": [
-                15
+                15,
+                17
             ],
-            "scale": 2,
-            "selectedLayer": 8,
+            "scale": 5.5,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 212.5,
-                "y": 142.75
+                "x": 100.18181818181817,
+                "y": 10.818181818181827
             }
         },
         "maps/library.tmx": {
             "expandedObjectLayers": [
+                20,
                 17
             ],
             "scale": 4,
-            "selectedLayer": 15,
+            "selectedLayer": 18,
             "viewCenter": {
-                "x": 132.5,
-                "y": 78.375
+                "x": 128,
+                "y": 70.125
             }
         },
         "tilesets/cafe.tmx": {
@@ -120,8 +131,8 @@
         },
         "tilesets/town.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 0.75,
-            "scaleInEditor": 1
+            "scaleInDock": 4,
+            "scaleInEditor": 3
         },
         "tilesets/uni_library_sign.tsx": {
             "scaleInDock": 1
@@ -130,6 +141,7 @@
             "scaleInDock": 1
         }
     },
+    "frame.defaultDuration": 100,
     "last.externalTilesetPath": "C:/Users/mitch/IdeaProjects/Heslington-Hustle/assets/tilesets",
     "last.imagePath": "C:/Users/mitch/IdeaProjects/Heslington-Hustle/assets/images",
     "map.height": 12,
@@ -141,15 +153,24 @@
     "openFiles": [
         "maps/campus_east.tmx",
         "maps/home.tmx",
-        "tilesets/interior.tsx"
+        "tilesets/interior.tsx",
+        "maps/cafe.tmx",
+        "maps/compSci.tmx",
+        "maps/library.tmx",
+        "maps/cinema.tmx",
+        "tilesets/town.tsx"
     ],
     "project": "game_map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "tilesets/interior.tsx",
-        "maps/campus_east.tmx",
-        "maps/home.tmx",
         "tilesets/town.tsx",
+        "maps/cinema.tmx",
+        "maps/library.tmx",
+        "maps/compSci.tmx",
+        "maps/cafe.tmx",
+        "tilesets/interior.tsx",
+        "maps/home.tmx",
+        "maps/campus_east.tmx",
         "tilesets/nature.tsx",
         "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"
     ],

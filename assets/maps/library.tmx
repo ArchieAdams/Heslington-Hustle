@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="12">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="21" nextobjectid="13">
  <tileset firstgid="1" source="../tilesets/town.tsx"/>
+ <tileset firstgid="28249" source="../tilesets/interior.tsx"/>
  <layer id="1" name="floor" width="16" height="10">
   <data encoding="csv">
 12758,12759,12758,12759,12758,12759,12758,12759,12758,12759,12758,12759,12758,12759,12758,12759,
@@ -238,4 +239,21 @@
 12240,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12238
 </data>
  </layer>
+ <layer id="19" name="door" width="16" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,55810,55811,55812,0,0,0,0,0,0,0,0,
+0,0,0,0,0,56080,56081,56082,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="20" name="exit">
+  <object id="12" x="87" y="132" width="32.25" height="27.5"/>
+ </objectgroup>
 </map>

@@ -33,4 +33,8 @@ public class PlayerManager {
     public Movement getMovement(){
         return movement;
     }
+
+    public void respawn(Vector2 position) {
+
+    }
 }

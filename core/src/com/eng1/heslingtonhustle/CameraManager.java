@@ -37,4 +37,8 @@ public class CameraManager {
 
         batch.setProjectionMatrix(camera.combined);
     }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
 }

@@ -8,11 +8,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -23,9 +20,12 @@ public class MapManager {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Array<Rectangle> collidableTiles = new Array<>();
     private final Map<String, String> mapPaths;
+    private final Array<Rectangle> exitTiles = new Array<>();
+    private final String defaultMapPath = "maps/campus_east.tmx";
+    private String currentMapPath = "maps/campus_east.tmx";
 
     public MapManager() {
-        tiledMap = new TmxMapLoader().load("maps/campus_east.tmx");
+        tiledMap = new TmxMapLoader().load(defaultMapPath);
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
         parseCollidableTiles();
 
@@ -38,20 +38,8 @@ public class MapManager {
         mapPaths.put("Campus", "maps/campus_east.tmx");
     }
 
-    public List<Building> createBuildings(Map<String, Building> buildingMap) {
-        List<Building> buildings = new ArrayList<>();
-        for (MapObject buildingCorner : (tiledMap.getLayers().get("buildingCorners").getObjects())){
-            String id = (String) buildingCorner.getProperties().get("name");
-            if (buildingMap.containsKey(id)){
-                float buildingX = Float.parseFloat(buildingCorner.getProperties().get("x").toString()) * SCALE;
-                float buildingY =  Float.parseFloat(buildingCorner.getProperties().get("y").toString()) * SCALE;
-                Building building = buildingMap.get(id);
-                building.setPosition(new Vector2(buildingX,buildingY));
-                buildings.add(building);
-            }
-        }
-        return buildings;
     }
+
     private void parseCollidableTiles() {
         MapObjects objects = tiledMap.getLayers().get("collisions").getObjects();
         for (MapObject object : objects) {
@@ -63,8 +51,25 @@ public class MapManager {
         }
     }
 
+    private void parseExitTiles() {
+        if(tiledMap.getLayers().get("exit") != null) {
+            MapObjects objects = tiledMap.getLayers().get("exit").getObjects();
+            for (MapObject object : objects) {
+                if (object instanceof RectangleMapObject) {
+                    RectangleMapObject rectObject = (RectangleMapObject) object;
+                    Rectangle rect = rectObject.getRectangle();
+                    exitTiles.add(new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE));
+                }
+            }
+        }
+    }
+
     public Array<Rectangle> getCollidableTiles() {
         return collidableTiles;
+    }
+
+    public Array<Rectangle> getExitTiles() {
+        return exitTiles;
     }
 
     public void render(OrthographicCamera camera) {
@@ -76,7 +81,20 @@ public class MapManager {
         if (tiledMap != null) {
             tiledMap.dispose();
         }
+        currentMapPath = newMapPath;
         tiledMap = new TmxMapLoader().load(newMapPath);
+        mapRenderer.setMap(tiledMap);
+        collidableTiles.clear();
+        parseCollidableTiles();
+        parseExitTiles();
+    }
+
+    public void changeMap() {
+        if (tiledMap!= null) {
+            tiledMap.dispose();
+        }
+        tiledMap = new TmxMapLoader().load(defaultMapPath);
+        currentMapPath = defaultMapPath;
         mapRenderer.setMap(tiledMap);
         collidableTiles.clear();
         parseCollidableTiles();
@@ -84,5 +102,14 @@ public class MapManager {
 
     public String getMapPath(String mapName) {
         return mapPaths.get(mapName);
+    }
+
+
+    public void renderOverlay(OrthographicCamera camera, String layerName) {
+        if (currentMapPath.equals(defaultMapPath)) {
+            int layerIndex = tiledMap.getLayers().getIndex(layerName);
+            mapRenderer.setView(camera);
+            mapRenderer.render(new int[] {layerIndex});
+        }
     }
 }
