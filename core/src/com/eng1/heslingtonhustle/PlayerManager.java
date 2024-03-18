@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public class PlayerManager {
-    private Energy energy;
+    private final Energy energy = new Energy();
     public final Movement movement;
 
     private final List<Day> week = new ArrayList<>();
@@ -17,7 +17,7 @@ public class PlayerManager {
 
     public PlayerManager(Vector2 position, float speed) {
         movement = new Movement(position, speed);
-        energy = new Energy();
+
     }
 
     public void setCurrentDay(Day currentDay) {
@@ -40,9 +40,6 @@ public class PlayerManager {
         return movement;
     }
 
-    public void respawn(Vector2 position) {
-
-    }
 
     public void increaseStudyScore() {
         currentDay.studied();

@@ -6,7 +6,7 @@ public class Energy {
     public Energy() {
     }
 
-    public int getLevel() {
+    public int getEnergyLevel() {
         return level;
     }
 

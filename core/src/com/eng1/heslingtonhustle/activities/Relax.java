@@ -4,7 +4,7 @@ import com.eng1.heslingtonhustle.PlayerManager;
 
 public class Relax extends Activity {
     public Relax() {
-        super("Relax", 1, 5);
+        super("relax", 1, 5);
     }
 
     @Override

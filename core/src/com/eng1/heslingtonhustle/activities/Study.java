@@ -9,6 +9,7 @@ public class Study extends Activity {
 
     @Override
     public void onPerform(PlayerManager playerManager){
-        playerManager.increaseStudyScore();
+        //playerManager.increaseStudyScore();
+        playerManager.getEnergy().useEnergy(energyUsagePercent);
     }
 }

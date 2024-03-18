@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.List;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class RenderingManager {
 
@@ -32,7 +31,7 @@ public class RenderingManager {
         this.cameraManager = cameraManager;
         this.mapManager = mapManager;
         this.uiStage = new Stage(new ScreenViewport(), batch);
-        this.gameUI = new GameUI(uiStage,playerManager.getEnergy());
+        this.gameUI = new GameUI(uiStage,playerManager);
     }
 
     private void shaderSetup() {
@@ -131,6 +130,10 @@ public class RenderingManager {
         Vector2 playerPosition = playerMovement.getPosition();
         float PLAYER_SIZE = 32*SCALE;
         batch.draw(currentFrame, (playerPosition.x - PLAYER_SIZE / 2f), (playerPosition.y - PLAYER_SIZE / 2f) + 60, PLAYER_SIZE, PLAYER_SIZE);
+    }
+
+    GameUI getGameUI() {
+        return gameUI;
     }
 
 }

@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.eng1.heslingtonhustle.activities.Activity;
 
 public class ActivityTile {
-    private Rectangle rectangle;
-    private Activity activity;
+    private final Rectangle rectangle;
+    private final Activity activity;
 
     public ActivityTile(Rectangle rectangle, Activity activity) {
         this.rectangle = rectangle;

@@ -81,7 +81,6 @@ public class MapManager {
 
                     if (activity != null) {
                         activityTiles.add(new ActivityTile(scaledRect, activity));
-                        System.out.println("worked");
                     }
                 }
             }

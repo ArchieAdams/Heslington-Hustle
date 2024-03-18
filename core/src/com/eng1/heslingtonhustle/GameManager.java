@@ -26,11 +26,14 @@ public class GameManager {
     private Vector2 respawnLocation;
     private boolean playerInBuilding = false;
 
-    public GameManager(Stage stage, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager) {
+    private final RenderingManager renderingManager;
+
+    public GameManager(Stage stage, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager, RenderingManager renderManager) {
         this.stage = stage;
         this.mapManager = mapManager;
         this.playerManager = playerManager;
         this.buildingManager = buildingManager;
+        this.renderingManager = renderManager;
     }
 
     public Building checkForBuildingInRange() {
@@ -111,7 +114,6 @@ public class GameManager {
     private ActivityTile playerInActivityZone(Vector2 position) {
         for (ActivityTile activityZone : mapManager.getActivityTiles()) {
             if (activityZone.getRectangle().contains(position.x, position.y)) {
-                System.out.println("in zone");
                 return activityZone;
             }
         }
@@ -124,16 +126,21 @@ public class GameManager {
             Vector2 playerPosition = playerManager.getPosition();
             Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
             Activity activity = activityTile.getActivity();
-            Dialog dialog = new Dialog("Would you like to...", skin) {
+            Dialog dialog = new Dialog("Activity", skin) {
                 @Override
                 protected void result(Object object) {
                     System.out.println("Choice" + object);
+                    boolean choice = (Boolean) object;
+                    if (choice) {
+                        activity.onPerform(playerManager);
+                    }
                 }
             };
             String activityName = activity.getName();
             int timeUsed = activity.getDurationHours();
             int energyUsed = activity.getEnergyUsagePercent();
-            dialog.text(activityName + " will take " + timeUsed + " hours and use " + energyUsed + "% of your energy");
+            dialog.text("Would you like to " + activityName + "? \n" +
+                    activityName + "ing will take " + timeUsed + " hours and use " + energyUsed + "% of your energy");
             dialog.button("Yes", true);
             dialog.button("No", false);
             dialog.show(stage);
@@ -163,6 +170,7 @@ public class GameManager {
             ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
             if (activityTile != null) {
                 askToDoActivity(activityTile);
+                renderingManager.getGameUI().updateProgressBar();
             }
         }
     }

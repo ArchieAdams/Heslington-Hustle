@@ -6,14 +6,9 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.google.gson.Gson;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Game extends ApplicationAdapter {
 
@@ -41,8 +36,8 @@ public class Game extends ApplicationAdapter {
         inputSetup();
 
         buildings = buildingManager.getCampusBuildings();
-        gameManager = new GameManager(stage, mapManager, playerManager, buildingManager);
         renderingManager = new RenderingManager(cameraManager, mapManager, playerManager);
+        gameManager = new GameManager(stage, mapManager, playerManager, buildingManager, renderingManager);
     }
 
 
