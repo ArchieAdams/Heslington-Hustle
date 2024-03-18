@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
+import com.eng1.heslingtonhustle.activities.Activity;
 import com.eng1.heslingtonhustle.activities.Study;
 
 
@@ -122,14 +123,17 @@ public class GameManager {
             playerManager.getState().stopInteracting();
             Vector2 playerPosition = playerManager.getPosition();
             Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
-            String activityName = activityTile.getActivity().getName();
-            Dialog dialog = new Dialog("Would you like to..." + activityName, skin) {
+            Activity activity = activityTile.getActivity();
+            Dialog dialog = new Dialog("Would you like to...", skin) {
                 @Override
                 protected void result(Object object) {
                     System.out.println("Choice" + object);
                 }
             };
-
+            String activityName = activity.getName();
+            int timeUsed = activity.getDurationHours();
+            int energyUsed = activity.getEnergyUsagePercent();
+            dialog.text(activityName + " will take " + timeUsed + " hours and use " + energyUsed + "% of your energy");
             dialog.button("Yes", true);
             dialog.button("No", false);
             dialog.show(stage);
@@ -139,7 +143,7 @@ public class GameManager {
                 public void run() {
                     dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
                     dialog.setPosition(playerPosition.x - 175, playerPosition.y + 50);
-                    dialog.setSize(350, 100);
+                    dialog.setSize(450, 100);
                 }
             }, 0);
         }
@@ -158,7 +162,6 @@ public class GameManager {
             }
             ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
             if (activityTile != null) {
-                System.out.println("Running");
                 askToDoActivity(activityTile);
             }
         }
