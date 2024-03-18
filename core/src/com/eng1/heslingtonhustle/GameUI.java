@@ -62,9 +62,7 @@ public class GameUI {
         float padTop = 40f;
         float padRight = 30f;
 
-
         table.add(energyLabel).padTop(padTop).padRight(5);
-
         table.add(progressBar).width(400).height(50).padTop(padTop).padRight(padRight);
         table.row();
         table.add(dayLabel).padTop(padTop).padRight(5);
@@ -72,8 +70,6 @@ public class GameUI {
         table.add(timeLabel).padTop(padTop).padRight(5);
 
         uiStage.addActor(table);
-
-
     }
 
     public void updateProgressBar() {
