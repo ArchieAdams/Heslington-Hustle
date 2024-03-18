@@ -127,6 +127,4 @@ public class Movement {
     public void disableMovement() {
         movementEnabled = false;
     }
-
-
 }
