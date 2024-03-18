@@ -7,4 +7,5 @@ public class BuildingInfo {
     int textureStartY;
     int textureWidth;
     int textureHeight;
+    String activityName;
 }

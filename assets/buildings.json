@@ -5,7 +5,8 @@
     "textureStartX": 720,
     "textureStartY": 704,
     "textureWidth": 10,
-    "textureHeight": 7
+    "textureHeight": 7,
+    "activityName": "Study"
   },
   {
     "id": "cinema",
@@ -13,7 +14,8 @@
     "textureStartX": 720,
     "textureStartY": 912,
     "textureWidth": 6,
-    "textureHeight": 6
+    "textureHeight": 6,
+    "activityName": "Relax"
   },
   {
     "id": "home",
@@ -21,7 +23,8 @@
     "textureStartX": 720,
     "textureStartY": 512,
     "textureWidth": 10,
-    "textureHeight": 8
+    "textureHeight": 8,
+    "activityName": "Sleep"
   },
   {
     "id": "compSci",
@@ -29,7 +32,8 @@
     "textureStartX": 720,
     "textureStartY": 176,
     "textureWidth": 12,
-    "textureHeight": 7
+    "textureHeight": 7,
+    "activityName": "Study"
   },
   {
     "id": "cafe",
@@ -37,6 +41,7 @@
     "textureStartX": 720,
     "textureStartY": 416,
     "textureWidth": 6,
-    "textureHeight": 6
+    "textureHeight": 6,
+    "activityName": "Eat"
   }
 ]

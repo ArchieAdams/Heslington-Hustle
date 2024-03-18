@@ -27,7 +27,7 @@ public class BuildingManager {
     private static Map<String, Building> loadBuildingInfo() {
         Gson gson = new Gson();
         Map<String, Building> buildingMap = new HashMap<>();
-        try (FileReader reader = new FileReader("assets/buildings.json")) {
+        try (FileReader reader = new FileReader("buildings.json")) {
             BuildingInfo[] buildingInfos = gson.fromJson(reader, BuildingInfo[].class);
             for (BuildingInfo buildingInfo : buildingInfos) {
                 buildingMap.put(buildingInfo.id, new Building(buildingInfo));
@@ -40,7 +40,7 @@ public class BuildingManager {
 
     private List<Building> createBuildings(Map<String, Building> buildingMap) {
         List<Building> buildings = new ArrayList<>();
-        TiledMap map = new TmxMapLoader().load("assets/maps/campus_east.tmx");
+        TiledMap map = new TmxMapLoader().load("maps/campus_east.tmx");
         for (MapObject buildingCorner : (map.getLayers().get("buildingCorners").getObjects())){
             String id = (String) buildingCorner.getProperties().get("name");
             if (buildingMap.containsKey(id)){

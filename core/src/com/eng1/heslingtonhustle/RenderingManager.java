@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.List;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class RenderingManager {
 
@@ -17,21 +18,21 @@ public class RenderingManager {
     private final SpriteBatch batch;
 
     private ShaderProgram shader;
-    private final Day day = new Day();
     private final CameraManager cameraManager;
     private final MapManager mapManager;
     private final Stage uiStage;
+    private final GameUI gameUI;
 
 
 
 
-    public RenderingManager(CameraManager cameraManager, MapManager mapManager) {
+    public RenderingManager(CameraManager cameraManager, MapManager mapManager,PlayerManager playerManager) {
         this.batch = new SpriteBatch();
         shaderSetup();
         this.cameraManager = cameraManager;
         this.mapManager = mapManager;
         this.uiStage = new Stage(new ScreenViewport(), batch);
-        GameUI gameUI = new GameUI(uiStage);
+        this.gameUI = new GameUI(uiStage,playerManager.getEnergy());
     }
 
     private void shaderSetup() {
@@ -58,9 +59,10 @@ public class RenderingManager {
         batch.end();
 
         mapManager.renderOverlay(cameraManager.getCamera(), "overlay");
-
+        gameUI.updateProgressBar();
         uiStage.act(Gdx.graphics.getDeltaTime());
         uiStage.draw();
+
     }
 
 
@@ -74,11 +76,6 @@ public class RenderingManager {
                 outlineBuilding(building);
             } else {
                 renderBuilding(building);
-            }
-        }
-        for(Building building:buildings){
-            if(!building.isVisible()){
-                continue;
             }
             Vector2 interactSpot =  building.getInteractSpot();
 

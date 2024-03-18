@@ -2,15 +2,15 @@ package com.eng1.heslingtonhustle;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.eng1.heslingtonhustle.activities.*;
 
 public class Building {
 
     private final String name;
-
     private Vector2 position;
     private final TextureRegion textureRegion;
-
     private boolean isVisible = true;
+    private Activity activity;
 
 
     public Building(BuildingInfo buildingInfo) {
@@ -18,6 +18,22 @@ public class Building {
         this.textureRegion = SpriteSheet.getBuildingTextureRegion(
                 buildingInfo.textureStartX, buildingInfo.textureStartY,
                 buildingInfo.textureWidth, buildingInfo.textureHeight);
+        switch (buildingInfo.activityName){
+            case "Study":
+                activity = new Study();
+                break;
+            case "Eat":
+                activity = new Eat();
+                break;
+            case "Relax":
+                activity = new Relax();
+                break;
+            case "Sleep":
+                activity = new Sleep();
+                break;
+            default:
+                //TODO Handle error
+        }
    }
 
     public void setPosition(Vector2 position) {
@@ -63,4 +79,7 @@ public class Building {
         this.isVisible = visible;
     }
 
+    public Activity getActivity() {
+        return activity;
+    }
 }
