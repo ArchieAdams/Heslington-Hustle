@@ -38,17 +38,21 @@ public class MapManager {
         mapPaths.put("Home", "maps/home.tmx");
         mapPaths.put("Computer Science Building", "maps/compSci.tmx");
         mapPaths.put("Campus", "maps/campus_east.tmx");
+
     }
 
 
 
     private void parseCollidableTiles() {
-        MapObjects objects = tiledMap.getLayers().get("collisions").getObjects();
-        for (MapObject object : objects) {
-            if (object instanceof RectangleMapObject) {
-                RectangleMapObject rectObject = (RectangleMapObject) object;
-                Rectangle rect = rectObject.getRectangle();
-                collidableTiles.add(new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE));
+        if (tiledMap.getLayers().get("collisions") != null) {
+
+            MapObjects objects = tiledMap.getLayers().get("collisions").getObjects();
+            for (MapObject object : objects) {
+                if (object instanceof RectangleMapObject) {
+                    RectangleMapObject rectObject = (RectangleMapObject) object;
+                    Rectangle rect = rectObject.getRectangle();
+                    collidableTiles.add(new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE));
+                }
             }
         }
     }
@@ -157,6 +161,17 @@ public class MapManager {
             mapRenderer.setView(camera);
             mapRenderer.render(new int[] {layerIndex});
         }
+    }
+
+    public void displayEndMap() {
+        if (tiledMap!= null) {
+            tiledMap.dispose();
+        }
+        currentMapPath = "maps/end_game.tmx";
+        tiledMap = new TmxMapLoader().load("maps/end_game.tmx");
+        mapRenderer.setMap(tiledMap);
+        collidableTiles.clear();
+
     }
 }
 

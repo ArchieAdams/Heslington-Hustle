@@ -4,7 +4,7 @@ import com.eng1.heslingtonhustle.PlayerManager;
 
 public class Sleep extends Activity {
     public Sleep() {
-        super(0, 0);
+        super("sleep",0, 0);
     }
 
     @Override

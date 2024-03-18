@@ -58,9 +58,6 @@ public class PlayerManager {
         currentDay = new Day();
         energy.reset();
         time.nextDay();
-        if (time.isWeekOver()){
-            System.out.println("Game Over");
-        }
     }
 
     public boolean performActivity(int energyCost, int timeUsed) {
@@ -87,5 +84,9 @@ public class PlayerManager {
 
     public Time getTime() {
         return time;
+    }
+
+    public boolean gameOver() {
+        return time.isWeekOver();
     }
 }

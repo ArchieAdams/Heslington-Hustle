@@ -21,6 +21,7 @@ public class Movement {
     private Array<Rectangle> collidableTiles;
     private static final float PLAYER_WIDTH = 16;
     private static final float PLAYER_HEIGHT = 20;
+    private boolean movementEnabled = true;
 
 
     public void setCollidableTiles(Array<Rectangle> collidableTiles) {
@@ -34,9 +35,12 @@ public class Movement {
         this.state = new State();
         currentAnimation = downWalkAnimation;
 
+
     }
 
     public void update(float deltaTime) {
+        if (movementEnabled) {
+
         int moveDirectionY = state.getMoveDirectionY();
         int moveDirectionX = state.getMoveDirectionX();
 
@@ -61,6 +65,7 @@ public class Movement {
         stateTime += deltaTime;
         updateAnimation();
         currentFrame = currentAnimation.getKeyFrame(stateTime, true);
+        }
     }
 
     private boolean collidesX(float x, float y) {
@@ -118,4 +123,10 @@ public class Movement {
         this.position.x = newPosition.x;
         this.position.y = newPosition.y;
     }
+
+    public void disableMovement() {
+        movementEnabled = false;
+    }
+
+
 }

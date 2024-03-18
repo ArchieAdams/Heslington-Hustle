@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
 import com.eng1.heslingtonhustle.activities.Activity;
-import com.eng1.heslingtonhustle.activities.Study;
 
 
 import java.util.List;
@@ -72,14 +71,19 @@ public class GameManager {
                 System.out.println("result " + obj);
                 if ((boolean) obj) {
                     Activity buildingActivity = building.getActivity();
+                    System.out.println(buildingActivity);
                     boolean perform = buildingActivity.perform(playerManager);
                     if(perform){
                         day = playerManager.getDay();
                         day.addActivity(buildingActivity);
+                        if(playerManager.gameOver()) {
+                            endGame();
+                        }
                     }
                     System.out.println(day.getTotalDuration());
                     System.out.println(day.getTotalEnergyUsage());
                     System.out.println(day.getStudySessions());
+
                     //enterBuilding(buildingToEnter);
                 }
             }
@@ -113,7 +117,7 @@ public class GameManager {
         if (playerManager.getState().isINTERACTING()) {
             playerManager.getState().stopInteracting();
             playerInBuilding = false;
-            mapManager.changeMap();
+            mapManager.changeMapToCampus();
             playerManager.movement.setPosition(respawnLocation);
             buildingManager.makeBuildingsAppear();
         }
@@ -145,10 +149,11 @@ public class GameManager {
                 }
             };
             String activityName = activity.getName();
+            String activityNameCapitalized = activityName.substring(0, 1).toUpperCase() + activityName.substring(1);
             int timeUsed = activity.getDurationHours();
             int energyUsed = activity.getEnergyUsagePercent();
             dialog.text("Would you like to " + activityName + "? \n" +
-                    activityName + "ing will take " + timeUsed + " hours and use " + energyUsed + "% of your energy");
+                    activityNameCapitalized + "ing will take " + timeUsed + " hours and use " + energyUsed + "% of your energy");
             dialog.button("Yes", true);
             dialog.button("No", false);
             dialog.show(stage);
@@ -164,6 +169,14 @@ public class GameManager {
         }
     }
 
+    public void endGame() {
+        buildingManager.makeBuildingsDisappear();
+        playerManager.movement.setPosition(new Vector2(900, 700));
+        mapManager.displayEndMap();
+        renderingManager.getGameUI().dispose();
+        renderingManager.hidePlayer();
+        playerManager.getMovement().disableMovement();
+    }
 
     public void update() {
         Building building = checkForBuildingInRange();
@@ -179,6 +192,9 @@ public class GameManager {
             if (activityTile != null) {
                 askToDoActivity(activityTile);
                 renderingManager.getGameUI().updateProgressBar();
+                if (playerManager.gameOver()) {
+                    //mapManager.displayEndMap();
+                }
             }
         }
     }

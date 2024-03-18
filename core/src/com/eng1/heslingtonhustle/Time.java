@@ -36,8 +36,12 @@ public class Time {
     }
 
     public void nextDay(){
-        dayNumber++;
-        reset();
+        if (dayNumber < 6) {
+            dayNumber++;
+            reset();
+        } else {
+            dayNumber = 7;
+        }
     }
 
     public boolean isWeekOver(){
@@ -49,6 +53,10 @@ public class Time {
     }
 
     public String getDay() {
-        return DAYS[dayNumber];
+        if (dayNumber < 7) {
+            return DAYS[dayNumber];
+        } else {
+            return null;
+        }
     }
 }

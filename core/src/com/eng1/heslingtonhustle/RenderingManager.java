@@ -21,6 +21,7 @@ public class RenderingManager {
     private final MapManager mapManager;
     private final Stage uiStage;
     private final GameUI gameUI;
+    private boolean playerVisible = true;
 
 
 
@@ -126,14 +127,20 @@ public class RenderingManager {
     }
 
     private void renderPlayer(Movement playerMovement) {
-        TextureRegion currentFrame = playerMovement.getCurrentFrame();
-        Vector2 playerPosition = playerMovement.getPosition();
-        float PLAYER_SIZE = 32*SCALE;
-        batch.draw(currentFrame, (playerPosition.x - PLAYER_SIZE / 2f), (playerPosition.y - PLAYER_SIZE / 2f) + 60, PLAYER_SIZE, PLAYER_SIZE);
+        if (playerVisible) {
+            TextureRegion currentFrame = playerMovement.getCurrentFrame();
+            Vector2 playerPosition = playerMovement.getPosition();
+            float PLAYER_SIZE = 32*SCALE;
+            batch.draw(currentFrame, (playerPosition.x - PLAYER_SIZE / 2f), (playerPosition.y - PLAYER_SIZE / 2f) + 60, PLAYER_SIZE, PLAYER_SIZE);
+        }
     }
 
     GameUI getGameUI() {
         return gameUI;
+    }
+
+    public void hidePlayer() {
+        playerVisible = false;
     }
 
 }

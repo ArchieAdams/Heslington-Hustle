@@ -135,7 +135,7 @@
 </data>
  </layer>
  <objectgroup id="18" name="activities">
-  <object id="23" name="sleeping" x="5.81818" y="114.727" width="57.2727" height="45.6364"/>
+  <object id="23" name="sleep" x="5.81818" y="114.727" width="57.2727" height="45.6364"/>
  </objectgroup>
  <layer id="4" name="curtains" width="20" height="10">
   <data encoding="csv">
