@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="19">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="16" nextobjectid="26">
  <tileset firstgid="1" source="../tilesets/interior.tsx"/>
  <tileset firstgid="58051" source="../tilesets/town.tsx"/>
  <layer id="1" name="floor" width="15" height="12">
@@ -167,6 +167,14 @@
  </layer>
  <objectgroup id="14" name="exit">
   <object id="18" x="60.0313" y="164.085" width="24.5128" height="28.2647"/>
+ </objectgroup>
+ <objectgroup id="15" name="activities">
+  <object id="20" name="study" x="11.7561" y="37.7697" width="44.5232" height="49.2757"/>
+  <object id="21" name="study" x="68.2856" y="37.0193" width="49.2757" height="51.0266"/>
+  <object id="22" name="study" x="133.57" y="37.7697" width="47.7749" height="52.2772"/>
+  <object id="23" name="study" x="11.506" y="102.804" width="43.7728" height="51.5268"/>
+  <object id="24" name="study" x="67.7853" y="101.303" width="51.0266" height="54.0281"/>
+  <object id="25" name="study" x="133.069" y="100.052" width="50.2762" height="56.5294"/>
  </objectgroup>
  <layer id="10" name="computers" width="15" height="12" offsetx="7.50391" offsety="3.25169">
   <data encoding="csv">

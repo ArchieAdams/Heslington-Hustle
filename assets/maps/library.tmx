@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="21" nextobjectid="13">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="22" nextobjectid="18">
  <tileset firstgid="1" source="../tilesets/town.tsx"/>
  <tileset firstgid="28249" source="../tilesets/interior.tsx"/>
  <layer id="1" name="floor" width="16" height="10">
@@ -214,16 +214,18 @@
  </layer>
  <objectgroup id="17" name="collisions">
   <object id="1" x="-0.5" y="-0.25" width="256" height="31"/>
-  <object id="2" x="178.25" y="30.5" width="73.5" height="43.5"/>
+  <object id="2" x="193.5" y="30.5" width="46.75" height="33"/>
   <object id="3" x="112.25" y="74.75" width="137.5" height="34.5"/>
   <object id="4" x="168.25" y="106.25" width="46.5" height="28.5"/>
-  <object id="5" x="234.25" y="104.25" width="22" height="55.75"/>
+  <object id="5" x="234.25" y="119.5" width="13" height="22.75"/>
   <object id="6" x="-0.5" y="1.75" width="5.25" height="158"/>
   <object id="7" x="4.5" y="75.25" width="57.5" height="41.25"/>
   <object id="8" x="5.25" y="115.75" width="55" height="44.25"/>
   <object id="9" x="59.75" y="158" width="175.25" height="1.5"/>
   <object id="10" x="5.5" y="31.75" width="18.5" height="33.5"/>
   <object id="11" x="125.75" y="-10.25"/>
+  <object id="14" x="178.5" y="41.25" width="16" height="20.25"/>
+  <object id="15" x="238.5" y="43.5" width="14.25" height="17"/>
  </objectgroup>
  <layer id="4" name="borders" width="16" height="10">
   <data encoding="csv">
@@ -255,5 +257,9 @@
  </layer>
  <objectgroup id="20" name="exit">
   <object id="12" x="87" y="132" width="32.25" height="27.5"/>
+ </objectgroup>
+ <objectgroup id="21" name="activities">
+  <object id="13" name="study" x="176" y="28.25" width="74.25" height="35.5"/>
+  <object id="16" name="study" x="167.75" y="105" width="48" height="31"/>
  </objectgroup>
 </map>

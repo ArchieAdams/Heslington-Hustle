@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
-import com.eng1.heslingtonhustle.activities.Activity;
 import com.eng1.heslingtonhustle.activities.Study;
+
 
 import java.util.List;
 
@@ -21,16 +21,15 @@ public class GameManager {
     private final MapManager mapManager;
     private final PlayerManager playerManager;
     private final BuildingManager buildingManager;
-    private Day day = new Day();
+    private final Day day = new Day();
     private Vector2 respawnLocation;
-    private GameUI gameUI;
+    private boolean playerInBuilding = false;
 
     public GameManager(Stage stage, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager) {
         this.stage = stage;
         this.mapManager = mapManager;
         this.playerManager = playerManager;
         this.buildingManager = buildingManager;
-        playerManager.setCurrentDay(day);
     }
 
     public Building checkForBuildingInRange() {
@@ -60,27 +59,21 @@ public class GameManager {
     }
 
     private Dialog createDialog(Building building) {
-        Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
         String buildingToEnter = building.getName();
         Dialog dialog = new Dialog("Are you sure you want to go to " + buildingToEnter + "?", skin) {
             public void result(Object obj) {
                 System.out.println("result " + obj);
                 if ((boolean) obj) {
-                    Activity buildingActivity = building.getActivity();
-                    boolean perform = buildingActivity.perform(playerManager);
-                    if(perform){
-                        day = playerManager.getDay();
-                        day.addActivity(buildingActivity);
-                    }
+                    day.addActivity(new Study());
                     System.out.println(day.getTotalDuration());
                     System.out.println(day.getTotalEnergyUsage());
-                    System.out.println(day.getStudySessions());
-                    //enterBuilding(buildingToEnter);
+                    enterBuilding(buildingToEnter);
                 }
             }
         };
 
-        dialog.text("It will take "+building.getActivity().getDurationHours()+" hours and use "+building.getActivity().getEnergyUsagePercent()+"% of your energy");
+        dialog.text("It will take X time and use X% of your energy");
         dialog.button("Yes", true);
         dialog.button("No", false);
         return dialog;
@@ -89,9 +82,8 @@ public class GameManager {
     private void enterBuilding(String buildingName) {
         String newMapPath = mapManager.getMapPath(buildingName);
         respawnLocation = new Vector2(playerManager.getPosition());
-        System.out.println("current location" + playerManager.getPosition().toString());
+        playerInBuilding = true;
         mapManager.changeMap(newMapPath);
-        System.out.println("Respawn location: " + respawnLocation);
         buildingManager.makeBuildingsDisappear();
         playerManager.movement.setPosition(new Vector2(400, 100));
     }
@@ -106,13 +98,50 @@ public class GameManager {
     }
 
     private void exitBuilding() {
-        if (playerManager.getState().isINTERACTING() && playerInExitZone(playerManager.getPosition())) {
+        if (playerManager.getState().isINTERACTING()) {
             playerManager.getState().stopInteracting();
+            playerInBuilding = false;
             mapManager.changeMap();
             playerManager.movement.setPosition(respawnLocation);
             buildingManager.makeBuildingsAppear();
-            System.out.println("Respawn location: %s%n" + respawnLocation);
-            System.out.println("Current location given" + playerManager.getPosition());
+        }
+    }
+
+    private ActivityTile playerInActivityZone(Vector2 position) {
+        for (ActivityTile activityZone : mapManager.getActivityTiles()) {
+            if (activityZone.getRectangle().contains(position.x, position.y)) {
+                System.out.println("in zone");
+                return activityZone;
+            }
+        }
+        return null;
+    }
+
+    private void askToDoActivity(ActivityTile activityTile) {
+        if (playerManager.getState().isINTERACTING()) {
+            playerManager.getState().stopInteracting();
+            Vector2 playerPosition = playerManager.getPosition();
+            Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
+            String activityName = activityTile.getActivity().getName();
+            Dialog dialog = new Dialog("Would you like to..." + activityName, skin) {
+                @Override
+                protected void result(Object object) {
+                    System.out.println("Choice" + object);
+                }
+            };
+
+            dialog.button("Yes", true);
+            dialog.button("No", false);
+            dialog.show(stage);
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
+                    dialog.setPosition(playerPosition.x - 175, playerPosition.y + 50);
+                    dialog.setSize(350, 100);
+                }
+            }, 0);
         }
     }
 
@@ -123,8 +152,15 @@ public class GameManager {
             interactWithBuilding(building, playerManager.getMovement());
         }
 
-        if (playerInExitZone(playerManager.getPosition())) {
-            exitBuilding();
+        if (playerInBuilding) {
+            if (playerInExitZone(playerManager.getPosition())) {
+                exitBuilding();
+            }
+            ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
+            if (activityTile != null) {
+                System.out.println("Running");
+                askToDoActivity(activityTile);
+            }
         }
     }
 }

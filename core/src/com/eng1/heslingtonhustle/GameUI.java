@@ -19,7 +19,7 @@ public class GameUI {
     private final Energy energy;
 
 
-    public GameUI(Stage uiStage) {
+    public GameUI(Stage uiStage, Energy energy) {
         this.uiStage = uiStage;
         this.energy = new Energy();
         xpBackground = new Texture(Gdx.files.internal("skin/craftacular/raw/xp-bg.png"));

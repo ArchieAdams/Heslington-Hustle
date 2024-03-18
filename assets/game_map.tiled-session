@@ -38,14 +38,14 @@
         },
         "maps/cafe.tmx": {
             "expandedObjectLayers": [
-                14,
-                16
+                16,
+                14
             ],
             "scale": 4,
-            "selectedLayer": 7,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 118.5,
-                "y": 93.375
+                "x": 117.875,
+                "y": 92.625
             }
         },
         "maps/campus_east.tmx": {
@@ -53,11 +53,11 @@
                 23,
                 22
             ],
-            "scale": 0.75,
+            "scale": 1,
             "selectedLayer": 19,
             "viewCenter": {
-                "x": 700,
-                "y": 1008.6666666666667
+                "x": 38.5,
+                "y": 3.5
             }
         },
         "maps/cinema.tmx": {
@@ -79,8 +79,8 @@
             "scale": 3.9979166666666663,
             "selectedLayer": 10,
             "viewCenter": {
-                "x": 123.31422615945806,
-                "y": 98.42626367899948
+                "x": 120.68785825951018,
+                "y": 95.67483064095885
             }
         },
         "maps/home.tmx": {
@@ -90,22 +90,22 @@
                 18
             ],
             "scale": 5.5,
-            "selectedLayer": 9,
+            "selectedLayer": 10,
             "viewCenter": {
-                "x": 99.99999999999999,
-                "y": 117.18181818181819
+                "x": 161,
+                "y": 80.0909090909091
             }
         },
         "maps/library.tmx": {
             "expandedObjectLayers": [
-                20,
-                17
+                17,
+                20
             ],
             "scale": 4,
             "selectedLayer": 18,
             "viewCenter": {
-                "x": 128,
-                "y": 70.125
+                "x": 125.375,
+                "y": 67.375
             }
         },
         "tilesets/cafe.tmx": {
@@ -164,13 +164,13 @@
     "project": "game_map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "maps/campus_east.tmx",
+        "maps/library.tmx",
+        "maps/cafe.tmx",
+        "maps/compSci.tmx",
         "maps/home.tmx",
+        "maps/campus_east.tmx",
         "tilesets/town.tsx",
         "maps/cinema.tmx",
-        "maps/library.tmx",
-        "maps/compSci.tmx",
-        "maps/cafe.tmx",
         "tilesets/interior.tsx",
         "tilesets/nature.tsx",
         "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"

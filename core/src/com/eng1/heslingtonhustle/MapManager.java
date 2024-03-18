@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.eng1.heslingtonhustle.activities.*;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -21,24 +22,26 @@ public class MapManager {
     private final Array<Rectangle> collidableTiles = new Array<>();
     private final Map<String, String> mapPaths;
     private final Array<Rectangle> exitTiles = new Array<>();
-    private final String defaultMapPath = "maps/campus_east.tmx";
-    private String currentMapPath = "maps/campus_east.tmx";
+
+    private final Array<ActivityTile> activityTiles = new Array<>();
+    private final String defaultPath = "maps/campus_east.tmx";
+    private String currentMapPath = defaultPath;
 
     public MapManager() {
-        tiledMap = new TmxMapLoader().load(defaultMapPath);
+        tiledMap = new TmxMapLoader().load(defaultPath);
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
         parseCollidableTiles();
 
+
         mapPaths = new HashMap<>();
-        mapPaths.put("Library", "maps/library.tmx");
-        mapPaths.put("Cafe", "maps/cafe.tmx");
-        mapPaths.put("Cinema", "maps/cinema.tmx");
-        mapPaths.put("Home", "maps/home.tmx");
-        mapPaths.put("Computer Science Building", "maps/compSci.tmx");
-        mapPaths.put("Campus", "maps/campus_east.tmx");
+        mapPaths.put("Library", "assets/maps/library.tmx");
+        mapPaths.put("Cafe", "assets/maps/cafe.tmx");
+        mapPaths.put("Cinema", "assets/maps/cinema.tmx");
+        mapPaths.put("Home", "assets/maps/home.tmx");
+        mapPaths.put("Computer Science Building", "assets/maps/compSci.tmx");
+        mapPaths.put("Campus", "assets/maps/campus_east.tmx");
+
     }
-
-
 
     private void parseCollidableTiles() {
         MapObjects objects = tiledMap.getLayers().get("collisions").getObjects();
@@ -64,12 +67,56 @@ public class MapManager {
         }
     }
 
+    private void parseActivityTiles() {
+        if (tiledMap.getLayers().get("activities") != null) {
+            MapObjects objects = tiledMap.getLayers().get("activities").getObjects();
+            for (MapObject object : objects) {
+                if (object instanceof RectangleMapObject) {
+                    RectangleMapObject rectObject = (RectangleMapObject) object;
+                    Rectangle rect = rectObject.getRectangle();
+
+                    Rectangle scaledRect = new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE);
+
+                    Activity activity = createActivityForName(object.getName());
+
+                    if (activity != null) {
+                        activityTiles.add(new ActivityTile(scaledRect, activity));
+                        System.out.println("worked");
+                    }
+                }
+            }
+        }
+    }
+
+    private Activity createActivityForName(String name) {
+        switch (name) {
+            case "eat":
+                return new Eat();
+
+            case "study":
+                return new Study();
+
+            case "relax":
+                return new Relax();
+
+            case "sleep":
+                return new Sleep();
+
+            default:
+                return null;
+        }
+    }
+
     public Array<Rectangle> getCollidableTiles() {
         return collidableTiles;
     }
 
     public Array<Rectangle> getExitTiles() {
         return exitTiles;
+    }
+
+    public Array<ActivityTile> getActivityTiles() {
+        return activityTiles;
     }
 
     public void render(OrthographicCamera camera) {
@@ -87,14 +134,15 @@ public class MapManager {
         collidableTiles.clear();
         parseCollidableTiles();
         parseExitTiles();
+        parseActivityTiles();
     }
 
     public void changeMap() {
         if (tiledMap!= null) {
             tiledMap.dispose();
         }
-        tiledMap = new TmxMapLoader().load(defaultMapPath);
-        currentMapPath = defaultMapPath;
+        currentMapPath = defaultPath;
+        tiledMap = new TmxMapLoader().load(defaultPath);
         mapRenderer.setMap(tiledMap);
         collidableTiles.clear();
         parseCollidableTiles();
@@ -106,11 +154,10 @@ public class MapManager {
 
 
     public void renderOverlay(OrthographicCamera camera, String layerName) {
-        if (currentMapPath.equals(defaultMapPath)) {
+        if (currentMapPath.equals(defaultPath)) {
             int layerIndex = tiledMap.getLayers().getIndex(layerName);
             mapRenderer.setView(camera);
             mapRenderer.render(new int[] {layerIndex});
         }
     }
 }
-
