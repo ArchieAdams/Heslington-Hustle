@@ -4,12 +4,12 @@ import com.eng1.heslingtonhustle.PlayerManager;
 
 public class Eat extends Activity {
     public Eat() {
-        super("Eat", 1, 10);
+        super(1, 10);
     }
 
 
     @Override
     public void onPerform(PlayerManager playerManager) {
-        playerManager.eat();
+        playerManager.eat(durationHours);
     }
 }
