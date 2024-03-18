@@ -127,4 +127,7 @@ public class Movement {
     public void disableMovement() {
         movementEnabled = false;
     }
+    public void enableMovement() {
+        movementEnabled = true;
+    }
 }

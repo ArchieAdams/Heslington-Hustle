@@ -51,6 +51,7 @@ public class GameManager {
         Vector2 playerPosition = player.getPosition();
         if (player.getPlayerState().isINTERACTING()) {
             player.getPlayerState().stopInteracting();
+            playerManager.getMovement().disableMovement();
             Dialog dialog = createDialog(building);
             Timer.schedule(new Timer.Task() {
                 @Override
@@ -66,6 +67,7 @@ public class GameManager {
     private Dialog createDialog(Building building) {
         Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
         String buildingToEnter = building.getName();
+        playerManager.getMovement().disableMovement();
         Dialog dialog = new Dialog("Are you sure you want to go to " + buildingToEnter + "?", skin) {
             public void result(Object obj) {
                 System.out.println("result " + obj);
@@ -83,15 +85,16 @@ public class GameManager {
                     System.out.println(day.getTotalDuration());
                     System.out.println(day.getTotalEnergyUsage());
                     System.out.println(day.getStudySessions());
-
-                    //enterBuilding(buildingToEnter);
+                    enterBuilding(buildingToEnter);
                 }
+                playerManager.getMovement().enableMovement();
             }
         };
 
         dialog.text("It will take "+building.getActivity().getDurationHours()+" hours and use "+building.getActivity().getEnergyUsagePercent()+"% of your energy");
         dialog.button("Yes", true);
         dialog.button("No", false);
+
         return dialog;
     }
 
@@ -179,9 +182,11 @@ public class GameManager {
     }
 
     public void update() {
-        Building building = checkForBuildingInRange();
-        if (checkForBuildingInRange() != null) {
-            interactWithBuilding(building, playerManager.getMovement());
+        if (!playerInBuilding) {
+            Building building = checkForBuildingInRange();
+            if (building!= null) {
+                interactWithBuilding(building, playerManager.getMovement());
+            }
         }
 
         if (playerInBuilding) {
@@ -193,7 +198,7 @@ public class GameManager {
                 askToDoActivity(activityTile);
                 renderingManager.getGameUI().updateProgressBar();
                 if (playerManager.gameOver()) {
-                    //mapManager.displayEndMap();
+                    endGame();
                 }
             }
         }
