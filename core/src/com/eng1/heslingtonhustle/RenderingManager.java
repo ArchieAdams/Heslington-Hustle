@@ -32,7 +32,7 @@ public class RenderingManager {
         this.cameraManager = cameraManager;
         this.mapManager = mapManager;
         this.uiStage = new Stage(new ScreenViewport(), batch);
-        this.gameUI = new GameUI(uiStage,playerManager.getEnergy());
+        this.gameUI = new GameUI(uiStage,playerManager);
     }
 
     private void shaderSetup() {

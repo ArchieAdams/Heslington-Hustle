@@ -17,11 +17,15 @@ public class GameUI {
     private final ProgressBar progressBar;
 
     private final Energy energy;
+    private final Time time;
+    private Label timeLabel;
+    private Label dayLabel;
 
 
-    public GameUI(Stage uiStage, Energy energy) {
+    public GameUI(Stage uiStage,PlayerManager playerManager) {
         this.uiStage = uiStage;
-        this.energy = new Energy();
+        this.energy = playerManager.getEnergy();
+        this.time = playerManager.getTime();
         xpBackground = new Texture(Gdx.files.internal("skin/craftacular/raw/xp-bg.png"));
         xpFill = new Texture(Gdx.files.internal("skin/craftacular/raw/xp.png"));
         progressBar = new ProgressBar(0, 100, 0.01f, false, new ProgressBar.ProgressBarStyle());
@@ -33,8 +37,9 @@ public class GameUI {
         Skin skin = new Skin(Gdx.files.internal("skin/craftacular/skin/craftacular-ui.json"));
 
         Label energyLabel = new Label("Energy: ", skin);
-        Label dayLabel = new Label("Day: ", skin);
-        Label timeLabel = new Label("Time: ", skin);
+        dayLabel = new Label("Day: ", skin);
+        timeLabel = new Label("Time: ", skin);
+
 
         TextureRegionDrawable backgroundDrawable = new TextureRegionDrawable(xpBackground);
         backgroundDrawable.setMinWidth(400);
@@ -57,7 +62,9 @@ public class GameUI {
         float padTop = 40f;
         float padRight = 30f;
 
+
         table.add(energyLabel).padTop(padTop).padRight(5);
+
         table.add(progressBar).width(400).height(50).padTop(padTop).padRight(padRight);
         table.row();
         table.add(dayLabel).padTop(padTop).padRight(5);
@@ -65,10 +72,14 @@ public class GameUI {
         table.add(timeLabel).padTop(padTop).padRight(5);
 
         uiStage.addActor(table);
+
+
     }
 
     public void updateProgressBar() {
-        progressBar.setValue(energy.getLevel());
+        progressBar.setValue(energy.getEnergy());
+        timeLabel.setText("Time: "+time.getTime());
+        dayLabel.setText("Day: "+time.getDay());
     }
 
     public void dispose() {
