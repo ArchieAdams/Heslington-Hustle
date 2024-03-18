@@ -1,26 +1,31 @@
 package com.eng1.heslingtonhustle;
 
 public class Energy {
-    private int level = 100;
+    private int energy = 100;
 
     public Energy() {
     }
 
-    public int getEnergyLevel() {
-        return level;
+    public int getEnergy() {
+        return energy;
     }
 
 
     public boolean useEnergy(int energyUsed) {
         int min = 0;
-        boolean canBeDone = level - energyUsed >= min;
+        boolean canBeDone = energy - energyUsed >= min;
         if (canBeDone) {
-            this.level = level - energyUsed;
+            this.energy = energy - energyUsed;
         }
         return canBeDone;
     }
 
+    public boolean canUseEnergy(int energyUsed){
+        final int MIN_ENERGY = 0;
+        return (energy - energyUsed >= MIN_ENERGY);
+    }
+
     public void reset() {
-        this.level = 100;
+        this.energy = 100;
     }
 }

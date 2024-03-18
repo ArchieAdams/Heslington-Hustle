@@ -5,11 +5,9 @@ import com.eng1.heslingtonhustle.PlayerManager;
 public abstract class Activity {
     protected int durationHours;
     protected int energyUsagePercent;
-    private String name;
 
 
-    public Activity(String name, int durationHours, int energyUsagePercent) {
-        this.name = name;
+    public Activity(int durationHours, int energyUsagePercent) {
         this.durationHours = durationHours;
         this.energyUsagePercent = energyUsagePercent;
     }
@@ -23,15 +21,11 @@ public abstract class Activity {
     }
 
     public boolean perform(PlayerManager playerManager) {
-        if (!playerManager.performActivity(energyUsagePercent)) {
+        if (!playerManager.performActivity(energyUsagePercent,durationHours)) {
             return false;
         }
         onPerform(playerManager);
         return true;
-    }
-
-    public String getName() {
-        return name;
     }
 
 

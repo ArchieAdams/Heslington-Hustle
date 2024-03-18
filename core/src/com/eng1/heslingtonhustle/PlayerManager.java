@@ -5,13 +5,13 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class PlayerManager {
     private final Energy energy = new Energy();
     public final Movement movement;
-
+    public final Time time = new Time();
     private final List<Day> week = new ArrayList<>();
+
 
     private Day currentDay;
 
@@ -41,15 +41,15 @@ public class PlayerManager {
     }
 
 
-    public void increaseStudyScore() {
+    public void study(int time) {
         currentDay.studied();
     }
 
-    public void eat(){
+    public void eat(int time){
         currentDay.eaten();
     }
 
-    public void relaxed(){
+    public void relax(int timeUsed){
         currentDay.relaxed();
     }
 
@@ -57,10 +57,24 @@ public class PlayerManager {
         week.add(currentDay);
         currentDay = new Day();
         energy.reset();
+        time.nextDay();
+        if (time.isWeekOver()){
+            System.out.println("Game Over");
+        }
     }
 
-    public boolean performActivity(int energyCost) {
-        return energy.useEnergy(energyCost);
+    public boolean performActivity(int energyCost, int timeUsed) {
+        if (!energy.canUseEnergy(energyCost)){
+            System.out.println("not enough energy");
+            return false; //not enough energy
+        }
+        if (!time.canIncreaseTime(timeUsed)){
+            System.out.println("not enough time");
+            return false; //not enough time
+        }
+        energy.useEnergy(energyCost);
+        time.increaseTime(timeUsed);
+        return true;
     }
 
     public Energy getEnergy() {
@@ -69,5 +83,9 @@ public class PlayerManager {
 
     public Day getDay() {
         return currentDay;
+    }
+
+    public Time getTime() {
+        return time;
     }
 }

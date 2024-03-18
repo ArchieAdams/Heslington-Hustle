@@ -16,12 +16,18 @@ public class GameUI {
     private final Texture xpFill;
     private final ProgressBar progressBar;
 
+    private final Energy energy;
+    private final Time time;
+    private Label timeLabel;
+    private Label dayLabel;
     private final PlayerManager playerManager;
 
 
     public GameUI(Stage uiStage, PlayerManager playerManager) {
         this.uiStage = uiStage;
         this.playerManager = playerManager;
+        this.energy = playerManager.getEnergy();
+        this.time = playerManager.getTime();
         xpBackground = new Texture(Gdx.files.internal("skin/craftacular/raw/xp-bg.png"));
         xpFill = new Texture(Gdx.files.internal("skin/craftacular/raw/xp.png"));
         progressBar = new ProgressBar(0, 100, 0.01f, false, new ProgressBar.ProgressBarStyle());
@@ -33,8 +39,9 @@ public class GameUI {
         Skin skin = new Skin(Gdx.files.internal("skin/craftacular/skin/craftacular-ui.json"));
 
         Label energyLabel = new Label("Energy: ", skin);
-        Label dayLabel = new Label("Day: ", skin);
-        Label timeLabel = new Label("Time: ", skin);
+        dayLabel = new Label("Day: ", skin);
+        timeLabel = new Label("Time: ", skin);
+
 
         TextureRegionDrawable backgroundDrawable = new TextureRegionDrawable(xpBackground);
         backgroundDrawable.setMinWidth(400);
@@ -69,6 +76,9 @@ public class GameUI {
 
     public void updateProgressBar() {
         progressBar.setValue(playerManager.getEnergy().getEnergyLevel());
+        progressBar.setValue(energy.getEnergy());
+        timeLabel.setText("Time: "+time.toString());
+        dayLabel.setText("Day: "+time.getDay());
     }
 
     public void dispose() {
