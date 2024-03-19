@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "maps/home.tmx",
+    "activeFile": "maps/campus_east.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -45,27 +45,31 @@
             "scale": 4,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 61.75,
-                "y": 106.5
+                "x": 61,
+                "y": 118.5
             }
         },
         "maps/campus_east.tmx": {
-            "scale": 1,
-            "selectedLayer": 15,
+            "expandedObjectLayers": [
+                28
+            ],
+            "scale": 3,
+            "selectedLayer": 16,
             "viewCenter": {
-                "x": 485,
-                "y": 459
+                "x": 788.6666666666666,
+                "y": 561.6666666666666
             }
         },
         "maps/cinema.tmx": {
             "expandedObjectLayers": [
+                16,
                 15
             ],
             "scale": 3,
-            "selectedLayer": 13,
+            "selectedLayer": 14,
             "viewCenter": {
-                "x": 119.99999999999999,
-                "y": 94.5
+                "x": 92,
+                "y": 61
             }
         },
         "maps/compSci.tmx": {
@@ -77,8 +81,8 @@
             "scale": 3.9979166666666663,
             "selectedLayer": 11,
             "viewCenter": {
-                "x": 34.0177175612298,
-                "y": 101.30276185513289
+                "x": 156.58155289213136,
+                "y": 157.83220427305892
             }
         },
         "maps/end_game.tmx": {
@@ -91,13 +95,15 @@
         },
         "maps/home.tmx": {
             "expandedObjectLayers": [
+                18,
+                17,
                 21
             ],
             "scale": 5.5,
-            "selectedLayer": 11,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 13.09090909090908,
-                "y": 149.09090909090912
+                "x": 71.63636363636363,
+                "y": 144.90909090909093
             }
         },
         "maps/library.tmx": {
@@ -106,11 +112,11 @@
                 17,
                 21
             ],
-            "scale": 4,
+            "scale": 5.5,
             "selectedLayer": 15,
             "viewCenter": {
-                "x": 128,
-                "y": 70.125
+                "x": 72.90909090909092,
+                "y": 55.636363636363626
             }
         },
         "tilesets/cafe.tmx": {
@@ -176,16 +182,16 @@
     "project": "game_map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "maps/campus_east.tmx",
+        "maps/library.tmx",
+        "maps/home.tmx",
+        "maps/cinema.tmx",
+        "maps/cafe.tmx",
+        "maps/compSci.tmx",
         "tilesets/interior.tsx",
         "tilesets/heslington_hustle.tsx",
         "maps/end_game.tmx",
         "tilesets/town.tsx",
-        "maps/cinema.tmx",
-        "maps/library.tmx",
-        "maps/compSci.tmx",
-        "maps/cafe.tmx",
-        "maps/home.tmx",
-        "maps/campus_east.tmx",
         "tilesets/nature.tsx",
         "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"
     ],

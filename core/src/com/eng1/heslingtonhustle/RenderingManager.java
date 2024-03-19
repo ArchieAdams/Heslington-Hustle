@@ -193,8 +193,4 @@ public class RenderingManager {
     public void hidePlayer() {
         playerVisible = false;
     }
-
-    public ShaderProgram getShaderProgram() {return shader;}
-
-
 }

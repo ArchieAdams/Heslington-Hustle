@@ -30,6 +30,7 @@ public class MapManager {
         tiledMap = new TmxMapLoader().load(defaultMapPath);
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE);
         parseCollidableTiles();
+        parseActivityTiles();
 
         mapPaths = new HashMap<>();
         mapPaths.put("Library", "maps/library.tmx");
@@ -172,7 +173,6 @@ public class MapManager {
         tiledMap = new TmxMapLoader().load("maps/end_game.tmx");
         mapRenderer.setMap(tiledMap);
         collidableTiles.clear();
-
     }
 }
 

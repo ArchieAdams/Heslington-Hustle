@@ -97,6 +97,7 @@ public class GameManager {
     private boolean playerInExitZone(Vector2 position) {
         for (Rectangle exitZone : mapManager.getExitTiles()) {
             if (exitZone.contains(position.x, position.y)) {
+                rectangle = exitZone;
                 return true;
             }
         }
@@ -120,7 +121,6 @@ public class GameManager {
                 return activityZone;
             }
         }
-        rectangle = null;
         return null;
     }
 
@@ -180,6 +180,12 @@ public class GameManager {
             if (building!= null) {
                 interactWithBuilding(building, playerManager.getMovement());
             }
+            ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
+            if (activityTile != null) {
+                askToDoActivity(activityTile);
+            } else {
+                rectangle = null;
+            }
         }
 
         if (playerInBuilding) {
@@ -195,8 +201,8 @@ public class GameManager {
             }
         }
     }
-
     public Rectangle getRectangle() {
         return rectangle;
     }
+
 }

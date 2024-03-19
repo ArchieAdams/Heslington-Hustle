@@ -780,6 +780,13 @@
    <frame tileid="5050" duration="330"/>
   </animation>
  </tile>
+ <tile id="4525">
+  <animation>
+   <frame tileid="4525" duration="1500"/>
+   <frame tileid="4526" duration="100"/>
+   <frame tileid="4527" duration="100"/>
+  </animation>
+ </tile>
  <tile id="4536">
   <properties>
    <property name="collidable" type="bool" value="true"/>
@@ -864,6 +871,13 @@
   <properties>
    <property name="collidable" type="bool" value="true"/>
   </properties>
+ </tile>
+ <tile id="4785">
+  <animation>
+   <frame tileid="4785" duration="200"/>
+   <frame tileid="4786" duration="200"/>
+   <frame tileid="4787" duration="1200"/>
+  </animation>
  </tile>
  <tile id="4789">
   <animation>
@@ -999,6 +1013,12 @@
   <properties>
    <property name="collidable" type="bool" value="true"/>
   </properties>
+ </tile>
+ <tile id="5317">
+  <animation>
+   <frame tileid="5317" duration="200"/>
+   <frame tileid="5318" duration="1500"/>
+  </animation>
  </tile>
  <tile id="5325">
   <properties>
