@@ -27,6 +27,7 @@ public class GameManager {
     private boolean playerInBuilding = false;
 
     private final RenderingManager renderingManager;
+    private Rectangle rectangle;
 
     public GameManager(Stage stage, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager, RenderingManager renderManager) {
         this.stage = stage;
@@ -58,7 +59,7 @@ public class GameManager {
                 public void run() {
                     dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
                     dialog.setPosition(playerPosition.x - 175, playerPosition.y + 50);
-                    dialog.setSize(350, 100);
+                    dialog.setSize(400, 100);
                 }
             }, 0);
         }
@@ -68,30 +69,16 @@ public class GameManager {
         Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
         String buildingToEnter = building.getName();
         playerManager.getMovement().disableMovement();
-        Dialog dialog = new Dialog("Are you sure you want to go to " + buildingToEnter + "?", skin) {
+        Dialog dialog = new Dialog("Enter building?", skin) {
             public void result(Object obj) {
-                System.out.println("result " + obj);
                 if ((boolean) obj) {
-                    Activity buildingActivity = building.getActivity();
-                    System.out.println(buildingActivity);
-                    boolean perform = buildingActivity.perform(playerManager);
-                    if(perform){
-                        day = playerManager.getDay();
-                        day.addActivity(buildingActivity);
-                        if(playerManager.gameOver()) {
-                            endGame();
-                        }
-                    }
-                    System.out.println(day.getTotalDuration());
-                    System.out.println(day.getTotalEnergyUsage());
-                    System.out.println(day.getStudySessions());
                     enterBuilding(buildingToEnter);
                 }
                 playerManager.getMovement().enableMovement();
             }
         };
 
-        dialog.text("It will take "+building.getActivity().getDurationHours()+" hours and use "+building.getActivity().getEnergyUsagePercent()+"% of your energy");
+        dialog.text("Would you like to enter " + buildingToEnter + "?");
         dialog.button("Yes", true);
         dialog.button("No", false);
 
@@ -129,9 +116,11 @@ public class GameManager {
     private ActivityTile playerInActivityZone(Vector2 position) {
         for (ActivityTile activityZone : mapManager.getActivityTiles()) {
             if (activityZone.getRectangle().contains(position.x, position.y)) {
+                rectangle = activityZone.getRectangle();
                 return activityZone;
             }
         }
+        rectangle = null;
         return null;
     }
 
@@ -141,14 +130,18 @@ public class GameManager {
             Vector2 playerPosition = playerManager.getPosition();
             Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
             Activity activity = activityTile.getActivity();
+            playerManager.getMovement().disableMovement();
             Dialog dialog = new Dialog("Activity", skin) {
                 @Override
                 protected void result(Object object) {
-                    System.out.println("Choice" + object);
                     boolean choice = (Boolean) object;
-                    if (choice) {
+                    int energyRequired = activity.getEnergyUsagePercent();
+                    int timeRequired = activity.getDurationHours();
+                    if (choice && playerManager.canPerformActivity(energyRequired, timeRequired)) {
                         activity.onPerform(playerManager);
                     }
+
+                    playerManager.getMovement().enableMovement();
                 }
             };
             String activityName = activity.getName();
@@ -196,11 +189,14 @@ public class GameManager {
             ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
             if (activityTile != null) {
                 askToDoActivity(activityTile);
-                renderingManager.getGameUI().updateProgressBar();
                 if (playerManager.gameOver()) {
                     endGame();
                 }
             }
         }
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
     }
 }

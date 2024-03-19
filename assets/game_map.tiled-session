@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "maps/campus_east.tmx",
+    "activeFile": "maps/home.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -38,26 +38,23 @@
         },
         "maps/cafe.tmx": {
             "expandedObjectLayers": [
+                14,
                 16,
-                14
+                17
             ],
             "scale": 4,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 117.625,
-                "y": 92.375
+                "x": 61.75,
+                "y": 106.5
             }
         },
         "maps/campus_east.tmx": {
-            "expandedObjectLayers": [
-                23,
-                22
-            ],
             "scale": 1,
-            "selectedLayer": 19,
+            "selectedLayer": 15,
             "viewCenter": {
-                "x": 37.5,
-                "y": 236.5
+                "x": 485,
+                "y": 459
             }
         },
         "maps/cinema.tmx": {
@@ -67,57 +64,53 @@
             "scale": 3,
             "selectedLayer": 13,
             "viewCenter": {
-                "x": 120,
+                "x": 119.99999999999999,
                 "y": 94.5
             }
         },
         "maps/compSci.tmx": {
             "expandedObjectLayers": [
+                14,
                 12,
-                14
+                15
             ],
             "scale": 3.9979166666666663,
-            "selectedLayer": 10,
+            "selectedLayer": 11,
             "viewCenter": {
-                "x": 120.68785825951018,
-                "y": 95.67483064095885
+                "x": 34.0177175612298,
+                "y": 101.30276185513289
             }
         },
         "maps/end_game.tmx": {
-            "scale": 5.5,
+            "scale": 2,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 200.8181818181818,
-                "y": 108.45454545454545
+                "x": 208,
+                "y": 144.25
             }
-        },
-        "maps/end_game.tmx#text": {
-            "scaleInDock": 1,
-            "scaleInEditor": 1
         },
         "maps/home.tmx": {
             "expandedObjectLayers": [
-                15,
-                17,
-                18
+                21
             ],
             "scale": 5.5,
-            "selectedLayer": 10,
+            "selectedLayer": 11,
             "viewCenter": {
-                "x": 160.8181818181818,
-                "y": 79.90909090909092
+                "x": 13.09090909090908,
+                "y": 149.09090909090912
             }
         },
         "maps/library.tmx": {
             "expandedObjectLayers": [
+                20,
                 17,
-                20
+                21
             ],
             "scale": 4,
-            "selectedLayer": 18,
+            "selectedLayer": 15,
             "viewCenter": {
-                "x": 125.375,
-                "y": 67.375
+                "x": 128,
+                "y": 70.125
             }
         },
         "tilesets/cafe.tmx": {
@@ -131,20 +124,24 @@
         "tilesets/comp_sci_sign.tsx": {
             "scaleInDock": 1
         },
+        "tilesets/heslington_hustle.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "tilesets/interior.tsx": {
-            "scaleInDock": 1.5,
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "tilesets/longboi.tsx": {
             "scaleInDock": 1
         },
         "tilesets/nature.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 1.5
         },
         "tilesets/town.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 4,
+            "scaleInDock": 0.5,
             "scaleInEditor": 3
         },
         "tilesets/uni_library_sign.tsx": {
@@ -155,35 +152,40 @@
         }
     },
     "frame.defaultDuration": 100,
+    "last.exportedFilePath": "C:/Users/mitch/IdeaProjects/Heslington-Hustle/assets/highlights",
     "last.externalTilesetPath": "C:/Users/mitch/IdeaProjects/Heslington-Hustle/assets/tilesets",
     "last.imagePath": "C:/Users/mitch/IdeaProjects/Heslington-Hustle/assets/skin/craftacular/skin",
     "map.height": 18,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
     "map.width": 26,
     "mapScene.enableWorlds": false,
     "openFiles": [
-        "maps/campus_east.tmx",
         "maps/home.tmx",
-        "tilesets/interior.tsx",
         "maps/cafe.tmx",
         "maps/compSci.tmx",
         "maps/library.tmx",
         "maps/cinema.tmx",
-        "tilesets/town.tsx"
+        "tilesets/town.tsx",
+        "maps/end_game.tmx",
+        "tilesets/heslington_hustle.tsx",
+        "tilesets/interior.tsx"
     ],
     "project": "game_map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "maps/home.tmx",
-        "maps/library.tmx",
-        "maps/cafe.tmx",
-        "maps/compSci.tmx",
-        "maps/campus_east.tmx",
+        "tilesets/interior.tsx",
+        "tilesets/heslington_hustle.tsx",
+        "maps/end_game.tmx",
         "tilesets/town.tsx",
         "maps/cinema.tmx",
-        "tilesets/interior.tsx",
+        "maps/library.tmx",
+        "maps/compSci.tmx",
+        "maps/cafe.tmx",
+        "maps/home.tmx",
+        "maps/campus_east.tmx",
         "tilesets/nature.tsx",
         "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"
     ],

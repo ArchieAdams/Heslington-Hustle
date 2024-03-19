@@ -41,8 +41,10 @@ public class PlayerManager {
     }
 
 
-    public void study(int time) {
+    public void study(int timeCost, int energyCost) {
         currentDay.studied();
+        time.increaseTime(timeCost);
+        energy.useEnergy(energyCost);
     }
 
     public void eat(int time){
@@ -60,7 +62,7 @@ public class PlayerManager {
         time.nextDay();
     }
 
-    public boolean performActivity(int energyCost, int timeUsed) {
+    public boolean canPerformActivity(int energyCost, int timeUsed) {
         if (!energy.canUseEnergy(energyCost)){
             System.out.println("not enough energy");
             return false; //not enough energy
@@ -69,13 +71,15 @@ public class PlayerManager {
             System.out.println("not enough time");
             return false; //not enough time
         }
-        energy.useEnergy(energyCost);
-        time.increaseTime(timeUsed);
         return true;
     }
 
     public Energy getEnergy() {
         return energy;
+    }
+
+    public void useEnergy(int energyCost) {
+        energy.useEnergy(energyCost);
     }
 
     public Day getDay() {

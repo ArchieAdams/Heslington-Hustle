@@ -23,7 +23,7 @@ public abstract class Activity {
     }
 
     public boolean perform(PlayerManager playerManager) {
-        if (!playerManager.performActivity(energyUsagePercent,durationHours)) {
+        if (!playerManager.canPerformActivity(energyUsagePercent,durationHours)) {
             return false;
         }
         onPerform(playerManager);

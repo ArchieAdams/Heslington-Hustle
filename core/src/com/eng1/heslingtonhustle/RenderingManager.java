@@ -1,9 +1,13 @@
 package com.eng1.heslingtonhustle;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -23,6 +27,9 @@ public class RenderingManager {
     private final GameUI gameUI;
     private boolean playerVisible = true;
 
+    private ShapeRenderer shapeRenderer;
+
+
 
 
 
@@ -33,6 +40,7 @@ public class RenderingManager {
         this.mapManager = mapManager;
         this.uiStage = new Stage(new ScreenViewport(), batch);
         this.gameUI = new GameUI(uiStage,playerManager);
+        this.shapeRenderer = new ShapeRenderer();
     }
 
     private void shaderSetup() {
@@ -48,6 +56,47 @@ public class RenderingManager {
         // Set the texture uniform
         shader.setUniformi("u_texture", 1);
         shader.setUniformi("u_mask",1);
+        shader.setUniformf("u_highlight", 0);
+
+    }
+
+    public void render(List<Building> buildings, Movement playerMovement, Rectangle activityZone) {
+        cameraManager.render(batch, mapManager,playerMovement.getPosition());
+        batch.begin();
+        //renderBuildings(buildings,playerMovement);
+
+        renderPlayer(playerMovement);
+
+        batch.end();
+
+        if (activityZone != null) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+            shapeRenderer.setProjectionMatrix(cameraManager.getCamera().combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            float glowThickness = 10; // Total thickness of the simulated glow
+            int steps = 5; // Number of steps in the glow effect
+            float stepSize = glowThickness / steps;
+            Color glowColor = new Color(1f, 0.84f, 0.0f, 0.5f); // Starting color of the glow
+
+            for (int i = 0; i < steps; i++) {
+                // Gradually decrease the alpha and increase the size to simulate a glow
+                glowColor.a = (0.5f / steps) * (steps - i); // Decrease alpha
+                float expand = stepSize * i;
+                Gdx.gl20.glLineWidth(2 + i); // Optionally increase line width for each step
+                shapeRenderer.setColor(glowColor);
+                shapeRenderer.rect(activityZone.x - expand, activityZone.y - expand,
+                        activityZone.width + 2 * expand, activityZone.height + 2 * expand);
+            }
+
+            shapeRenderer.end();
+        }
+        //mapManager.renderOverlay(cameraManager.getCamera(), "overlay");
+        gameUI.updateProgressBar();
+        uiStage.act(Gdx.graphics.getDeltaTime());
+        uiStage.draw();
+
     }
 
     public void render(List<Building> buildings, Movement playerMovement) {
@@ -56,6 +105,7 @@ public class RenderingManager {
         renderBuildings(buildings,playerMovement);
 
         renderPlayer(playerMovement);
+
         batch.end();
 
         mapManager.renderOverlay(cameraManager.getCamera(), "overlay");
@@ -64,6 +114,7 @@ public class RenderingManager {
         uiStage.draw();
 
     }
+
 
 
     private void renderBuildings(List<Building> buildings,Movement player) {
@@ -142,5 +193,8 @@ public class RenderingManager {
     public void hidePlayer() {
         playerVisible = false;
     }
+
+    public ShaderProgram getShaderProgram() {return shader;}
+
 
 }

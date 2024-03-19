@@ -11,13 +11,12 @@ public class Energy {
     }
 
 
-    public boolean useEnergy(int energyUsed) {
+    public void useEnergy(int energyUsed) {
         int min = 0;
         boolean canBeDone = energy - energyUsed >= min;
         if (canBeDone) {
             this.energy = energy - energyUsed;
         }
-        return canBeDone;
     }
 
     public boolean canUseEnergy(int energyUsed){

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="21" nextobjectid="25">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="23" nextobjectid="30">
+ <editorsettings>
+  <export target="../highlights/home.tmj" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" source="../tilesets/interior.tsx"/>
  <layer id="1" name="floor" width="20" height="10">
   <data encoding="csv">
@@ -136,6 +139,11 @@
  </layer>
  <objectgroup id="18" name="activities">
   <object id="23" name="sleep" x="5.81818" y="114.727" width="57.2727" height="45.6364"/>
+ </objectgroup>
+ <objectgroup id="21" name="highlights">
+  <object id="29" name="sleep" x="13.2727" y="149.273">
+   <polygon points="0,0 -0.181818,-24.1818 2.72727,-25.6364 4.54545,-24.5455 4.72727,-22.5455 33.0909,-22.3636 32.7273,-0.181818 30.9091,2.90909 27.0909,2.90909 27.2727,1.27273 5.63636,1.27273 5.63636,3.09091 2,3.27273"/>
+  </object>
  </objectgroup>
  <layer id="4" name="curtains" width="20" height="10">
   <data encoding="csv">

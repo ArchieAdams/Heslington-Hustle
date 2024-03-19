@@ -63,7 +63,11 @@ public class Game extends ApplicationAdapter {
 
         playerManager.getMovement().update(deltaTime);
         gameManager.update();
-        renderingManager.render(buildings, playerManager.getMovement());
+        if(gameManager.getRectangle() != null) {
+            renderingManager.render(buildings, playerManager.getMovement(), gameManager.getRectangle());
+        } else {
+            renderingManager.render(buildings, playerManager.getMovement());
+        }
         stage.act();
         stage.draw();
     }
