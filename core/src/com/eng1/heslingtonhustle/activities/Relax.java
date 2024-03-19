@@ -9,6 +9,6 @@ public class Relax extends Activity {
 
     @Override
     public void onPerform(PlayerManager playerManager) {
-        playerManager.relax(durationHours);
+        playerManager.relax(durationHours, energyUsagePercent);
     }
 }

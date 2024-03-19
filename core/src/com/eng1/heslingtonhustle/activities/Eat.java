@@ -10,6 +10,6 @@ public class Eat extends Activity {
 
     @Override
     public void onPerform(PlayerManager playerManager) {
-        playerManager.eat(durationHours);
+        playerManager.eat(durationHours, energyUsagePercent);
     }
 }

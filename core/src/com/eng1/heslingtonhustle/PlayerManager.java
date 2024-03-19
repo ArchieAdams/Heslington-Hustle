@@ -47,12 +47,16 @@ public class PlayerManager {
         energy.useEnergy(energyCost);
     }
 
-    public void eat(int time){
+    public void eat(int timeCost, int energyCost){
         currentDay.eaten();
+        time.increaseTime(timeCost);
+        energy.useEnergy(energyCost);
     }
 
-    public void relax(int timeUsed){
+    public void relax(int timeCost, int energyCost) {
         currentDay.relaxed();
+        time.increaseTime(timeCost);
+        energy.useEnergy(energyCost);
     }
 
     public void sleep(){

@@ -148,6 +148,7 @@ public class MapManager {
         mapRenderer.setMap(tiledMap);
         collidableTiles.clear();
         activityTiles.clear();
+        exitTiles.clear();
         parseCollidableTiles();
     }
 

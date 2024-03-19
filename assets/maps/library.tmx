@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="22" nextobjectid="18">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="22" nextobjectid="19">
  <tileset firstgid="1" source="../tilesets/town.tsx"/>
  <tileset firstgid="28249" source="../tilesets/interior.tsx"/>
  <layer id="1" name="floor" width="16" height="10">
@@ -226,6 +226,7 @@
   <object id="11" x="125.75" y="-10.25"/>
   <object id="14" x="178.5" y="41.25" width="16" height="20.25"/>
   <object id="15" x="238.5" y="43.5" width="14.25" height="17"/>
+  <object id="18" x="250.364" y="-4.90909" width="6.36364" height="165.455"/>
  </objectgroup>
  <layer id="4" name="borders" width="16" height="10">
   <data encoding="csv">
@@ -256,7 +257,7 @@
 </data>
  </layer>
  <objectgroup id="20" name="exit">
-  <object id="12" x="87" y="132" width="32.25" height="27.5"/>
+  <object id="12" x="92.4545" y="132" width="23.5227" height="27.5"/>
  </objectgroup>
  <objectgroup id="21" name="activities">
   <object id="13" name="study" x="160" y="28.25" width="90.25" height="50.5"/>

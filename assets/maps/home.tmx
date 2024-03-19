@@ -121,7 +121,7 @@
   <object id="17" x="305" y="49" width="12" height="14.5"/>
  </objectgroup>
  <objectgroup id="17" name="exit">
-  <object id="21" x="195" y="131" width="42" height="29"/>
+  <object id="21" x="203.909" y="131" width="24.1818" height="29"/>
  </objectgroup>
  <layer id="16" name="door" width="20" height="10">
   <data encoding="csv">

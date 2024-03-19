@@ -63,7 +63,7 @@ public class RenderingManager {
     public void render(List<Building> buildings, Movement playerMovement, Rectangle activityZone) {
         cameraManager.render(batch, mapManager,playerMovement.getPosition());
         batch.begin();
-        //renderBuildings(buildings,playerMovement);
+        renderBuildings(buildings,playerMovement);
 
         renderPlayer(playerMovement);
 
@@ -92,7 +92,7 @@ public class RenderingManager {
 
             shapeRenderer.end();
         }
-        //mapManager.renderOverlay(cameraManager.getCamera(), "overlay");
+        mapManager.renderOverlay(cameraManager.getCamera(), "overlay");
         gameUI.updateProgressBar();
         uiStage.act(Gdx.graphics.getDeltaTime());
         uiStage.draw();
