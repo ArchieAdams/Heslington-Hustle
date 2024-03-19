@@ -11,10 +11,10 @@ public class Movement {
     private final Vector2 position;
     private final float speed;
     private final State state;
-    private final Animation<TextureRegion> downWalkAnimation = SpriteSheet.getDownWalk();
-    private final Animation<TextureRegion> upWalkAnimation = SpriteSheet.getUpWalk();
-    private final Animation<TextureRegion> leftWalkAnimation = SpriteSheet.getLeftWalk();
-    private final Animation<TextureRegion> rightWalkAnimation = SpriteSheet.getRightWalk();
+    private final Animation<TextureRegion> downWalkAnimation = ResourceLoader.getDownWalk();
+    private final Animation<TextureRegion> upWalkAnimation = ResourceLoader.getUpWalk();
+    private final Animation<TextureRegion> leftWalkAnimation = ResourceLoader.getLeftWalk();
+    private final Animation<TextureRegion> rightWalkAnimation = ResourceLoader.getRightWalk();
     private float stateTime;
     private Animation<TextureRegion> currentAnimation;
     private TextureRegion currentFrame;
@@ -34,12 +34,12 @@ public class Movement {
         this.speed = speed;
         this.state = new State();
         currentAnimation = downWalkAnimation;
-
-
     }
 
     public void update(float deltaTime) {
-        if (movementEnabled) {
+        if (!movementEnabled) {
+            return;
+        }
 
         int moveDirectionY = state.getMoveDirectionY();
         int moveDirectionX = state.getMoveDirectionX();
@@ -65,7 +65,7 @@ public class Movement {
         stateTime += deltaTime;
         updateAnimation();
         currentFrame = currentAnimation.getKeyFrame(stateTime, true);
-        }
+
     }
 
     private boolean collidesX(float x, float y) {

@@ -1,8 +1,10 @@
 package com.eng1.heslingtonhustle;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,13 +26,17 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void create() {
+        Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("bgtrack.mp3"));
+        backgroundMusic.play();
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(.5f);
         cameraManager = new CameraManager();
         MapManager mapManager = new MapManager();
         BuildingManager buildingManager = new BuildingManager();
         stage = new Stage(cameraManager.getViewport());
 
         Vector2 spawn = new Vector2(4608, 960);
-        playerManager = new PlayerManager(spawn, 320);
+        playerManager = new PlayerManager(spawn, 320*2);
         playerManager.getMovement().setCollidableTiles(mapManager.getCollidableTiles());
 
         inputSetup();

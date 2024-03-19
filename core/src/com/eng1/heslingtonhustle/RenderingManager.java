@@ -79,7 +79,7 @@ public class RenderingManager {
             }
             Vector2 interactSpot =  building.getInteractSpot();
 
-            batch.draw(SpriteSheet.getDebug(),interactSpot.x,interactSpot.y,32*SCALE,32*SCALE);
+            batch.draw(ResourceLoader.getDebug(),interactSpot.x,interactSpot.y,32*SCALE,32*SCALE);
         }
     }
 

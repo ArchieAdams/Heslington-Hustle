@@ -7,6 +7,8 @@ public class State {
     private boolean RIGHT;
 
     private boolean INTERACTING;
+    private boolean IN_MENU;
+
 
     public State() {
         UP = false;
@@ -14,6 +16,7 @@ public class State {
         LEFT = false;
         RIGHT = false;
         INTERACTING = false;
+        IN_MENU = false;
     }
 
     public void moveUp() {
@@ -33,7 +36,8 @@ public class State {
     }
 
     public void interacting() {
-        INTERACTING = true;
+        if (!IN_MENU)
+            INTERACTING = true;
     }
 
     public void stopInteracting(){
@@ -45,11 +49,25 @@ public class State {
     }
 
     public int getMoveDirectionY() {
+        if (IN_MENU){
+            return 0;
+        }
         return (UP ? 1 : 0) - (DOWN ? 1 : 0);
     }
 
     public int getMoveDirectionX() {
+        if (IN_MENU){
+            return 0;
+        }
         return (RIGHT ? 1 : 0) - (LEFT ? 1 : 0);
+    }
+
+    public void inMenu(){
+        IN_MENU = true;
+    }
+
+    public void leftMenu(){
+        IN_MENU = false;
     }
 
 }

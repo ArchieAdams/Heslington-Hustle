@@ -43,30 +43,29 @@ public class MapManager {
 
 
 
+
+
+    private void parseTiles(MapObjects objects, Array<Rectangle> collidableTiles) {
+        for (MapObject object : objects) {
+            if (object instanceof RectangleMapObject) {
+                RectangleMapObject rectObject = (RectangleMapObject) object;
+                Rectangle rect = rectObject.getRectangle();
+                collidableTiles.add(new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE));
+            }
+        }
+    }
+
     private void parseCollidableTiles() {
         if (tiledMap.getLayers().get("collisions") != null) {
-
             MapObjects objects = tiledMap.getLayers().get("collisions").getObjects();
-            for (MapObject object : objects) {
-                if (object instanceof RectangleMapObject) {
-                    RectangleMapObject rectObject = (RectangleMapObject) object;
-                    Rectangle rect = rectObject.getRectangle();
-                    collidableTiles.add(new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE));
-                }
-            }
+            parseTiles(objects, collidableTiles);
         }
     }
 
     private void parseExitTiles() {
         if(tiledMap.getLayers().get("exit") != null) {
             MapObjects objects = tiledMap.getLayers().get("exit").getObjects();
-            for (MapObject object : objects) {
-                if (object instanceof RectangleMapObject) {
-                    RectangleMapObject rectObject = (RectangleMapObject) object;
-                    Rectangle rect = rectObject.getRectangle();
-                    exitTiles.add(new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE));
-                }
-            }
+            parseTiles(objects, exitTiles);
         }
     }
 
@@ -93,16 +92,16 @@ public class MapManager {
     private Activity createActivityForName(String name) {
         switch (name) {
             case "eat":
-                return new Eat();
+                return new Eat(1,10);
 
             case "study":
-                return new Study();
+                return new Study(2,20);
 
             case "relax":
-                return new Relax();
+                return new Relax(2,0);
 
             case "sleep":
-                return new Sleep();
+                return new Sleep(0,0);
 
             default:
                 return null;
@@ -138,7 +137,7 @@ public class MapManager {
         parseExitTiles();
         parseActivityTiles();
     }
-
+    // could change to call changeMapToCampus
     public void changeMapToCampus() {
         if (tiledMap!= null) {
             tiledMap.dispose();

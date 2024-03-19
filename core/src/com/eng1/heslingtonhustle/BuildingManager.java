@@ -27,7 +27,7 @@ public class BuildingManager {
     private static Map<String, Building> loadBuildingInfo() {
         Gson gson = new Gson();
         Map<String, Building> buildingMap = new HashMap<>();
-        try (FileReader reader = new FileReader("assets/buildings.json")) {
+        try (FileReader reader = new FileReader("buildings.json")) {
             BuildingInfo[] buildingInfos = gson.fromJson(reader, BuildingInfo[].class);
             for (BuildingInfo buildingInfo : buildingInfos) {
                 buildingMap.put(buildingInfo.id, new Building(buildingInfo));

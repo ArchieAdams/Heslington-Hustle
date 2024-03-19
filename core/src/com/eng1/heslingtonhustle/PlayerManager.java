@@ -89,4 +89,59 @@ public class PlayerManager {
     public boolean gameOver() {
         return time.isWeekOver();
     }
+
+
+    public void getScore(){
+        int studyCount = 0;
+        int dayStudiedOnce = 0;
+        int dayRelaxedOnce = 0;
+        int dayEatenCount = 0;
+        int maxScore = 100;
+        int score = 0;
+
+        int i=0;
+        for (Day day : week) {
+            studyCount += day.getStudySessions();
+            if (day.getStudySessions() > 1) {
+                dayStudiedOnce++;
+            }
+            if (day.getEaten() >= 3) {
+                dayEatenCount++;
+            }
+            if (day.getRelaxed() > 0) {
+                dayRelaxedOnce++;
+            }
+
+            System.out.println("Day " + i);
+            System.out.println("" + day.getStudySessions());
+            System.out.println("" + day.getEaten());
+            System.out.println("" + day.getRelaxed());
+
+            i++;
+        }
+
+        score = studyCount * 10;
+
+        // Apply penalties
+        if (dayStudiedOnce != 7 && (dayStudiedOnce != 6 || studyCount < 7)) {
+            score -= 20;
+        }
+
+        if (dayEatenCount < 2) {
+            score -= 10; // Penalty for not eating enough
+        }
+
+        if (dayRelaxedOnce < 7) {
+            score -= 10; // Penalty for not relaxing enough
+        }
+
+        // Cap the score at maxScore
+        score = Math.min(score, maxScore);
+        score = Math.max(score, 0);
+
+
+        System.out.println("Final Score: " + score);
+
+
+    }
 }

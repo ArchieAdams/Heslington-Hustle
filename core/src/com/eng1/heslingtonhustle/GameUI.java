@@ -2,12 +2,11 @@ package com.eng1.heslingtonhustle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.utils.Align;
+import com.eng1.heslingtonhustle.activities.Activity;
 
 
 public class GameUI {
@@ -78,9 +77,12 @@ public class GameUI {
         dayLabel.setText("Day: "+time.getDay());
     }
 
+
+
     public void dispose() {
         uiStage.dispose();
         xpBackground.dispose();
         xpFill.dispose();
     }
+
 }

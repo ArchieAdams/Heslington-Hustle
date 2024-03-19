@@ -15,21 +15,23 @@ public class Building {
 
     public Building(BuildingInfo buildingInfo) {
         this.name = buildingInfo.name;
-        this.textureRegion = SpriteSheet.getBuildingTextureRegion(
+        this.textureRegion = ResourceLoader.getBuildingTextureRegion(
                 buildingInfo.textureStartX, buildingInfo.textureStartY,
                 buildingInfo.textureWidth, buildingInfo.textureHeight);
+        int energy = buildingInfo.energy;
+        int time = buildingInfo.time;
         switch (buildingInfo.activityName){
             case "Study":
-                activity = new Study();
+                activity = new Study(time,energy);
                 break;
             case "Eat":
-                activity = new Eat();
+                activity = new Eat(time,energy);
                 break;
             case "Relax":
-                activity = new Relax();
+                activity = new Relax(time,energy);
                 break;
             case "Sleep":
-                activity = new Sleep();
+                activity = new Sleep(time,energy);
                 break;
             default:
                 //TODO Handle error

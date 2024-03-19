@@ -23,6 +23,9 @@ public class InputHandler extends InputAdapter {
     @Override
     public boolean keyUp(int keycode) {
         handleInput(keycode);
+        if (keycode == Input.Keys.E) {
+            playerState.stopInteracting();
+        }
         return true;
     }
 

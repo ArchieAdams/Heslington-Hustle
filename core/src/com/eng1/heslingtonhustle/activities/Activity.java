@@ -36,5 +36,11 @@ public abstract class Activity {
 
 
     public abstract void onPerform(PlayerManager playerManager);
+
+
+    @Override
+    public String toString() {
+        return String.format("It will take %d hours and use %d%% of your energy.",durationHours,energyUsagePercent);
+    }
 }
 

@@ -37,66 +37,56 @@ public class GameManager {
         this.renderingManager = renderManager;
     }
 
-    public Building checkForBuildingInRange() {
+
+
+    private Building checkForBuildingInRange() {
         List<Building> buildings = buildingManager.getCampusBuildings();
         Vector2 position = playerManager.getPosition();
         for (Building building : buildings) {
             if (building.inRange(position)) {
                 return building;
             }
-        } return null;
+        }
+        return null;
     }
 
-    public void interactWithBuilding(Building building,Movement player) {
-        Vector2 playerPosition = player.getPosition();
-        if (player.getPlayerState().isINTERACTING()) {
-            player.getPlayerState().stopInteracting();
-            Dialog dialog = createDialog(building);
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
-                    dialog.setPosition(playerPosition.x - 175, playerPosition.y + 50);
-                    dialog.setSize(350, 100);
-                }
-            }, 0);
+    private void interactWithBuilding(Building building) {
+        if (playerManager.getState().isINTERACTING()) {
+            playerManager.getState().stopInteracting();
+            enterBuilding(building);
         }
     }
 
-    private Dialog createDialog(Building building) {
-        Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
-        String buildingToEnter = building.getName();
-        Dialog dialog = new Dialog("Are you sure you want to go to " + buildingToEnter + "?", skin) {
-            public void result(Object obj) {
-                System.out.println("result " + obj);
-                if ((boolean) obj) {
-                    Activity buildingActivity = building.getActivity();
-                    System.out.println(buildingActivity);
-                    boolean perform = buildingActivity.perform(playerManager);
-                    if(perform){
-                        day = playerManager.getDay();
-                        day.addActivity(buildingActivity);
-                        if(playerManager.gameOver()) {
-                            endGame();
-                        }
-                    }
-                    System.out.println(day.getTotalDuration());
-                    System.out.println(day.getTotalEnergyUsage());
-                    System.out.println(day.getStudySessions());
 
-                    //enterBuilding(buildingToEnter);
-                }
+    private void showErrorDialog(String label) {
+        Dialog dialog = createDialog(label);
+        Vector2 playerPosition = playerManager.getPosition();
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.1f, Interpolation.fade), Actions.delay(.25f),
+                        Actions.fadeOut(0.1f, Interpolation.fade)));
             }
-        };
+        }, 0f);
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                playerManager.getState().leftMenu();
+            }
+        }, .45f);
+    }
 
-        dialog.text("It will take "+building.getActivity().getDurationHours()+" hours and use "+building.getActivity().getEnergyUsagePercent()+"% of your energy");
-        dialog.button("Yes", true);
-        dialog.button("No", false);
+    private Dialog createDialog(String label) {
+        Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
+        Dialog dialog = new Dialog("Can't do activity.", skin);
+        dialog.text(label);
+        dialog.setSize(200, 100);
+        dialog.setPosition(playerManager.getPosition().x-100,playerManager.getPosition().y+50);
         return dialog;
     }
 
-    private void enterBuilding(String buildingName) {
-        String newMapPath = mapManager.getMapPath(buildingName);
+    private void enterBuilding(Building building) {
+        String newMapPath = mapManager.getMapPath(building.getName());
         respawnLocation = new Vector2(playerManager.getPosition());
         playerInBuilding = true;
         mapManager.changeMap(newMapPath);
@@ -114,7 +104,7 @@ public class GameManager {
     }
 
     private void exitBuilding() {
-        if (playerManager.getState().isINTERACTING()) {
+        if (playerManager.getState().isINTERACTING() && playerInExitZone(playerManager.getPosition())) {
             playerManager.getState().stopInteracting();
             playerInBuilding = false;
             mapManager.changeMapToCampus();
@@ -135,25 +125,21 @@ public class GameManager {
     private void askToDoActivity(ActivityTile activityTile) {
         if (playerManager.getState().isINTERACTING()) {
             playerManager.getState().stopInteracting();
+            playerManager.getState().inMenu();
             Vector2 playerPosition = playerManager.getPosition();
-            Skin skin = new Skin(Gdx.files.internal("assets/skin/default/uiskin.json"));
+            Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
             Activity activity = activityTile.getActivity();
             Dialog dialog = new Dialog("Activity", skin) {
                 @Override
                 protected void result(Object object) {
-                    System.out.println("Choice" + object);
                     boolean choice = (Boolean) object;
-                    if (choice) {
-                        activity.onPerform(playerManager);
+                    if (!choice) {
+                        return;
                     }
+                    handleActivity(activity);
                 }
             };
-            String activityName = activity.getName();
-            String activityNameCapitalized = activityName.substring(0, 1).toUpperCase() + activityName.substring(1);
-            int timeUsed = activity.getDurationHours();
-            int energyUsed = activity.getEnergyUsagePercent();
-            dialog.text("Would you like to " + activityName + "? \n" +
-                    activityNameCapitalized + "ing will take " + timeUsed + " hours and use " + energyUsed + "% of your energy");
+            dialog.text(activity.toString());
             dialog.button("Yes", true);
             dialog.button("No", false);
             dialog.show(stage);
@@ -162,10 +148,22 @@ public class GameManager {
                 @Override
                 public void run() {
                     dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
-                    dialog.setPosition(playerPosition.x - 175, playerPosition.y + 50);
+                    dialog.setPosition(playerPosition.x - 225, playerPosition.y + 50);
                     dialog.setSize(450, 100);
                 }
             }, 0);
+        }
+    }
+
+    private void handleActivity(Activity activity) {
+        boolean performed = activity.perform(playerManager);
+        if(!performed){
+            showErrorDialog("Can't perform activity.");
+        }else {
+            playerManager.getState().leftMenu();
+            if(playerManager.gameOver()) {
+                endGame();
+            }
         }
     }
 
@@ -176,12 +174,13 @@ public class GameManager {
         renderingManager.getGameUI().dispose();
         renderingManager.hidePlayer();
         playerManager.getMovement().disableMovement();
+        playerManager.getScore();
     }
 
     public void update() {
         Building building = checkForBuildingInRange();
         if (checkForBuildingInRange() != null) {
-            interactWithBuilding(building, playerManager.getMovement());
+            interactWithBuilding(building);
         }
 
         if (playerInBuilding) {
@@ -193,7 +192,7 @@ public class GameManager {
                 askToDoActivity(activityTile);
                 renderingManager.getGameUI().updateProgressBar();
                 if (playerManager.gameOver()) {
-                    //mapManager.displayEndMap();
+                    mapManager.displayEndMap();
                 }
             }
         }

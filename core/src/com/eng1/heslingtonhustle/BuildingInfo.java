@@ -8,4 +8,6 @@ public class BuildingInfo {
     int textureWidth;
     int textureHeight;
     String activityName;
+    int energy;
+    int time;
 }
