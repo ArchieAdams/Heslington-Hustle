@@ -138,7 +138,7 @@ public class GameUI {
         int score;
         for (Day day : week) {
             studyCount += day.getStudySessions();
-            if (day.getStudySessions() > 1) {
+            if (day.getStudySessions() >= 1) {
                 dayStudiedOnce++;
             }
             if (day.getEaten() >= 2) {
@@ -150,10 +150,12 @@ public class GameUI {
         }
 
         score = studyCount * 10;
+        score = Math.min(score, maxScore);
 
         // Apply penalties
         if (dayStudiedOnce != 7 && (dayStudiedOnce != 6 || studyCount < 7)) {
-            score -= 20;
+            score = dayStudiedOnce*10;
+            score = Math.min(score, 50);
         }
 
         if (dayEatenCount < 7) {
@@ -165,7 +167,7 @@ public class GameUI {
         }
 
         // Cap the score at maxScore
-        score = Math.min(score, maxScore);
+
         score = Math.max(score, 0);
         return score;
     }

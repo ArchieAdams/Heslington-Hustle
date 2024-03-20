@@ -24,50 +24,41 @@ public class RenderingManager {
     private final Stage uiStage;
     private final GameUI gameUI;
     private boolean playerVisible = true;
-    private ShaderProgram skyShader;
-    private float brightness;
-    private float hue;
 
-
-
-
-    public RenderingManager(CameraManager cameraManager, MapManager mapManager,PlayerManager playerManager) {
-
-
-        ShaderProgram.pedantic = false;
-        skyShader = new ShaderProgram(
-                Gdx.files.internal("shader/brightness_hue_shader.vert"),
-                Gdx.files.internal("shader/brightness_hue_shader.frag")
-        );
-        if (!skyShader.isCompiled()) {
-            Gdx.app.error("Shader", "Shader compilation failed: " + skyShader.getLog());
-        }
-
-        brightness = 1.0f; // Initial brightness
-        hue = 0.0f; // Initial hue angle in degrees
-
+    public RenderingManager(CameraManager cameraManager, MapManager mapManager, PlayerManager playerManager) {
         this.batch = new SpriteBatch();
-        shaderSetup();
         this.cameraManager = cameraManager;
         this.mapManager = mapManager;
         this.uiStage = new Stage(new ScreenViewport(), batch);
-        this.gameUI = new GameUI(uiStage,playerManager);
-    }
+        this.gameUI = new GameUI(uiStage, playerManager);
 
-    private void shaderSetup() {
-        String vertexShader = Gdx.files.internal("shader/vertexShader.glsl").readString();
-        String fragmentShader = Gdx.files.internal("shader/fragmentShader.glsl").readString();
-        shader = new ShaderProgram(vertexShader, fragmentShader);
 
-        if (!shader.isCompiled()) {
-            Gdx.app.error("Shader", "Error compiling shader: " + shader.getLog());
-            return;
+        if (!shaderSetup()) {
+            Gdx.app.error("RenderingManager", "Error initializing shaders. Rendering may be affected.");
         }
-
-        // Set the texture uniform
-        shader.setUniformi("u_texture", 1);
-        shader.setUniformi("u_mask",1);
     }
+
+    private boolean shaderSetup() {
+        try {
+            String vertexShader = Gdx.files.internal("shader/vertexShader.glsl").readString();
+            String fragmentShader = Gdx.files.internal("shader/fragmentShader.glsl").readString();
+            shader = new ShaderProgram(vertexShader, fragmentShader);
+
+            if (!shader.isCompiled()) {
+                Gdx.app.error("Shader", "Error compiling shader: " + shader.getLog());
+                return false;
+            }
+
+            // Set the texture uniform
+            shader.setUniformi("u_texture", 1);
+            shader.setUniformi("u_mask", 1);
+            return true;
+        } catch (Exception e) {
+            Gdx.app.error("Shader", "Error loading shaders: " + e.getMessage());
+            return false;
+        }
+    }
+
 
     public void render(List<Building> buildings, PlayerManager playerManager) {
         Movement playerMovement = playerManager.getMovement();
@@ -75,24 +66,14 @@ public class RenderingManager {
 
 
         batch.begin();
-
-
-
-        renderBuildings(buildings,playerMovement);
-        renderPlayer(playerMovement);
-        mapManager.renderOverlay(cameraManager.getCamera(), "overlay");
-
-        brightness = calculateBrightness(playerManager.getTime().getTime());
-        batch.setColor(1, 1, 1, 1 - brightness);
-        batch.draw(ResourceLoader.getOverlay(), playerMovement.getPosition().x-Gdx.graphics.getWidth()/2f,
-                playerMovement.getPosition().y-Gdx.graphics.getHeight()/2f
-                , Gdx.graphics.getWidth()*2, Gdx.graphics.getHeight()*2);
-
-        batch.end();
-
-
-
-
+        try {
+            renderBuildings(buildings, playerMovement);
+            renderPlayer(playerMovement);
+            mapManager.renderOverlay(cameraManager.getCamera(), "overlay");
+            daylight(playerManager, playerMovement);
+        } finally {
+            batch.end();
+        }
 
         gameUI.updateProgressBar();
         uiStage.act(Gdx.graphics.getDeltaTime());
@@ -100,18 +81,24 @@ public class RenderingManager {
 
     }
 
+    private void daylight(PlayerManager playerManager, Movement playerMovement) {
+        float brightness = calculateBrightness(playerManager.getTime().getTime());
+        batch.setColor(1, 1, 1, 1 - brightness);
+        batch.draw(ResourceLoader.getOverlay(), playerMovement.getPosition().x-Gdx.graphics.getWidth()/2f,
+                playerMovement.getPosition().y-Gdx.graphics.getHeight()/2f
+                , Gdx.graphics.getWidth()*2, Gdx.graphics.getHeight()*2);
+    }
+
     // Function to calculate brightness based on time of day
     private float calculateBrightness(int timeOfDay) {
-        // Calculate the rate of change in brightness over time
-        // For example, you might want the brightness to decrease by a certain amount per hour
-        float initialBrightness = 1.0f; // Initial brightness at time 8 (morning)
-        float finalBrightness = 0.2f; // Final brightness at time 24 (night)
-        float totalHours = 24 - 8; // Total hours from morning to night
-        float hoursElapsed = timeOfDay - 8; // Number of hours passed since morning
-        float rateOfChange = (initialBrightness - finalBrightness) / totalHours; // Rate of change per hour
+
+        float initialBrightness = 1.0f;
+        float finalBrightness = 0.2f;
+        float totalHours = 24 - 8;
+        float hoursElapsed = timeOfDay - 8;
+        float rateOfChange = (initialBrightness - finalBrightness) / totalHours;
         float currentBrightness = initialBrightness - rateOfChange * hoursElapsed;
 
-        // Ensure the brightness stays within the range [0, 1]
         return Math.max(finalBrightness, Math.min(initialBrightness, currentBrightness));
     }
 

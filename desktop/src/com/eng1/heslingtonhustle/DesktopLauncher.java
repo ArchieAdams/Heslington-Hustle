@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("Heslington Hustle");
 		config.setWindowedMode(1440,810);
+		config.setWindowIcon("images/logo.png");
 		new Lwjgl3Application(new Game(), config);
 	}
 }

@@ -126,39 +126,7 @@ public class GameManager {
         return null;
     }
 
-    private void askToDoActivity(ActivityTile activityTile) {
-        if (playerManager.getState().isINTERACTING()) {
-            playerManager.getState().stopInteracting();
-            playerManager.getState().inMenu();
-            Vector2 playerPosition = playerManager.getPosition();
-            Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
-            Activity activity = activityTile.getActivity();
-            Dialog dialog = new Dialog("Activity", skin) {
-                @Override
-                protected void result(Object object) {
-                    boolean choice = (Boolean) object;
-                    if (!choice) {
-                        playerManager.getState().leftMenu();
-                        return;
-                    }
-                    handleActivity(activity);
-                }
-            };
-            dialog.text(activity.toString());
-            dialog.button("Yes", true);
-            dialog.button("No", false);
-            dialog.show(stage);
 
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
-                    dialog.setPosition(playerPosition.x - 225, playerPosition.y + 50);
-                    dialog.setSize(450, 100);
-                }
-            }, 0);
-        }
-    }
 
     private void handleActivity(Activity activity) {
         boolean performed = activity.perform(playerManager);
@@ -177,7 +145,6 @@ public class GameManager {
         buildingManager.makeBuildingsDisappear();
         playerManager.movement.setPosition(new Vector2(900, 1900));
         mapManager.displayEndMap();
-        //renderingManager.getGameUI().dispose();
         renderingManager.hidePlayer();
         playerManager.getMovement().disableMovement();
         playerManager.getState().inMenu();
@@ -200,16 +167,6 @@ public class GameManager {
                 askToDoActivity(currentBuilding.getActivity());
                 renderingManager.getGameUI().updateProgressBar();
             }
-
-
-//            ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
-//            if (activityTile != null) {
-//                askToDoActivity(activityTile);
-//                renderingManager.getGameUI().updateProgressBar();
-//                if (playerManager.gameOver()) {
-//                    mapManager.displayEndMap();
-//                }
-//            }
         }
     }
 
