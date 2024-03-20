@@ -7,12 +7,24 @@ project.ext.assetsDir = new File("../assets")
 
 import org.gradle.internal.os.OperatingSystem
 
+tasks.register('dist', Jar) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes 'Main-Class': project.ext.mainClassName
+    }
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+}
+
 tasks.register('run', JavaExec) {
     dependsOn classes
-    mainClass = project.mainClassName
+    mainClass = project.ext.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project.assetsDir
+    workingDir = project.ext.assetsDir
     ignoreExitValue = true
 
     if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
@@ -23,25 +35,14 @@ tasks.register('run', JavaExec) {
 
 tasks.register('debug', JavaExec) {
     dependsOn classes
-    mainClass = project.mainClassName
+    mainClass = project.ext.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project.assetsDir
+    workingDir = project.ext.assetsDir
     ignoreExitValue = true
     debug = true
 }
 
-tasks.register('dist', Jar) {
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-    manifest {
-        attributes 'Main-Class': project.mainClassName
-    }
-    dependsOn configurations.runtimeClasspath
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    with jar
-}
 
 
 dist.dependsOn classes

@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.eng1.heslingtonhustle.activities.Activity;
 
+import java.util.List;
+
 
 public class GameUI {
     private final Stage uiStage;
@@ -18,6 +20,8 @@ public class GameUI {
     private Label dayLabel;
     private final PlayerManager playerManager;
     private final Time time;
+    private Table scoreTable;
+    private Skin skin;
 
 
     public GameUI(Stage uiStage, PlayerManager playerManager) {
@@ -28,12 +32,11 @@ public class GameUI {
         xpBackground = new Texture(Gdx.files.internal("skin/craftacular/raw/xp-bg.png"));
         xpFill = new Texture(Gdx.files.internal("skin/craftacular/raw/xp.png"));
         progressBar = new ProgressBar(0, 100, 0.01f, false, new ProgressBar.ProgressBarStyle());
-
+        skin = new Skin(Gdx.files.internal("skin/craftacular/skin/craftacular-ui.json"));
         initUI();
     }
 
     private void initUI() {
-        Skin skin = new Skin(Gdx.files.internal("skin/craftacular/skin/craftacular-ui.json"));
 
         Label energyLabel = new Label("Energy: ", skin);
         dayLabel = new Label("Day: ", skin);
@@ -68,6 +71,7 @@ public class GameUI {
         table.row();
         table.add(timeLabel).padTop(padTop).padRight(5);
 
+
         uiStage.addActor(table);
     }
 
@@ -75,6 +79,86 @@ public class GameUI {
         progressBar.setValue(playerManager.getEnergy().getEnergyLevel());
         timeLabel.setText("Time: "+time.toString());
         dayLabel.setText("Day: "+time.getDay());
+    }
+
+    public void showScore(List<Day> week){
+        uiStage.clear();
+        scoreTable = new Table();
+        scoreTable.setFillParent(true);
+        uiStage.addActor(scoreTable);
+
+        int score = calculateScore(week);
+
+        scoreTable.add(new Label("Day", skin)).expandX().center().bottom();
+        scoreTable.add(new Label("Study", skin)).expandX().center().bottom();
+        scoreTable.add(new Label("Eaten", skin)).expandX().center().bottom();
+        scoreTable.add(new Label("Relaxed", skin)).expandX().center().bottom();
+        int index = 0;
+        for (Day day : week) {
+            addDayStatsLabel(time.getDay(index), day.getStudySessions(), day.getEaten(), day.getRelaxed());
+            index++;
+        }
+
+        Label scoreLabel = new Label("Final Score: " + score, skin);
+        scoreLabel.setAlignment(Align.center);
+
+        scoreTable.row().expandY().bottom();
+        scoreTable.add(scoreLabel).expandX().center().colspan(4).padTop(20).bottom();
+
+
+        scoreTable.row().pad(10).bottom();
+
+    }
+
+
+
+    private void addDayStatsLabel(String dayLabel, int studySessions, int eaten, int relaxed) {
+        scoreTable.row().pad(10);
+        scoreTable.add(new Label(dayLabel, skin)).expandX().center().bottom();
+        scoreTable.add(new Label(String.valueOf(studySessions), skin)).expandX().center().bottom();
+        scoreTable.add(new Label(String.valueOf(eaten), skin)).expandX().center().bottom();
+        scoreTable.add(new Label(String.valueOf(relaxed), skin)).expandX().center().bottom();
+    }
+
+    private int calculateScore(List<Day> week) {
+        int studyCount = 0;
+        int dayStudiedOnce = 0;
+        int dayRelaxedOnce = 0;
+        int dayEatenCount = 0;
+        int maxScore = 100;
+        int score;
+        for (Day day : week) {
+            studyCount += day.getStudySessions();
+            if (day.getStudySessions() > 1) {
+                dayStudiedOnce++;
+            }
+            if (day.getEaten() >= 2) {
+                dayEatenCount++;
+            }
+            if (day.getRelaxed() > 0) {
+                dayRelaxedOnce++;
+            }
+        }
+
+        score = studyCount * 10;
+
+        // Apply penalties
+        if (dayStudiedOnce != 7 && (dayStudiedOnce != 6 || studyCount < 7)) {
+            score -= 20;
+        }
+
+        if (dayEatenCount < 7) {
+            score -= 10; // Penalty for not eating enough
+        }
+
+        if (dayRelaxedOnce < 7) {
+            score -= 10; // Penalty for not relaxing enough
+        }
+
+        // Cap the score at maxScore
+        score = Math.min(score, maxScore);
+        score = Math.max(score, 0);
+        return score;
     }
 
 

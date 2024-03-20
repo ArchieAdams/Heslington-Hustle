@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class Movement {
     public static final float DIAGONAL_MODIFIER = (float) (Math.sqrt(2) / 2);
+    private static final float PLAYER_WIDTH = 16;
+    private static final float PLAYER_HEIGHT = 20;
     private final Vector2 position;
     private final float speed;
     private final State state;
@@ -19,14 +21,7 @@ public class Movement {
     private Animation<TextureRegion> currentAnimation;
     private TextureRegion currentFrame;
     private Array<Rectangle> collidableTiles;
-    private static final float PLAYER_WIDTH = 16;
-    private static final float PLAYER_HEIGHT = 20;
     private boolean movementEnabled = true;
-
-
-    public void setCollidableTiles(Array<Rectangle> collidableTiles) {
-        this.collidableTiles = collidableTiles;
-    }
 
 
     public Movement(Vector2 position, float speed) {
@@ -34,6 +29,10 @@ public class Movement {
         this.speed = speed;
         this.state = new State();
         currentAnimation = downWalkAnimation;
+    }
+
+    public void setCollidableTiles(Array<Rectangle> collidableTiles) {
+        this.collidableTiles = collidableTiles;
     }
 
     public void update(float deltaTime) {
@@ -88,7 +87,6 @@ public class Movement {
     }
 
 
-
     private void updateAnimation() {
         int moveDirectionY = state.getMoveDirectionY();
         int moveDirectionX = state.getMoveDirectionX();
@@ -115,13 +113,13 @@ public class Movement {
         return position;
     }
 
-    public State getPlayerState() {
-        return state;
-    }
-
     public void setPosition(Vector2 newPosition) {
         this.position.x = newPosition.x;
         this.position.y = newPosition.y;
+    }
+
+    public State getPlayerState() {
+        return state;
     }
 
     public void disableMovement() {

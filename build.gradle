@@ -1,19 +1,16 @@
 buildscript {
-    
-
     repositories {
-        mavenLocal()
-        mavenCentral()
-        gradlePluginPortal()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         google()
+        mavenCentral()
     }
     dependencies {
+        classpath "com.android.tools.build:gradle:4.2.0" // Add this line if you're using Android Gradle Plugin
     }
 }
 
 allprojects {
     apply plugin: "eclipse"
+    apply plugin: "idea" // Apply IDEA plugin for IntelliJ IDEA support
 
     version = '1.0'
     ext {
@@ -30,7 +27,6 @@ allprojects {
         mavenLocal()
         mavenCentral()
         google()
-        gradlePluginPortal()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
         maven { url "https://jitpack.io" }
@@ -42,18 +38,17 @@ project(":desktop") {
 
     dependencies {
         implementation project(":core")
-        api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop" // Use implementation instead of natives
     }
 }
 
 project(":core") {
     apply plugin: "java-library"
 
-
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        implementation("com.google.code.gson:gson:2.7")
+        implementation "com.google.code.gson:gson:2.8.6" // Update Gson version
     }
 }
 
@@ -63,12 +58,8 @@ project(":test") {
     sourceSets.test.java.srcDirs = ["src/"]
 
     dependencies {
-
         implementation project(":desktop")
         implementation project(":core")
-
-        implementation "junit:junit:4.+"
-        testImplementation 'junit:junit:4.+'
-
+        testImplementation "junit:junit:4.13.2" // Update JUnit version
     }
 }

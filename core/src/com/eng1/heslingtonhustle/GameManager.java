@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
 import com.eng1.heslingtonhustle.activities.Activity;
 
-
 import java.util.List;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
@@ -21,22 +20,19 @@ public class GameManager {
     private final MapManager mapManager;
     private final PlayerManager playerManager;
     private final BuildingManager buildingManager;
-    private Day day = new Day();
-    private Vector2 respawnLocation;
-    private GameUI gameUI;
-    private boolean playerInBuilding = false;
-
     private final RenderingManager renderingManager;
+    private Vector2 respawnLocation;
+    private boolean playerInBuilding = false;
 
     public GameManager(Stage stage, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager, RenderingManager renderManager) {
         this.stage = stage;
         this.mapManager = mapManager;
         this.playerManager = playerManager;
         this.buildingManager = buildingManager;
+        Day day = new Day();
         playerManager.setCurrentDay(day);
         this.renderingManager = renderManager;
     }
-
 
 
     private Building checkForBuildingInRange() {
@@ -64,11 +60,10 @@ public class GameManager {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.1f, Interpolation.fade), Actions.delay(.25f),
-                        Actions.fadeOut(0.1f, Interpolation.fade)));
+                dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.1f, Interpolation.fade), Actions.delay(.25f), Actions.fadeOut(0.1f, Interpolation.fade)));
             }
         }, 0f);
-        Timer.schedule(new Timer.Task(){
+        Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 playerManager.getState().leftMenu();
@@ -81,7 +76,7 @@ public class GameManager {
         Dialog dialog = new Dialog("Can't do activity.", skin);
         dialog.text(label);
         dialog.setSize(200, 100);
-        dialog.setPosition(playerManager.getPosition().x-100,playerManager.getPosition().y+50);
+        dialog.setPosition(playerManager.getPosition().x - 100, playerManager.getPosition().y + 50);
         return dialog;
     }
 
@@ -157,11 +152,11 @@ public class GameManager {
 
     private void handleActivity(Activity activity) {
         boolean performed = activity.perform(playerManager);
-        if(!performed){
+        if (!performed) {
             showErrorDialog("Can't perform activity.");
-        }else {
+        } else {
             playerManager.getState().leftMenu();
-            if(playerManager.gameOver()) {
+            if (playerManager.gameOver()) {
                 endGame();
             }
         }
@@ -169,12 +164,12 @@ public class GameManager {
 
     public void endGame() {
         buildingManager.makeBuildingsDisappear();
-        playerManager.movement.setPosition(new Vector2(900, 700));
+        playerManager.movement.setPosition(new Vector2(900, 1900));
         mapManager.displayEndMap();
-        renderingManager.getGameUI().dispose();
+        //renderingManager.getGameUI().dispose();
         renderingManager.hidePlayer();
         playerManager.getMovement().disableMovement();
-        playerManager.getScore();
+        renderingManager.getGameUI().showScore(playerManager.getWeek());
     }
 
     public void update() {

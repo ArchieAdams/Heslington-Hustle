@@ -59,4 +59,12 @@ public class Time {
             return null;
         }
     }
+
+    public String getDay(int i) {
+        if (i < 7) {
+            return DAYS[i];
+        } else {
+            return null;
+        }
+    }
 }

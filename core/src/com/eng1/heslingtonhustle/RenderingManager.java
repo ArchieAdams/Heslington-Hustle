@@ -73,13 +73,17 @@ public class RenderingManager {
                 continue;
             }
             if (building.inRange(player.getPosition())) {
+
                 outlineBuilding(building);
             } else {
                 renderBuilding(building);
             }
-            Vector2 interactSpot =  building.getInteractSpot();
+            boolean DEBUG = false;
+            if (DEBUG) {
+                Vector2 interactSpot =  building.getInteractSpot();
 
-            batch.draw(ResourceLoader.getDebug(),interactSpot.x,interactSpot.y,32*SCALE,32*SCALE);
+                batch.draw(ResourceLoader.getDebug(),interactSpot.x,interactSpot.y,32*SCALE,32*SCALE);
+            }
         }
     }
 
@@ -142,5 +146,6 @@ public class RenderingManager {
     public void hidePlayer() {
         playerVisible = false;
     }
+
 
 }

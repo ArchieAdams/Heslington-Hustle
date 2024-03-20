@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager {
-    private final Energy energy = new Energy();
     public final Movement movement;
     public final Time time = new Time();
+    private final Energy energy = new Energy();
     private final List<Day> week = new ArrayList<>();
 
 
@@ -24,7 +24,7 @@ public class PlayerManager {
         this.currentDay = currentDay;
     }
 
-    public State getState(){
+    public State getState() {
         return movement.getPlayerState();
     }
 
@@ -36,7 +36,7 @@ public class PlayerManager {
         return movement.getPosition();
     }
 
-    public Movement getMovement(){
+    public Movement getMovement() {
         return movement;
     }
 
@@ -45,15 +45,15 @@ public class PlayerManager {
         currentDay.studied();
     }
 
-    public void eat(int time){
+    public void eat(int time) {
         currentDay.eaten();
     }
 
-    public void relax(int timeUsed){
+    public void relax(int timeUsed) {
         currentDay.relaxed();
     }
 
-    public void sleep(){
+    public void sleep() {
         week.add(currentDay);
         currentDay = new Day();
         energy.reset();
@@ -61,11 +61,11 @@ public class PlayerManager {
     }
 
     public boolean performActivity(int energyCost, int timeUsed) {
-        if (!energy.canUseEnergy(energyCost)){
+        if (!energy.canUseEnergy(energyCost)) {
             System.out.println("not enough energy");
             return false; //not enough energy
         }
-        if (!time.canIncreaseTime(timeUsed)){
+        if (!time.canIncreaseTime(timeUsed)) {
             System.out.println("not enough time");
             return false; //not enough time
         }
@@ -91,57 +91,7 @@ public class PlayerManager {
     }
 
 
-    public void getScore(){
-        int studyCount = 0;
-        int dayStudiedOnce = 0;
-        int dayRelaxedOnce = 0;
-        int dayEatenCount = 0;
-        int maxScore = 100;
-        int score = 0;
-
-        int i=0;
-        for (Day day : week) {
-            studyCount += day.getStudySessions();
-            if (day.getStudySessions() > 1) {
-                dayStudiedOnce++;
-            }
-            if (day.getEaten() >= 3) {
-                dayEatenCount++;
-            }
-            if (day.getRelaxed() > 0) {
-                dayRelaxedOnce++;
-            }
-
-            System.out.println("Day " + i);
-            System.out.println("" + day.getStudySessions());
-            System.out.println("" + day.getEaten());
-            System.out.println("" + day.getRelaxed());
-
-            i++;
-        }
-
-        score = studyCount * 10;
-
-        // Apply penalties
-        if (dayStudiedOnce != 7 && (dayStudiedOnce != 6 || studyCount < 7)) {
-            score -= 20;
-        }
-
-        if (dayEatenCount < 2) {
-            score -= 10; // Penalty for not eating enough
-        }
-
-        if (dayRelaxedOnce < 7) {
-            score -= 10; // Penalty for not relaxing enough
-        }
-
-        // Cap the score at maxScore
-        score = Math.min(score, maxScore);
-        score = Math.max(score, 0);
-
-
-        System.out.println("Final Score: " + score);
-
-
+    public List<Day> getWeek() {
+        return week;
     }
 }
