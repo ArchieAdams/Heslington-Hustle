@@ -117,7 +117,7 @@
   <object id="14" x="60.25" y="165.25" width="23.75" height="27.25"/>
  </objectgroup>
  <objectgroup id="17" name="activities">
-  <object id="17" name="eating" x="31.25" y="72.5" width="60.5" height="53.25"/>
+  <object id="17" name="eat" x="31.25" y="72.5" width="60.5" height="53.25"/>
   <object id="18" x="234.818" y="170.909" width="9.18182" height="36.2727"/>
   <object id="21" x="-10.9091" y="164.091" width="15.7273" height="43.4545"/>
   <object id="22" x="0.125" y="89.125" width="33.125" height="23"/>

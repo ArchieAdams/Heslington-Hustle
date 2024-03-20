@@ -79,7 +79,7 @@ public class MapManager {
 
                     Rectangle scaledRect = new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE);
 
-                    Activity activity = createActivityForName(object.getName());
+                    Activity activity = new Study(17,1);
 
                     if (activity != null) {
                         activityTiles.add(new ActivityTile(scaledRect, activity));
@@ -93,16 +93,12 @@ public class MapManager {
         switch (name) {
             case "eat":
                 return new Eat(1,10);
-
             case "study":
                 return new Study(2,20);
-
             case "relax":
                 return new Relax(2,0);
-
             case "sleep":
                 return new Sleep(0,0);
-
             default:
                 return null;
         }
@@ -123,6 +119,7 @@ public class MapManager {
     public void render(OrthographicCamera camera) {
         mapRenderer.setView(camera);
         mapRenderer.render();
+
     }
 
     public void changeMap(String newMapPath) {
