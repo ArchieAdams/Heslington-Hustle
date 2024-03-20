@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="16" nextobjectid="17">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="18">
  <tileset firstgid="1" source="../tilesets/town.tsx"/>
  <tileset firstgid="28249" source="../tilesets/interior.tsx"/>
  <layer id="1" name="floor" width="15" height="12">
@@ -18,6 +18,9 @@
 16500,16500,16500,16500,16500,16500,16500,16500,16500,16500,16500,16500,16500,16500,16500
 </data>
  </layer>
+ <objectgroup id="16" name="activites">
+  <object id="17" name="relax" x="6.60793" y="136.151" width="136.512" height="56.5294"/>
+ </objectgroup>
  <layer id="2" name="wall" width="15" height="12">
   <data encoding="csv">
 15670,15671,15672,15673,15670,15670,15670,15670,15670,15670,15671,15672,15673,15670,15670,

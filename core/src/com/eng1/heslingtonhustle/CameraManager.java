@@ -9,8 +9,8 @@ public class CameraManager {
 
     private final OrthographicCamera camera;
     private final FitViewport viewport;
-    private static final int WINDOW_WIDTH = 1920;
-    private static final int WINDOW_HEIGHT = 1080;
+    private static final float WINDOW_WIDTH = 1440;
+    private static final float WINDOW_HEIGHT = 810;
 
     public CameraManager() {
 

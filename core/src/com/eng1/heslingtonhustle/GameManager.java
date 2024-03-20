@@ -81,13 +81,20 @@ public class GameManager {
     }
 
     private void enterBuilding(Building building) {
+        playerManager.getState().inMenu();
         String newMapPath = mapManager.getMapPath(building.getName());
         respawnLocation = new Vector2(playerManager.getPosition());
         playerInBuilding = true;
         currentBuilding = building;
         mapManager.changeMap(newMapPath);
         buildingManager.makeBuildingsDisappear();
-        playerManager.movement.setPosition(new Vector2(400, 100));
+        playerManager.movement.setPosition(new Vector2(400, 150));
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                playerManager.getState().leftMenu();
+            }
+        }, .05f);
     }
 
     private boolean playerInExitZone(Vector2 position) {
@@ -166,12 +173,14 @@ public class GameManager {
     }
 
     public void endGame() {
+        mapManager.displayEndMap();
         buildingManager.makeBuildingsDisappear();
         playerManager.movement.setPosition(new Vector2(900, 1900));
         mapManager.displayEndMap();
         //renderingManager.getGameUI().dispose();
         renderingManager.hidePlayer();
         playerManager.getMovement().disableMovement();
+        playerManager.getState().inMenu();
         renderingManager.getGameUI().showScore(playerManager.getWeek());
     }
 
@@ -186,12 +195,12 @@ public class GameManager {
                 exitBuilding();
                 return;
             }
-
-            askToDoActivity(currentBuilding.getActivity());
-            renderingManager.getGameUI().updateProgressBar();
-            if (playerManager.gameOver()) {
-                mapManager.displayEndMap();
+            ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
+            if (activityTile != null) {
+                askToDoActivity(currentBuilding.getActivity());
+                renderingManager.getGameUI().updateProgressBar();
             }
+
 
 //            ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
 //            if (activityTile != null) {
