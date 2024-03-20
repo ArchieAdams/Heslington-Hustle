@@ -152,21 +152,31 @@ public class GameManager {
     }
 
     public void update() {
-        Building building = checkForBuildingInRange();
-        if (checkForBuildingInRange() != null) {
-            interactWithBuilding(building);
+        boolean displayInteract = false;
+        if (!playerInBuilding) {
+            Building building = checkForBuildingInRange();
+            if (checkForBuildingInRange() != null) {
+                interactWithBuilding(building);
+                displayInteract = true;
+            }
+        } else {
+            ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
+            if (playerInExitZone(playerManager.getPosition())) {
+                displayInteract = true;
+                exitBuilding();
+            } else if (activityTile != null) {
+                askToDoActivity(currentBuilding.getActivity());
+                renderingManager.getGameUI().showInteractMessage();
+                renderingManager.getGameUI().updateProgressBar();
+                displayInteract = true;
+            }
         }
 
-        if (playerInBuilding) {
-            if (playerInExitZone(playerManager.getPosition())) {
-                exitBuilding();
-                return;
-            }
-            ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
-            if (activityTile != null) {
-                askToDoActivity(currentBuilding.getActivity());
-                renderingManager.getGameUI().updateProgressBar();
-            }
+        if (displayInteract) {
+            renderingManager.getGameUI().showInteractMessage();
+        }
+        else {
+            renderingManager.getGameUI().hideInteractMessage();
         }
     }
 

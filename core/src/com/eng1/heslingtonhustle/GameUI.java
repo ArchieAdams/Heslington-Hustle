@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.eng1.heslingtonhustle.activities.Activity;
 
 import java.util.List;
 
@@ -21,13 +20,13 @@ public class GameUI {
     private final PlayerManager playerManager;
     private final Time time;
     private Table scoreTable;
-    private Skin skin;
+    private final Skin skin;
+    private Label interactLabel;
 
 
     public GameUI(Stage uiStage, PlayerManager playerManager) {
         this.uiStage = uiStage;
         this.playerManager = playerManager;
-        //this.energy = playerManager.getEnergy();
         this.time = playerManager.getTime();
         xpBackground = new Texture(Gdx.files.internal("skin/craftacular/raw/xp-bg.png"));
         xpFill = new Texture(Gdx.files.internal("skin/craftacular/raw/xp.png"));
@@ -41,7 +40,7 @@ public class GameUI {
         Label energyLabel = new Label("Energy: ", skin);
         dayLabel = new Label("Day: ", skin);
         timeLabel = new Label("Time: ", skin);
-
+        interactLabel = new Label("PRESS E TO INTERACT", skin);
 
         TextureRegionDrawable backgroundDrawable = new TextureRegionDrawable(xpBackground);
         backgroundDrawable.setMinWidth(400);
@@ -70,6 +69,9 @@ public class GameUI {
         table.add(dayLabel).padTop(padTop).padRight(5);
         table.row();
         table.add(timeLabel).padTop(padTop).padRight(5);
+        table.row();
+        interactLabel.setVisible(false);
+        table.add(interactLabel).padTop(padTop).padRight(5);
 
 
         uiStage.addActor(table);
@@ -79,6 +81,14 @@ public class GameUI {
         progressBar.setValue(playerManager.getEnergy().getEnergyLevel());
         timeLabel.setText("Time: "+time.toString());
         dayLabel.setText("Day: "+time.getDay());
+    }
+
+    public void showInteractMessage() {
+        interactLabel.setVisible(true);
+    }
+
+    public void hideInteractMessage() {
+        interactLabel.setVisible(false);
     }
 
     public void showScore(List<Day> week){
@@ -170,14 +180,6 @@ public class GameUI {
 
         score = Math.max(score, 0);
         return score;
-    }
-
-
-
-    public void dispose() {
-        uiStage.dispose();
-        xpBackground.dispose();
-        xpFill.dispose();
     }
 
 }
