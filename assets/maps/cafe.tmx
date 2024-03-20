@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="18">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="15" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="24">
  <tileset firstgid="1" source="../tilesets/town.tsx"/>
  <tileset firstgid="28249" source="../tilesets/interior.tsx"/>
  <layer id="1" name="floor" width="15" height="12">
@@ -118,6 +118,10 @@
  </objectgroup>
  <objectgroup id="17" name="activities">
   <object id="17" name="eating" x="31.25" y="72.5" width="60.5" height="53.25"/>
+  <object id="18" x="234.818" y="170.909" width="9.18182" height="36.2727"/>
+  <object id="21" x="-10.9091" y="164.091" width="15.7273" height="43.4545"/>
+  <object id="22" x="0.125" y="89.125" width="33.125" height="23"/>
+  <object id="23" x="156.75" y="95.5" width="14.5" height="49.5"/>
  </objectgroup>
  <layer id="11" name="tables" width="15" height="12">
   <data encoding="csv">

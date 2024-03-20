@@ -44,8 +44,8 @@
             "scale": 4,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 117.625,
-                "y": 92.375
+                "x": 115.875,
+                "y": 90.875
             }
         },
         "maps/campus_east.tmx": {
@@ -56,8 +56,8 @@
             "scale": 1,
             "selectedLayer": 19,
             "viewCenter": {
-                "x": 37.5,
-                "y": 236.5
+                "x": 38.5,
+                "y": 3.5
             }
         },
         "maps/cinema.tmx": {
@@ -67,8 +67,8 @@
             "scale": 3,
             "selectedLayer": 13,
             "viewCenter": {
-                "x": 120,
-                "y": 94.5
+                "x": 116.49999999999999,
+                "y": 90.83333333333333
             }
         },
         "maps/compSci.tmx": {
@@ -84,11 +84,11 @@
             }
         },
         "maps/end_game.tmx": {
-            "scale": 5.5,
+            "scale": 3,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 200.8181818181818,
-                "y": 108.45454545454545
+                "x": 177.83333333333331,
+                "y": 118.83333333333331
             }
         },
         "maps/end_game.tmx#text": {
@@ -104,8 +104,8 @@
             "scale": 5.5,
             "selectedLayer": 10,
             "viewCenter": {
-                "x": 160.8181818181818,
-                "y": 79.90909090909092
+                "x": 161,
+                "y": 80.0909090909091
             }
         },
         "maps/library.tmx": {
@@ -176,13 +176,14 @@
     "project": "game_map.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "maps/home.tmx",
-        "maps/library.tmx",
-        "maps/cafe.tmx",
-        "maps/compSci.tmx",
-        "maps/campus_east.tmx",
-        "tilesets/town.tsx",
         "maps/cinema.tmx",
+        "maps/home.tmx",
+        "maps/cafe.tmx",
+        "maps/campus_east.tmx",
+        "maps/end_game.tmx",
+        "maps/library.tmx",
+        "maps/compSci.tmx",
+        "tilesets/town.tsx",
         "tilesets/interior.tsx",
         "tilesets/nature.tsx",
         "C:/Users/mitch/HeslingtonHustleMapOutside.tmx"
