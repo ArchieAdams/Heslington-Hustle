@@ -88,6 +88,12 @@ public class GameUI {
         uiStage.addActor(scoreTable);
 
         int score = calculateScore(week);
+        int highScore = ScoreManager.loadHighScore();
+
+        if (score > highScore) {
+            highScore = score;
+            ScoreManager.saveHighScore(highScore);
+        }
 
         scoreTable.add(new Label("Day", skin)).expandX().center().bottom();
         scoreTable.add(new Label("Study", skin)).expandX().center().bottom();
@@ -104,6 +110,9 @@ public class GameUI {
 
         scoreTable.row().expandY().bottom();
         scoreTable.add(scoreLabel).expandX().center().colspan(4).padTop(20).bottom();
+        Label highScoreLabel = new Label("High Score: " + highScore, skin);
+        highScoreLabel.setAlignment(Align.center);
+        scoreTable.add(highScoreLabel).expandX().center().colspan(4).padTop(10).bottom();
 
 
         scoreTable.row().pad(10).bottom();

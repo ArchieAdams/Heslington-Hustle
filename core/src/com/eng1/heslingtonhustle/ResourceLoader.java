@@ -9,7 +9,9 @@ public class ResourceLoader {
 
     public static final Texture walkSheet = new Texture(Gdx.files.internal("character2.png"));
     public static final Texture buildings = new Texture(Gdx.files.internal("images/town.png"));
+
     public static final Texture debug = new Texture(Gdx.files.internal("images/debug.png"));
+    public static final Texture overlay = new Texture(Gdx.files.internal("images/overlay.png"));
 
 
 
@@ -42,5 +44,9 @@ public class ResourceLoader {
 
     public static Texture getDebug() {
         return debug;
+    }
+
+    public static Texture getOverlay() {
+        return overlay;
     }
 }

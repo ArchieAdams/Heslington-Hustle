@@ -20,6 +20,9 @@ public class Time {
 
     @Override
     public String toString() {
+        if (time==24){
+            return "00:00";
+        }
         if (time<10){
             return "0"+time+":00";
         }

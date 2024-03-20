@@ -23,6 +23,7 @@ public class GameManager {
     private final RenderingManager renderingManager;
     private Vector2 respawnLocation;
     private boolean playerInBuilding = false;
+    private Building currentBuilding;
 
     public GameManager(Stage stage, MapManager mapManager, PlayerManager playerManager, BuildingManager buildingManager, RenderingManager renderManager) {
         this.stage = stage;
@@ -56,7 +57,6 @@ public class GameManager {
 
     private void showErrorDialog(String label) {
         Dialog dialog = createDialog(label);
-        Vector2 playerPosition = playerManager.getPosition();
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -84,6 +84,7 @@ public class GameManager {
         String newMapPath = mapManager.getMapPath(building.getName());
         respawnLocation = new Vector2(playerManager.getPosition());
         playerInBuilding = true;
+        currentBuilding = building;
         mapManager.changeMap(newMapPath);
         buildingManager.makeBuildingsDisappear();
         playerManager.movement.setPosition(new Vector2(400, 100));
@@ -102,6 +103,7 @@ public class GameManager {
         if (playerManager.getState().isINTERACTING() && playerInExitZone(playerManager.getPosition())) {
             playerManager.getState().stopInteracting();
             playerInBuilding = false;
+            currentBuilding = null;
             mapManager.changeMapToCampus();
             playerManager.movement.setPosition(respawnLocation);
             buildingManager.makeBuildingsAppear();
@@ -129,6 +131,7 @@ public class GameManager {
                 protected void result(Object object) {
                     boolean choice = (Boolean) object;
                     if (!choice) {
+                        playerManager.getState().leftMenu();
                         return;
                     }
                     handleActivity(activity);
@@ -181,15 +184,56 @@ public class GameManager {
         if (playerInBuilding) {
             if (playerInExitZone(playerManager.getPosition())) {
                 exitBuilding();
+                return;
             }
-            ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
-            if (activityTile != null) {
-                askToDoActivity(activityTile);
-                renderingManager.getGameUI().updateProgressBar();
-                if (playerManager.gameOver()) {
-                    mapManager.displayEndMap();
+
+            askToDoActivity(currentBuilding.getActivity());
+            renderingManager.getGameUI().updateProgressBar();
+            if (playerManager.gameOver()) {
+                mapManager.displayEndMap();
+            }
+
+//            ActivityTile activityTile = playerInActivityZone(playerManager.getPosition());
+//            if (activityTile != null) {
+//                askToDoActivity(activityTile);
+//                renderingManager.getGameUI().updateProgressBar();
+//                if (playerManager.gameOver()) {
+//                    mapManager.displayEndMap();
+//                }
+//            }
+        }
+    }
+
+    private void askToDoActivity(Activity activity) {
+        if (playerManager.getState().isINTERACTING()) {
+            playerManager.getState().stopInteracting();
+            playerManager.getState().inMenu();
+            Vector2 playerPosition = playerManager.getPosition();
+            Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
+            Dialog dialog = new Dialog("Activity", skin) {
+                @Override
+                protected void result(Object object) {
+                    boolean choice = (Boolean) object;
+                    if (!choice) {
+                        playerManager.getState().leftMenu();
+                        return;
+                    }
+                    handleActivity(activity);
                 }
-            }
+            };
+            dialog.text(activity.toString());
+            dialog.button("Yes", true);
+            dialog.button("No", false);
+            dialog.show(stage);
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    dialog.show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
+                    dialog.setPosition(playerPosition.x - 225, playerPosition.y + 50);
+                    dialog.setSize(450, 100);
+                }
+            }, 0);
         }
     }
 }

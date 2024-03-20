@@ -1,6 +1,8 @@
 package com.eng1.heslingtonhustle;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -22,11 +24,28 @@ public class RenderingManager {
     private final Stage uiStage;
     private final GameUI gameUI;
     private boolean playerVisible = true;
+    private ShaderProgram skyShader;
+    private float brightness;
+    private float hue;
 
 
 
 
     public RenderingManager(CameraManager cameraManager, MapManager mapManager,PlayerManager playerManager) {
+
+
+        ShaderProgram.pedantic = false;
+        skyShader = new ShaderProgram(
+                Gdx.files.internal("shader/brightness_hue_shader.vert"),
+                Gdx.files.internal("shader/brightness_hue_shader.frag")
+        );
+        if (!skyShader.isCompiled()) {
+            Gdx.app.error("Shader", "Shader compilation failed: " + skyShader.getLog());
+        }
+
+        brightness = 1.0f; // Initial brightness
+        hue = 0.0f; // Initial hue angle in degrees
+
         this.batch = new SpriteBatch();
         shaderSetup();
         this.cameraManager = cameraManager;
@@ -50,20 +69,52 @@ public class RenderingManager {
         shader.setUniformi("u_mask",1);
     }
 
-    public void render(List<Building> buildings, Movement playerMovement) {
+    public void render(List<Building> buildings, PlayerManager playerManager) {
+        Movement playerMovement = playerManager.getMovement();
         cameraManager.render(batch, mapManager,playerMovement.getPosition());
-        batch.begin();
-        renderBuildings(buildings,playerMovement);
 
+
+        batch.begin();
+
+
+
+        renderBuildings(buildings,playerMovement);
         renderPlayer(playerMovement);
+        mapManager.renderOverlay(cameraManager.getCamera(), "overlay");
+
+        brightness = calculateBrightness(playerManager.getTime().getTime());
+        batch.setColor(1, 1, 1, 1 - brightness);
+        batch.draw(ResourceLoader.getOverlay(), playerMovement.getPosition().x-Gdx.graphics.getWidth()/2f,
+                playerMovement.getPosition().y-Gdx.graphics.getHeight()/2f
+                , Gdx.graphics.getWidth()*2, Gdx.graphics.getHeight()*2);
+
         batch.end();
 
-        mapManager.renderOverlay(cameraManager.getCamera(), "overlay");
+
+
+
+
         gameUI.updateProgressBar();
         uiStage.act(Gdx.graphics.getDeltaTime());
         uiStage.draw();
 
     }
+
+    // Function to calculate brightness based on time of day
+    private float calculateBrightness(int timeOfDay) {
+        // Calculate the rate of change in brightness over time
+        // For example, you might want the brightness to decrease by a certain amount per hour
+        float initialBrightness = 1.0f; // Initial brightness at time 8 (morning)
+        float finalBrightness = 0.2f; // Final brightness at time 24 (night)
+        float totalHours = 24 - 8; // Total hours from morning to night
+        float hoursElapsed = timeOfDay - 8; // Number of hours passed since morning
+        float rateOfChange = (initialBrightness - finalBrightness) / totalHours; // Rate of change per hour
+        float currentBrightness = initialBrightness - rateOfChange * hoursElapsed;
+
+        // Ensure the brightness stays within the range [0, 1]
+        return Math.max(finalBrightness, Math.min(initialBrightness, currentBrightness));
+    }
+
 
 
     private void renderBuildings(List<Building> buildings,Movement player) {
