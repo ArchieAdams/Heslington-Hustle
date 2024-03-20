@@ -142,6 +142,8 @@ public class MapManager {
         currentMapPath = defaultMapPath;
         tiledMap = new TmxMapLoader().load(defaultMapPath);
         mapRenderer.setMap(tiledMap);
+        exitTiles.clear();
+        activityTiles.clear();
         collidableTiles.clear();
         parseCollidableTiles();
     }
