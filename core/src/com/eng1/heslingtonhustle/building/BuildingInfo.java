@@ -1,4 +1,4 @@
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.building;
 
 public class BuildingInfo {
     String id;

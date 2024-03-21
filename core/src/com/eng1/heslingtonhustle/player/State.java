@@ -1,4 +1,4 @@
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.player;
 public class State {
 
     private boolean UP;

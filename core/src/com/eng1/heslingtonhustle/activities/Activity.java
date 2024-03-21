@@ -1,6 +1,6 @@
 package com.eng1.heslingtonhustle.activities;
 
-import com.eng1.heslingtonhustle.PlayerManager;
+import com.eng1.heslingtonhustle.player.PlayerManager;
 
 public abstract class Activity {
     protected int durationHours;
@@ -12,14 +12,6 @@ public abstract class Activity {
         this.name = name;
         this.durationHours = durationHours;
         this.energyUsagePercent = energyUsagePercent;
-    }
-
-    public int getDurationHours() {
-        return durationHours;
-    }
-
-    public int getEnergyUsagePercent() {
-        return energyUsagePercent;
     }
 
     public boolean perform(PlayerManager playerManager) {

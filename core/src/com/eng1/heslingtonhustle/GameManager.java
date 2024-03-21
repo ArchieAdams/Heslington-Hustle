@@ -9,6 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
+import com.eng1.heslingtonhustle.building.Building;
+import com.eng1.heslingtonhustle.building.BuildingManager;
+import com.eng1.heslingtonhustle.gameobjects.Day;
+import com.eng1.heslingtonhustle.graphics.RenderingManager;
+import com.eng1.heslingtonhustle.map.ActivityTile;
+import com.eng1.heslingtonhustle.map.MapManager;
+import com.eng1.heslingtonhustle.player.PlayerManager;
 import com.eng1.heslingtonhustle.activities.Activity;
 
 import java.util.List;
@@ -55,8 +62,8 @@ public class GameManager {
     }
 
 
-    private void showErrorDialog(String label) {
-        Dialog dialog = createDialog(label);
+    private void showErrorDialog() {
+        Dialog dialog = createDialog();
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -71,10 +78,10 @@ public class GameManager {
         }, .45f);
     }
 
-    private Dialog createDialog(String label) {
+    private Dialog createDialog() {
         Skin skin = new Skin(Gdx.files.internal("skin/default/uiskin.json"));
         Dialog dialog = new Dialog("Can't do activity.", skin);
-        dialog.text(label);
+        dialog.text("Can't perform activity.");
         dialog.setSize(200, 100);
         dialog.setPosition(playerManager.getPosition().x - 100, playerManager.getPosition().y + 50);
         return dialog;
@@ -131,7 +138,7 @@ public class GameManager {
     private void handleActivity(Activity activity) {
         boolean performed = activity.perform(playerManager);
         if (!performed) {
-            showErrorDialog("Can't perform activity.");
+            showErrorDialog();
         } else {
             playerManager.getState().leftMenu();
             if (playerManager.gameOver()) {

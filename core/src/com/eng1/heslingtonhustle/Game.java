@@ -1,21 +1,27 @@
 package com.eng1.heslingtonhustle;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.eng1.heslingtonhustle.building.Building;
+import com.eng1.heslingtonhustle.building.BuildingManager;
+import com.eng1.heslingtonhustle.graphics.CameraManager;
+import com.eng1.heslingtonhustle.graphics.RenderingManager;
+import com.eng1.heslingtonhustle.map.MapManager;
+import com.eng1.heslingtonhustle.player.InputHandler;
+import com.eng1.heslingtonhustle.player.PlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends ApplicationAdapter {
 
-    static final int SCALE = 5;
-    static final int PLAYER_SIZE = 32 * SCALE;
+    public static final int SCALE = 5;
+    public static final int PLAYER_SIZE = 32 * SCALE;
     private List<Building> buildings = new ArrayList<>();
     private PlayerManager playerManager;
     private Stage stage;

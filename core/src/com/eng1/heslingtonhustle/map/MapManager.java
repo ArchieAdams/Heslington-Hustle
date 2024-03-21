@@ -1,4 +1,4 @@
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.map;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.eng1.heslingtonhustle.activities.*;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -45,12 +44,12 @@ public class MapManager {
 
 
 
-    private void parseTiles(MapObjects objects, Array<Rectangle> collidableTiles) {
+    private void parseTiles(MapObjects objects, Array<Rectangle> tiles) {
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
                 RectangleMapObject rectObject = (RectangleMapObject) object;
                 Rectangle rect = rectObject.getRectangle();
-                collidableTiles.add(new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE));
+                tiles.add(new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE));
             }
         }
     }
@@ -76,33 +75,14 @@ public class MapManager {
                 if (object instanceof RectangleMapObject) {
                     RectangleMapObject rectObject = (RectangleMapObject) object;
                     Rectangle rect = rectObject.getRectangle();
-
                     Rectangle scaledRect = new Rectangle(rect.x * SCALE, rect.y * SCALE, rect.width * SCALE, rect.height * SCALE);
+                    activityTiles.add(new ActivityTile(scaledRect));
 
-                    Activity activity = new Study(17,1);
-
-                    if (activity != null) {
-                        activityTiles.add(new ActivityTile(scaledRect, activity));
-                    }
                 }
             }
         }
     }
 
-    private Activity createActivityForName(String name) {
-        switch (name) {
-            case "eat":
-                return new Eat(1,10);
-            case "study":
-                return new Study(2,20);
-            case "relax":
-                return new Relax(2,0);
-            case "sleep":
-                return new Sleep(0,0);
-            default:
-                return null;
-        }
-    }
 
     public Array<Rectangle> getCollidableTiles() {
         return collidableTiles;

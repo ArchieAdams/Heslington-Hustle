@@ -1,7 +1,8 @@
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.building;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.eng1.heslingtonhustle.helper.ResourceLoader;
 import com.eng1.heslingtonhustle.activities.*;
 
 public class Building {

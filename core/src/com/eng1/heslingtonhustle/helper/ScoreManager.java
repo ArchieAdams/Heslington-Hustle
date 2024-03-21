@@ -1,4 +1,4 @@
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.helper;
 
 import java.io.*;
 
@@ -12,7 +12,7 @@ public class ScoreManager {
             reader.close();
             return Integer.parseInt(line);
         } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
+            System.out.println("Highscore was not found 0 was returned");
             return 0; // Return 0 if there's an error or no high score saved
         }
     }

@@ -1,14 +1,17 @@
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.graphics;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.eng1.heslingtonhustle.helper.ResourceLoader;
+import com.eng1.heslingtonhustle.building.Building;
+import com.eng1.heslingtonhustle.map.MapManager;
+import com.eng1.heslingtonhustle.player.Movement;
+import com.eng1.heslingtonhustle.player.PlayerManager;
 
 import java.util.List;
 
@@ -177,7 +180,7 @@ public class RenderingManager {
         }
     }
 
-    GameUI getGameUI() {
+    public GameUI getGameUI() {
         return gameUI;
     }
 

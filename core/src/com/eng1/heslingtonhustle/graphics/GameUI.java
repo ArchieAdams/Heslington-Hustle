@@ -1,4 +1,4 @@
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -6,6 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.eng1.heslingtonhustle.helper.ScoreManager;
+import com.eng1.heslingtonhustle.gameobjects.Day;
+import com.eng1.heslingtonhustle.gameobjects.Time;
+import com.eng1.heslingtonhustle.player.PlayerManager;
 
 import java.util.List;
 
@@ -31,6 +35,7 @@ public class GameUI {
         xpBackground = new Texture(Gdx.files.internal("skin/craftacular/raw/xp-bg.png"));
         xpFill = new Texture(Gdx.files.internal("skin/craftacular/raw/xp.png"));
         progressBar = new ProgressBar(0, 100, 0.01f, false, new ProgressBar.ProgressBarStyle());
+        // https://ray3k.wordpress.com/craftacular-ui-skin-for-libgdx/
         skin = new Skin(Gdx.files.internal("skin/craftacular/skin/craftacular-ui.json"));
         initUI();
     }
@@ -56,6 +61,13 @@ public class GameUI {
         updateProgressBar();
 
 
+        Table interactTable = new Table();
+        interactTable.setFillParent(true);
+        interactLabel.setVisible(false);
+        interactTable.bottom().add(interactLabel).padBottom(5).padRight(5);
+        uiStage.addActor(interactTable);
+
+
         Table table = new Table();
         table.setFillParent(true);
         table.top().right();
@@ -70,10 +82,6 @@ public class GameUI {
         table.row();
         table.add(timeLabel).padTop(padTop).padRight(5);
         table.row();
-        interactLabel.setVisible(false);
-        table.add(interactLabel).padTop(padTop).padRight(5);
-
-
         uiStage.addActor(table);
     }
 

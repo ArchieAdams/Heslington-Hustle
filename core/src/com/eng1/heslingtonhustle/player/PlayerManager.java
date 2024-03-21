@@ -1,7 +1,9 @@
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.player;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.eng1.heslingtonhustle.gameobjects.Day;
+import com.eng1.heslingtonhustle.gameobjects.Energy;
+import com.eng1.heslingtonhustle.gameobjects.Time;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +30,6 @@ public class PlayerManager {
         return movement.getPlayerState();
     }
 
-    public TextureRegion getCurrentFrame() {
-        return movement.getCurrentFrame();
-    }
-
     public Vector2 getPosition() {
         return movement.getPosition();
     }
@@ -41,15 +39,15 @@ public class PlayerManager {
     }
 
 
-    public void study(int time) {
+    public void study() {
         currentDay.studied();
     }
 
-    public void eat(int time) {
+    public void eat() {
         currentDay.eaten();
     }
 
-    public void relax(int timeUsed) {
+    public void relax() {
         currentDay.relaxed();
     }
 
@@ -76,10 +74,6 @@ public class PlayerManager {
 
     public Energy getEnergy() {
         return energy;
-    }
-
-    public Day getDay() {
-        return currentDay;
     }
 
     public Time getTime() {

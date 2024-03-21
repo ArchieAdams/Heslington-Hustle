@@ -1,6 +1,6 @@
 package com.eng1.heslingtonhustle.activities;
 
-import com.eng1.heslingtonhustle.PlayerManager;
+import com.eng1.heslingtonhustle.player.PlayerManager;
 
 public class Study extends Activity {
     public Study(int time, int energy) {
@@ -9,7 +9,7 @@ public class Study extends Activity {
 
     @Override
     public void onPerform(PlayerManager playerManager){
-        playerManager.study(durationHours);
+        playerManager.study();
     }
 
     @Override

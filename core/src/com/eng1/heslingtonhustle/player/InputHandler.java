@@ -1,4 +1,4 @@
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.player;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;

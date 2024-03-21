@@ -1,6 +1,6 @@
 package com.eng1.heslingtonhustle.activities;
 
-import com.eng1.heslingtonhustle.PlayerManager;
+import com.eng1.heslingtonhustle.player.PlayerManager;
 
 public class Sleep extends Activity {
     public Sleep(int time, int energy) {

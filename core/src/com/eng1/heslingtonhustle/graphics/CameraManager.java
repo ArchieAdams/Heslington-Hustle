@@ -1,9 +1,11 @@
-package com.eng1.heslingtonhustle;
+package com.eng1.heslingtonhustle.graphics;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.eng1.heslingtonhustle.Game;
+import com.eng1.heslingtonhustle.map.MapManager;
 
 public class CameraManager {
 
